@@ -10,6 +10,11 @@
 #import "YBUtils.h"
 #import "UIColor+HEX.h"
 
+
+#define SK_URL  @"http://www.weather.com.cn/data/sk/%@.html"
+#define SK2_URL @"http://www.weather.com.cn/data/cityinfo/%@.html"
+#define ALL_URL @"http://m.weather.com.cn/data/%@.html"
+
 @interface YBMainViewController ()
 {
     NSMutableArray *AllCitys;
@@ -56,6 +61,7 @@
 -(void)LoadWeather{
     
     [self MakeMainView];
+    
     self.LunchView.hidden = YES;
     [self.aiv  setHidden:YES];
     
@@ -94,14 +100,14 @@
     }];
 }
 -(void)MakeMainView{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.weather.com.cn/data/sk/%@.html",currCity[@"citycode"]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:SK_URL,currCity[@"citycode"]]];
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *sk =   json[@"weatherinfo"];
     
     
     
-    url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.weather.com.cn/data/cityinfo/%@.html",currCity[@"citycode"]]];
+    url = [NSURL URLWithString:[NSString stringWithFormat:SK2_URL,currCity[@"citycode"]]];
     data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     
     json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
@@ -109,7 +115,7 @@
     
     
     
-    url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.weather.com.cn/data/%@.html",currCity[@"citycode"]]];
+    url = [NSURL URLWithString:[NSString stringWithFormat:ALL_URL,currCity[@"citycode"]]];
     data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *all = json[@"weatherinfo"];
@@ -117,11 +123,7 @@
     
     
     weather_info = @{@"sk":sk,@"sk2":sk2,@"all":all};
-    
-    //    [all release];
-    //    [sk release];
-    //    [sk2 release];
-    
+   
     
     
     CGRect bounds = [UIScreen mainScreen].bounds;
@@ -226,7 +228,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    font = [UIFont fontWithName:@"verdana" size:13.0f];
+    font = [UIFont fontWithName:@"Helvetica" size:13.0f];
     
     [self MakeLunch];
     
@@ -250,20 +252,9 @@
     
 }
 
--(void)StopLoadding{
-    
-    if(progress!=nil)
-    {
-        [progress stopAnimating];
-        progress.hidden = YES;
-    }
-    else
-        NSLog(@"shit");
-}
 
--(void)Back{
-    [self dismissModalViewControllerAnimated:YES];
-}
+
+
 
 -(void)Refersh{
     self.btnUpdate.hidden = YES;
@@ -271,11 +262,10 @@
     self.aiv.hidden = NO;
     [self.aiv startAnimating];
     [self LoadWeather];
-    NSString *msg = [NSString stringWithFormat:@"为什么这个进度条设为hidden=YES没有用？ %@",weather_info[@"sk"][@"time"]];
+    NSString *msg = [NSString stringWithFormat:@"为什么这个进度条设为hidden=YES没有用？ %@ %@",weather_info[@"sk"][@"time"],weather_info[@"sk"][@"cityid"]];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"啊哦" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     
-    //[msg release];
 }
 
 - (void)didReceiveMemoryWarning
