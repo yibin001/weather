@@ -100,7 +100,7 @@
     
     weather_info = @{@"sk":sk,@"sk2":sk2,@"all":all};
     
-    self.labelDate.text=weather_info[@"all"][@"date_y"];
+    self.labelDate.text= [NSString stringWithFormat:@"%@ %@", weather_info[@"all"][@"date_y"],weather_info[@"all"][@"week"]];
     self.labelWeather.text=[NSString stringWithFormat:@"%@ %@%@",weather_info[@"sk2"][@"weather"], weather_info[@"sk"][@"WD"],weather_info[@"sk"][@"WS"]];
     self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%@,最高气温:%@",weather_info[@"sk2"][@"temp1"],weather_info[@"sk2"][@"temp2"]];
     self.labelTemp.text=weather_info[@"sk"][@"temp"];
@@ -248,7 +248,7 @@
 -(void)MakeLunch{
     
     self.LunchView   = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.LunchView.backgroundColor = [UIColor colorWithHex:0xcccccc alpha:0.8f];
+    self.LunchView.backgroundColor = [UIColor colorWithHex:0x009ad6 alpha:0.8f];
     
     
     if(progress==nil)
@@ -266,7 +266,7 @@
     label.frame = CGRectMake(progress.frame.origin.x+25, progress.frame.origin.y+2, 100.0f, 20.0f);
     label.font = font;
     [label sizeToFit];
-    label.textColor = [UIColor colorWithHex:0x000000];
+    
     
     [self.LunchView addSubview:label];
     [self.view addSubview:self.LunchView];
