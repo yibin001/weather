@@ -145,7 +145,7 @@
     self.labelWeather.font = font;
     
     self.labelMinMaxTemp = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 200, 20)];
-    self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%@,最高气温:%@",weather_info[@"sk2"][@"temp1"],weather_info[@"sk2"][@"temp2"]];
+    self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%@,最高气温:%@",weather_info[@"sk2"][@"temp2"],weather_info[@"sk2"][@"temp1"]];
     self.labelMinMaxTemp.font = font;
     
     
@@ -167,13 +167,15 @@
     [self.btnUpdate setBackgroundColor:[UIColor clearColor]];
 	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-30, 20, 20)];
 	[self.btnUpdate setTitle:[NSString stringWithFormat:@"更新于%@ %@",all[@"date_y"], weather_info[@"sk"][@"time"]] forState:UIControlStateNormal];
-	[self.btnUpdate addTarget:self action:@selector(Refersh) forControlEvents:UIControlEventTouchUpInside];     [self.btnUpdate setTintColor:[UIColor redColor]];
+	[self.btnUpdate addTarget:self action:@selector(Refersh) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnUpdate setTintColor:[UIColor redColor]];
     
     
     self.labelUpdateTime = [[UILabel alloc] initWithFrame:CGRectMake(32, rect.size.height-31, 200.0, 20.0)];
     
     
     
+
     self.labelUpdateTime.textAlignment = NSTextAlignmentLeft;
     self.labelUpdateTime.text = [NSString stringWithFormat:@"更新于%@ %@",weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
     self.labelUpdateTime.font = font;
