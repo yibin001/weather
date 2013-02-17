@@ -286,6 +286,10 @@
     
     [self MakeLunch];
     
+    
+    
+    
+    
     [self MakeMainView];
     self.MainView.hidden=YES;
     YBUtils *utils = [[YBUtils alloc] init];
