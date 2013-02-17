@@ -184,7 +184,11 @@
     self.labelWeather.font = font;
     
     self.labelMinMaxTemp = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 200, 20)];
+<<<<<<< HEAD:weather/WeatherReport/WeatherReport/YBMainViewController.m
     self.labelMinMaxTemp.backgroundColor = [UIColor clearColor];
+=======
+    self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%@,最高气温:%@",weather_info[@"sk2"][@"temp2"],weather_info[@"sk2"][@"temp1"]];
+>>>>>>> 9bcb6c2d6e6a42056878c6ae6e85bbe50b708347:WeatherReport/WeatherReport/YBMainViewController.m
     self.labelMinMaxTemp.font = font;
     
     
@@ -210,9 +214,16 @@
     
     self.btnUpdate = [UIButton buttonWithType:UIButtonTypeInfoDark];
     [self.btnUpdate setBackgroundColor:[UIColor clearColor]];
+<<<<<<< HEAD:weather/WeatherReport/WeatherReport/YBMainViewController.m
 	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-42, 20, 20)];
 	
 	[self.btnUpdate addTarget:self action:@selector(Refersh:) forControlEvents:UIControlEventTouchUpInside];
+=======
+	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-30, 20, 20)];
+	[self.btnUpdate setTitle:[NSString stringWithFormat:@"更新于%@ %@",all[@"date_y"], weather_info[@"sk"][@"time"]] forState:UIControlStateNormal];
+	[self.btnUpdate addTarget:self action:@selector(Refersh) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnUpdate setTintColor:[UIColor redColor]];
+>>>>>>> 9bcb6c2d6e6a42056878c6ae6e85bbe50b708347:WeatherReport/WeatherReport/YBMainViewController.m
     
     
     
