@@ -27,7 +27,7 @@
     CGRect rect;
     UIFont *font;
     NSDictionary *weather_info;
-   
+    
 }
 @end
 
@@ -67,7 +67,7 @@
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSLog(@"%@",json);
-
+    
 }
 
 
@@ -127,7 +127,7 @@
     self.CurrentLocaltion= [newLocation coordinate];
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-    
+        
         CLPlacemark *place = placemarks[0];
         
         NSString *locality = place.locality;
@@ -154,16 +154,16 @@
 }
 -(void)MakeMainView{
     
-   
+    
     
     
     CGRect bounds = [UIScreen mainScreen].bounds;
     self.MainView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-//    UIGraphicsBeginImageContext(self.view.frame.size);
-//    [[UIImage imageNamed:@"background.jpg"] drawInRect:self.view.bounds];
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
+    //    UIGraphicsBeginImageContext(self.view.frame.size);
+    //    [[UIImage imageNamed:@"background.jpg"] drawInRect:self.view.bounds];
+    //    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    //    UIGraphicsEndImageContext();
     
     self.MainView.backgroundColor = [UIColor colorWithHex:0x009ad6]; //[UIColor colorWithPatternImage:image];
     
@@ -184,19 +184,15 @@
     self.labelWeather.font = font;
     
     self.labelMinMaxTemp = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, 200, 20)];
-<<<<<<< HEAD:weather/WeatherReport/WeatherReport/YBMainViewController.m
     self.labelMinMaxTemp.backgroundColor = [UIColor clearColor];
-=======
-    self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%@,最高气温:%@",weather_info[@"sk2"][@"temp2"],weather_info[@"sk2"][@"temp1"]];
->>>>>>> 9bcb6c2d6e6a42056878c6ae6e85bbe50b708347:WeatherReport/WeatherReport/YBMainViewController.m
     self.labelMinMaxTemp.font = font;
     
     
     self.labelTemp = [[UILabel alloc] initWithFrame:CGRectMake((bounds.size.width-220)/2, 100, 220, 120)];
-   
+    
     self.labelTemp.textAlignment = NSTextAlignmentCenter;
     self.labelTemp.font = [UIFont fontWithName:@"Georgia-Italic" size:100.0f];
-   
+    
     self.labelTemp.backgroundColor = [UIColor clearColor];
     UILabel *lbl0 = [[UILabel alloc] init];
     lbl0.text=@"℃";
@@ -214,16 +210,9 @@
     
     self.btnUpdate = [UIButton buttonWithType:UIButtonTypeInfoDark];
     [self.btnUpdate setBackgroundColor:[UIColor clearColor]];
-<<<<<<< HEAD:weather/WeatherReport/WeatherReport/YBMainViewController.m
 	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-42, 20, 20)];
 	
 	[self.btnUpdate addTarget:self action:@selector(Refersh:) forControlEvents:UIControlEventTouchUpInside];
-=======
-	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-30, 20, 20)];
-	[self.btnUpdate setTitle:[NSString stringWithFormat:@"更新于%@ %@",all[@"date_y"], weather_info[@"sk"][@"time"]] forState:UIControlStateNormal];
-	[self.btnUpdate addTarget:self action:@selector(Refersh) forControlEvents:UIControlEventTouchUpInside];
-    [self.btnUpdate setTintColor:[UIColor redColor]];
->>>>>>> 9bcb6c2d6e6a42056878c6ae6e85bbe50b708347:WeatherReport/WeatherReport/YBMainViewController.m
     
     
     
@@ -231,7 +220,7 @@
     self.labelUpdateTime.backgroundColor = [UIColor clearColor];
     
     
-
+    
     self.labelUpdateTime.textAlignment = NSTextAlignmentLeft;
     
     self.labelUpdateTime.font = font;
@@ -241,7 +230,7 @@
     self.aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.aiv.frame = CGRectMake(rect.size.width-30, rect.size.height-42, 20, 20);
     self.aiv.hidden = YES;
-   
+    
     
     [self.MainView addSubview:self.aiv];
     [self.MainView addSubview:self.labelUpdateTime];
@@ -278,7 +267,7 @@
     label.font = font;
     [label sizeToFit];
     label.textColor = [UIColor colorWithHex:0x000000];
-       
+    
     [self.LunchView addSubview:label];
     [self.view addSubview:self.LunchView];
     [progress startAnimating];
@@ -327,16 +316,16 @@
 
 
 -(void)Refersh:(UIButton *)sender{
-   [self.aiv startAnimating];
+    [self.aiv startAnimating];
     
     self.labelUpdateTime.text=@"正在更新......";
     //[self.labelUpdateTime sizeToFit];
     
-   
     
-       
+    
+    
     [self performSelector:@selector(DelayHide) withObject:self afterDelay:2];
-   
+    
     
 }
 
