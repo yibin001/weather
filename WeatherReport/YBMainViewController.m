@@ -234,7 +234,7 @@
     
     
     self.aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.aiv.frame = CGRectMake(rect.size.width-30, rect.size.height-42, 20, 20);
+    self.aiv.frame = self.btnUpdate.frame;
     self.aiv.hidden = YES;
     
     
@@ -322,15 +322,16 @@
 
 
 -(void)Refersh:(UIButton *)sender{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self.aiv startAnimating];
-    
+    self.btnUpdate.hidden = YES;
     self.labelUpdateTime.text=@"正在更新......";
     //[self.labelUpdateTime sizeToFit];
     
     
     
     
-    [self performSelector:@selector(DelayHide) withObject:self afterDelay:2];
+    [self performSelector:@selector(DelayHide) withObject:self afterDelay:1];
     
     
 }
@@ -338,6 +339,8 @@
 -(void)DelayHide{
     [self LoadWeather];
     [self.aiv stopAnimating];
+    self.btnUpdate.hidden = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)didReceiveMemoryWarning
