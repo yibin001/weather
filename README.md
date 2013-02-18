@@ -1,4 +1,4 @@
-![ALT](https://github.com/yibin001/weather/blob/master/WeatherReport/Icon@2x.png?raw=true "Weather")
+![ALT](./WeatherReport/Icon@2x.png "Weather")
 
 
 ios上的简易天气预报
