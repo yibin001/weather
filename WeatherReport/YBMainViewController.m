@@ -9,7 +9,7 @@
 #import "YBMainViewController.h"
 #import "YBUtils.h"
 #import "UIColor+HEX.h"
-
+#import "CheckNetwork.h"
 
 #define SK_URL  @"http://www.weather.com.cn/data/sk/%@.html"
 #define SK2_URL @"http://www.weather.com.cn/data/cityinfo/%@.html"
@@ -27,7 +27,7 @@
     CGRect rect;
     UIFont *font;
     NSDictionary *weather_info;
-    
+    BOOL HasNetwork;
 }
 @end
 
@@ -135,7 +135,7 @@
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         
         CLPlacemark *place = placemarks[0];
-        
+      
         NSString *locality = place.locality;
         if (locality ==nil) {
             locality = place.subLocality;
@@ -155,7 +155,9 @@
                 break;
             }
         }
-        
+        if(currCity==nil)
+            [self UnableLoadGPS];
+     
     }];
 }
 -(void)MakeMainView{
@@ -254,7 +256,7 @@
 -(void)MakeLunch{
     
     self.LunchView   = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.LunchView.backgroundColor = [UIColor colorWithHex:0x009ad6 alpha:0.8f];
+    self.LunchView.backgroundColor = [UIColor colorWithHex:0x009ad6];
     
     
     if(progress==nil)
@@ -266,13 +268,18 @@
         [self.LunchView addSubview:progress];
     }
     UILabel *label = [[UILabel alloc] init];
+    label.tag = 1;
     label.backgroundColor = [UIColor clearColor];
     
     label.text=@"加载中.";
     label.frame = CGRectMake(progress.frame.origin.x+25, progress.frame.origin.y+2, 100.0f, 20.0f);
     label.font = font;
     [label sizeToFit];
-    
+    HasNetwork = [CheckNetwork isExistenceNetwork];
+    if (!HasNetwork) {
+        label.text=@"没有找到网络连接";
+        return;
+    }
     
     [self.LunchView addSubview:label];
     [self.view addSubview:self.LunchView];
@@ -307,11 +314,16 @@
 
 
 -(void)UnableLoadGPS{
+    for (UIView *view in self.LunchView.subviews) {
+        view.hidden = YES;
+    }
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((rect.size.width-200)/2, (rect.size.height-40)/2, 200.0f, 40.0f)];
     label.text=@"无法加载您的位置信息";
     label.backgroundColor = [UIColor clearColor];
     label.font = font;
-    label.textColor = [UIColor redColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    [progress stopAnimating];
+   
     [self.view addSubview:label];
     
     
