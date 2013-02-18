@@ -128,6 +128,14 @@
 
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    HasNetwork = [CheckNetwork isExistenceNetwork];
+    if (!HasNetwork) {
+        [self.locationManager stopUpdatingLocation];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"啊哦" message:@"没有找到网络连接" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [alert show];
+        return;
+       
+    }
     
     
     self.CurrentLocaltion= [newLocation coordinate];
@@ -271,19 +279,19 @@
     label.tag = 1;
     label.backgroundColor = [UIColor clearColor];
     
-    label.text=@"加载中.";
+    label.text=!HasNetwork ? @"没有找到网络连接" : @"加载中.";
     label.frame = CGRectMake(progress.frame.origin.x+25, progress.frame.origin.y+2, 100.0f, 20.0f);
     label.font = font;
     [label sizeToFit];
-    HasNetwork = [CheckNetwork isExistenceNetwork];
-    if (!HasNetwork) {
-        label.text=@"没有找到网络连接";
-        return;
+    if(!HasNetwork){
+        label.center = self.LunchView.center;
+        [progress stopAnimating];
     }
-    
+    else
+        [progress startAnimating];
     [self.LunchView addSubview:label];
     [self.view addSubview:self.LunchView];
-    [progress startAnimating];
+    
     
 }
 
@@ -314,6 +322,7 @@
 
 
 -(void)UnableLoadGPS{
+    [self.locationManager stopUpdatingLocation];
     for (UIView *view in self.LunchView.subviews) {
         view.hidden = YES;
     }
