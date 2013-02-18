@@ -102,8 +102,14 @@
     
     self.labelDate.text= [NSString stringWithFormat:@"%@ %@", weather_info[@"all"][@"date_y"],weather_info[@"all"][@"week"]];
     self.labelWeather.text=[NSString stringWithFormat:@"%@ %@%@",weather_info[@"sk2"][@"weather"], weather_info[@"sk"][@"WD"],weather_info[@"sk"][@"WS"]];
-    self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%@,最高气温:%@",weather_info[@"sk2"][@"temp1"],weather_info[@"sk2"][@"temp2"]];
+    
+    
+    
+    int min = MIN([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
+    int max = MAX([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
+    self.labelMinMaxTemp.text= [NSString stringWithFormat:@"最低气温:%d,最高气温:%d",min,max];
     self.labelTemp.text=weather_info[@"sk"][@"temp"];
+    
     self.labelCity.text = [NSString stringWithFormat:@"%@",self.title];
     self.labelSD.text = [NSString stringWithFormat:@"湿度:%@" ,weather_info[@"sk"][@"SD"]];
     [self.btnUpdate setTitle:[NSString stringWithFormat:@""] forState:UIControlStateNormal];
