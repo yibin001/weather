@@ -10,10 +10,7 @@
 #import "YBUtils.h"
 #import "UIColor+HEX.h"
 #import "CheckNetwork.h"
-
-#define SK_URL  @"http://www.weather.com.cn/data/sk/%@.html"
-#define SK2_URL @"http://www.weather.com.cn/data/cityinfo/%@.html"
-#define ALL_URL @"http://m.weather.com.cn/data/%@.html"
+#import "YBWeatherQuery.h"
 
 #define GOOGLE_MAP_API @"http://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&sensor=true"
 
@@ -51,55 +48,24 @@
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         self.locationManager.distanceFilter = 1000.0f;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
         self.locationManager.distanceFilter = kCLHeadingFilterNone;
         [self.locationManager startUpdatingLocation];
+          HasNetwork = [CheckNetwork isExistenceNetwork];
+        if(!HasNetwork)
+            [self.locationManager stopUpdatingLocation];
     }
     rect = [UIScreen mainScreen].applicationFrame;
     return self;
 }
 
 
--(void)LoadGoogleAPI{
-    NSString *apiurl = [NSString stringWithFormat:GOOGLE_MAP_API,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude];
-    
-    NSURL *url = [NSURL URLWithString:apiurl];
-    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    NSLog(@"%@",json);
-    
-}
 
 
 
 -(void)LoadWeather{
-    
-    //[self performSelector:@selector(LoadGoogleAPI) withObject:self afterDelay:2];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:SK_URL,currCity[@"citycode"]]];
-    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    NSDictionary *sk =   json[@"weatherinfo"];
-    
-    
-    
-    url = [NSURL URLWithString:[NSString stringWithFormat:SK2_URL,currCity[@"citycode"]]];
-    data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
-    
-    json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    NSDictionary *sk2 = json[@"weatherinfo"];
-    
-    
-    
-    url = [NSURL URLWithString:[NSString stringWithFormat:ALL_URL,currCity[@"citycode"]]];
-    data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
-    json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    NSDictionary *all = json[@"weatherinfo"];
-    
-    
-    
-    weather_info = @{@"sk":sk,@"sk2":sk2,@"all":all};
-    
+    YBWeatherQuery *weatherQuery = [[YBWeatherQuery alloc] init];
+    weather_info = [weatherQuery QueryWeather:currCity[@"citycode"]];
     self.labelDate.text= [NSString stringWithFormat:@"%@ %@", weather_info[@"all"][@"date_y"],weather_info[@"all"][@"week"]];
     self.labelWeather.text=[NSString stringWithFormat:@"%@ %@%@",weather_info[@"sk2"][@"weather"], weather_info[@"sk"][@"WD"],weather_info[@"sk"][@"WS"]];
     
@@ -121,21 +87,12 @@
     self.labelDate.frame = _rect;
     self.MainView.hidden=NO;
     self.LunchView.hidden = YES;
-    
-    self.btnUpdate.hidden = NO;
-    
+    self.btnUpdate.hidden = NO;    
 }
 
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
-    HasNetwork = [CheckNetwork isExistenceNetwork];
-    if (!HasNetwork) {
-        [self.locationManager stopUpdatingLocation];
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"啊哦" message:@"没有找到网络连接" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-//        [alert show];
-        return;
-       
-    }
+   
     
     
     self.CurrentLocaltion= [newLocation coordinate];
@@ -181,7 +138,7 @@
     //    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     //    UIGraphicsEndImageContext();
     
-    self.MainView.backgroundColor = [UIColor colorWithHex:0x009ad6]; //[UIColor colorWithPatternImage:image];
+    //self.MainView.backgroundColor = [UIColor colorWithHex:0x009ad6]; //[UIColor colorWithPatternImage:image];
     
     
     self.labelCity = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 150, 20)];
@@ -226,13 +183,13 @@
     
     self.btnUpdate = [UIButton buttonWithType:UIButtonTypeInfoDark];
     [self.btnUpdate setBackgroundColor:[UIColor clearColor]];
-	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-42, 20, 20)];
+	[self.btnUpdate setFrame:CGRectMake(10, rect.size.height-79, 20, 20)];
 	
 	[self.btnUpdate addTarget:self action:@selector(Refersh:) forControlEvents:UIControlEventTouchUpInside];
     
     
     
-    self.labelUpdateTime = [[UILabel alloc] initWithFrame:CGRectMake(34, rect.size.height-41, 200.0, 20.0)];
+    self.labelUpdateTime = [[UILabel alloc] initWithFrame:CGRectMake(34, rect.size.height-79, 200.0, 20.0)];
     self.labelUpdateTime.backgroundColor = [UIColor clearColor];
     
     
@@ -264,7 +221,7 @@
 -(void)MakeLunch{
     
     self.LunchView   = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.LunchView.backgroundColor = [UIColor colorWithHex:0x009ad6];
+    //self.LunchView.backgroundColor = [UIColor colorWithHex:0x009ad6];
     
     
     if(progress==nil)
@@ -303,15 +260,23 @@
     [super viewDidLoad];
     font = [UIFont fontWithName:@"Helvetica" size:14.0f];
     
+     [self MakeLunch];
+    
+    if (!HasNetwork) {
+        [self.locationManager stopUpdatingLocation];        
+        return;
+        
+    }
     
     
-    [self MakeLunch];
+   
     
     
     
     
     
     [self MakeMainView];
+    
     self.MainView.hidden=YES;
     YBUtils *utils = [[YBUtils alloc] init];
     [utils Load];

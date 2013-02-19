@@ -8,13 +8,35 @@
 
 #import "YBAppDelegate.h"
 #import "YBMainViewController.h"
+#import "YBAboutViewController.h"
+#import "YBSelectCityViewController.h"
 @implementation YBAppDelegate
-
+@synthesize tabBarController = _tabBarController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     YBMainViewController *mainView = [[YBMainViewController alloc] initWithNibName:nil bundle:nil];
-    self.window.rootViewController = mainView;
+    mainView.title = @"天气";
+    UITabBarItem *first = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFeatured tag:1];
+    
+    mainView.tabBarItem = first;
+    
+    
+    YBAboutViewController *about = [[YBAboutViewController alloc] initWithNibName:nil bundle:nil];
+    about.title=@"更多";
+    UITabBarItem *second = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:2];
+    about.tabBarItem = second;
+    
+    
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:about];
+    
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController.delegate = self;
+    self.tabBarController.viewControllers = @[mainView,nav];
+    
+    
+    self.window.rootViewController = self.tabBarController;// mainView;
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

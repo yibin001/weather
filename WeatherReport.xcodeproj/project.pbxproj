@@ -17,7 +17,6 @@
 		C907122F16CFD92000ED0062 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C907122E16CFD92000ED0062 /* Default@2x.png */; };
 		C907123116CFD92000ED0062 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C907123016CFD92000ED0062 /* Default-568h@2x.png */; };
 		C907123816CFDA5F00ED0062 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C907123716CFDA5F00ED0062 /* MapKit.framework */; };
-		C907123F16CFDAC900ED0062 /* YBMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C907123E16CFDAC900ED0062 /* YBMainViewController.m */; };
 		C907124216CFDB2C00ED0062 /* YBUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C907124116CFDB2C00ED0062 /* YBUtils.m */; };
 		C907124516CFDB6100ED0062 /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = C907124416CFDB6100ED0062 /* UIColor+HEX.m */; };
 		C907124716CFDC8900ED0062 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = C907124616CFDC8900ED0062 /* city.plist */; };
@@ -44,6 +43,14 @@
 		C99A7E9716D0F72F002B7194 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9516D0F72F002B7194 /* Icon.png */; };
 		C99A7E9816D0F72F002B7194 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9616D0F72F002B7194 /* Icon@2x.png */; };
 		C99A7E9E16D10EE2002B7194 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9D16D10EE2002B7194 /* background.jpg */; };
+		C99C064616D39C7B009E6F13 /* YBAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99C064516D39C7B009E6F13 /* YBAboutViewController.m */; };
+		C9BDF4AF16D3B75F00E59621 /* YBWeatherQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BDF4AE16D3B75F00E59621 /* YBWeatherQuery.m */; };
+		C9BDF4B316D3BA6300E59621 /* YBSelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BDF4B116D3BA6300E59621 /* YBSelectCityViewController.m */; };
+		C9BDF4B416D3BA6300E59621 /* YBSelectCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDF4B216D3BA6300E59621 /* YBSelectCityViewController.xib */; };
+		C9EC3AC716D25D23003B76FE /* YBMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3AC616D25D23003B76FE /* YBMainViewController.m */; };
+		C9EC3ACA16D2652A003B76FE /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3AC916D2652A003B76FE /* CheckNetwork.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C9EC3ACD16D2657E003B76FE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3ACC16D2657E003B76FE /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C9EC3ACF16D26654003B76FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +69,6 @@
 		C907123016CFD92000ED0062 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C907123716CFDA5F00ED0062 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C907123D16CFDAC900ED0062 /* YBMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBMainViewController.h; sourceTree = "<group>"; };
-		C907123E16CFDAC900ED0062 /* YBMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBMainViewController.m; sourceTree = "<group>"; };
 		C907124016CFDB2C00ED0062 /* YBUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBUtils.h; sourceTree = "<group>"; };
 		C907124116CFDB2C00ED0062 /* YBUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBUtils.m; sourceTree = "<group>"; };
 		C907124316CFDB6100ED0062 /* UIColor+HEX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HEX.h"; sourceTree = "<group>"; };
@@ -91,6 +97,19 @@
 		C99A7E9516D0F72F002B7194 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C99A7E9616D0F72F002B7194 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		C99A7E9D16D10EE2002B7194 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		C99C064416D39C7B009E6F13 /* YBAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBAboutViewController.h; sourceTree = "<group>"; };
+		C99C064516D39C7B009E6F13 /* YBAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBAboutViewController.m; sourceTree = "<group>"; };
+		C9BDF4AD16D3B75F00E59621 /* YBWeatherQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBWeatherQuery.h; sourceTree = "<group>"; };
+		C9BDF4AE16D3B75F00E59621 /* YBWeatherQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBWeatherQuery.m; sourceTree = "<group>"; };
+		C9BDF4B016D3BA6300E59621 /* YBSelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBSelectCityViewController.h; sourceTree = "<group>"; };
+		C9BDF4B116D3BA6300E59621 /* YBSelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBSelectCityViewController.m; sourceTree = "<group>"; };
+		C9BDF4B216D3BA6300E59621 /* YBSelectCityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YBSelectCityViewController.xib; sourceTree = "<group>"; };
+		C9EC3AC616D25D23003B76FE /* YBMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBMainViewController.m; sourceTree = "<group>"; };
+		C9EC3AC816D2652A003B76FE /* CheckNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckNetwork.h; sourceTree = "<group>"; };
+		C9EC3AC916D2652A003B76FE /* CheckNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckNetwork.m; sourceTree = "<group>"; };
+		C9EC3ACB16D2657E003B76FE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		C9EC3ACC16D2657E003B76FE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EC3ACF16D26654003B76FE /* SystemConfiguration.framework in Frameworks */,
 				C907124916CFDD6400ED0062 /* CoreLocation.framework in Frameworks */,
 				C907123816CFDA5F00ED0062 /* MapKit.framework in Frameworks */,
 				C907121B16CFD92000ED0062 /* UIKit.framework in Frameworks */,
@@ -112,6 +132,7 @@
 		C907120E16CFD92000ED0062 = {
 			isa = PBXGroup;
 			children = (
+				C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */,
 				C907124816CFDD6300ED0062 /* CoreLocation.framework */,
 				C907123716CFDA5F00ED0062 /* MapKit.framework */,
 				C907122016CFD92000ED0062 /* WeatherReport */,
@@ -141,6 +162,7 @@
 		C907122016CFD92000ED0062 /* WeatherReport */ = {
 			isa = PBXGroup;
 			children = (
+				C9EC3AC616D25D23003B76FE /* YBMainViewController.m */,
 				C99A7E9516D0F72F002B7194 /* Icon.png */,
 				C99A7E9616D0F72F002B7194 /* Icon@2x.png */,
 				C907123916CFDA9B00ED0062 /* Resource */,
@@ -148,11 +170,21 @@
 				C907122A16CFD92000ED0062 /* YBAppDelegate.m */,
 				C907122116CFD92000ED0062 /* Supporting Files */,
 				C907123D16CFDAC900ED0062 /* YBMainViewController.h */,
-				C907123E16CFDAC900ED0062 /* YBMainViewController.m */,
 				C907124016CFDB2C00ED0062 /* YBUtils.h */,
 				C907124116CFDB2C00ED0062 /* YBUtils.m */,
 				C907124316CFDB6100ED0062 /* UIColor+HEX.h */,
 				C907124416CFDB6100ED0062 /* UIColor+HEX.m */,
+				C9EC3AC816D2652A003B76FE /* CheckNetwork.h */,
+				C9EC3AC916D2652A003B76FE /* CheckNetwork.m */,
+				C9EC3ACB16D2657E003B76FE /* Reachability.h */,
+				C9EC3ACC16D2657E003B76FE /* Reachability.m */,
+				C99C064416D39C7B009E6F13 /* YBAboutViewController.h */,
+				C99C064516D39C7B009E6F13 /* YBAboutViewController.m */,
+				C9BDF4AD16D3B75F00E59621 /* YBWeatherQuery.h */,
+				C9BDF4AE16D3B75F00E59621 /* YBWeatherQuery.m */,
+				C9BDF4B016D3BA6300E59621 /* YBSelectCityViewController.h */,
+				C9BDF4B116D3BA6300E59621 /* YBSelectCityViewController.m */,
+				C9BDF4B216D3BA6300E59621 /* YBSelectCityViewController.xib */,
 			);
 			path = WeatherReport;
 			sourceTree = "<group>";
@@ -286,6 +318,7 @@
 				C99A7E9716D0F72F002B7194 /* Icon.png in Resources */,
 				C99A7E9816D0F72F002B7194 /* Icon@2x.png in Resources */,
 				C99A7E9E16D10EE2002B7194 /* background.jpg in Resources */,
+				C9BDF4B416D3BA6300E59621 /* YBSelectCityViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,9 +331,14 @@
 			files = (
 				C907122716CFD92000ED0062 /* main.m in Sources */,
 				C907122B16CFD92000ED0062 /* YBAppDelegate.m in Sources */,
-				C907123F16CFDAC900ED0062 /* YBMainViewController.m in Sources */,
 				C907124216CFDB2C00ED0062 /* YBUtils.m in Sources */,
 				C907124516CFDB6100ED0062 /* UIColor+HEX.m in Sources */,
+				C9EC3AC716D25D23003B76FE /* YBMainViewController.m in Sources */,
+				C9EC3ACA16D2652A003B76FE /* CheckNetwork.m in Sources */,
+				C9EC3ACD16D2657E003B76FE /* Reachability.m in Sources */,
+				C99C064616D39C7B009E6F13 /* YBAboutViewController.m in Sources */,
+				C9BDF4AF16D3B75F00E59621 /* YBWeatherQuery.m in Sources */,
+				C9BDF4B316D3BA6300E59621 /* YBSelectCityViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
