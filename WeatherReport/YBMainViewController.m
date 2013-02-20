@@ -228,7 +228,7 @@
     {
         progress=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:
                   UIActivityIndicatorViewStyleGray];
-        progress.center=CGPointMake(self.LunchView.center.x-25,self.LunchView.center.y);
+        progress.center=CGPointMake(self.LunchView.center.x-25,self.LunchView.center.y-49);
         
         [self.LunchView addSubview:progress];
     }
@@ -291,7 +291,7 @@
     for (UIView *view in self.LunchView.subviews) {
         view.hidden = YES;
     }
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((rect.size.width-200)/2, (rect.size.height-40)/2, 200.0f, 40.0f)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((rect.size.width-200)/2, (rect.size.height-49)/2, 200.0f, 40.0f)];
     label.text=@"无法加载您的位置信息";
     label.backgroundColor = [UIColor clearColor];
     label.font = font;

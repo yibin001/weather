@@ -8,7 +8,7 @@
 
 #import "YBAppDelegate.h"
 #import "YBMainViewController.h"
-#import "YBAboutViewController.h"
+#import "YBCityViewController.h"
 #import "YBSelectCityViewController.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
@@ -22,14 +22,14 @@
     mainView.tabBarItem = first;
     
     
-    YBAboutViewController *about = [[YBAboutViewController alloc] initWithNibName:nil bundle:nil];
-    about.title=@"更多";
+    YBCityViewController *city = [[YBCityViewController alloc] initWithNibName:nil bundle:nil];
+    city.title=@"更多";
     UITabBarItem *second = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:2];
-    about.tabBarItem = second;
+    city.tabBarItem = second;
     
     
     
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:about];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:city];
     
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.delegate = self;
