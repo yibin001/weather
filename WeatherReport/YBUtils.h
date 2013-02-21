@@ -11,5 +11,8 @@
 @interface YBUtils : NSObject
 @property (nonatomic,strong) NSMutableArray *AllCitys;
 @property (nonatomic,strong) NSArray *AllProvince;
+@property (nonatomic,strong) NSMutableArray *FavoriteCity;
 -(void) Load;
+-(void) LoadFavoriteCitys;
+-(void) SaveFavoriteCitys :(NSDictionary *)city;
 @end

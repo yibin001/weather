@@ -16,6 +16,7 @@
 @implementation YBUtils
 @synthesize AllCitys = _AllCitys;
 @synthesize AllProvince = _AllProvince;
+@synthesize FavoriteCity = _FavoriteCity;
 -(id)init{
     self = [super init];
     if (self) {
@@ -34,6 +35,29 @@
             [_AllCitys addObject:di];
         }
     }
+}
+
+
+-(void)LoadFavoriteCitys{
+  
+
+    
+    
+    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
+    NSLog(@"load %@",_FavoriteCity);
+}
+
+-(void)SaveFavoriteCitys:(NSDictionary *)city{
+    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
+    if (_FavoriteCity == nil) {
+        _FavoriteCity = [[NSMutableArray alloc] init];
+    }
+ 
+    [_FavoriteCity addObject:city];
+       NSLog(@"%@",_FavoriteCity);
+    [NSKeyedArchiver archiveRootObject:_FavoriteCity toFile:@"glossary.archive"];
+    
+    NSLog(@"save ok");
 }
 
 @end
