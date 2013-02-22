@@ -64,8 +64,8 @@
 
 
 -(void)LoadWeather{
-    YBWeatherQuery *weatherQuery = [[YBWeatherQuery alloc] init];
-    weather_info = [weatherQuery QueryWeather:currCity[@"citycode"]];
+    YBWeatherQuery *weatherQuery = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
+    weather_info = [weatherQuery QueryWeather];
     self.labelDate.text= [NSString stringWithFormat:@"%@ %@", weather_info[@"all"][@"date_y"],weather_info[@"all"][@"week"]];
     self.labelWeather.text=[NSString stringWithFormat:@"%@ %@%@",weather_info[@"sk2"][@"weather"], weather_info[@"sk"][@"WD"],weather_info[@"sk"][@"WS"]];
     

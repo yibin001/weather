@@ -7,9 +7,12 @@
 //
 
 #import "YBDefaultViewController.h"
-
+#import "YBUtils.h"
+#import "YBSingleWeatherViewController.h"
 @interface YBDefaultViewController ()
-
+{
+    NSMutableArray *favoriteCitys;
+}
 @end
 
 @implementation YBDefaultViewController
@@ -25,9 +28,11 @@
 
 - (void)viewDidLoad
 {
+    YBUtils *utils = [[YBUtils alloc] init];
+    [utils LoadFavoriteCitys];
+    favoriteCitys = utils.FavoriteCity;
     CGRect rect = self.view.bounds;
-    NSLog(@"%f",rect.size.width);
-    NSLog(@"%f",rect.size.height);
+   
     [super viewDidLoad];
     self.navigationItem.title=@"scrollview";
     self.view.backgroundColor = [UIColor blackColor];
@@ -56,25 +61,42 @@
     
     NSUInteger nimages = 0;
     CGFloat cx = 0;
-    for (NSString *imgPath in images) {
-        NSLog(@"%@",imgPath);
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [imageView setBackgroundColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0]];
-        UIImage *img = [UIImage imageNamed:imgPath];
-        imageView.image = img;
-        CGRect rect = scrollView.frame;
-        rect.size.height = scrollView.frame.size.height;
-        rect.size.width = scrollView.frame.size.width;
-        rect.origin.x = cx;
-        rect.origin.y = 0;
-        imageView.frame = rect;
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [scrollView addSubview:imageView];
-        cx+=scrollView.frame.size.width;
-        nimages++;
-    }
+//    for (NSString *imgPath in images) {
+//        NSLog(@"%@",imgPath);
+//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//        [imageView setBackgroundColor:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0]];
+//        UIImage *img = [UIImage imageNamed:imgPath];
+//        imageView.image = img;
+//        CGRect rect = scrollView.frame;
+//        rect.size.height = scrollView.frame.size.height;
+//        rect.size.width = scrollView.frame.size.width;
+//        rect.origin.x = cx;
+//        rect.origin.y = 0;
+//        imageView.frame = rect;
+//        imageView.contentMode = UIViewContentModeScaleAspectFill;
+//        [scrollView addSubview:imageView];
+//        cx+=scrollView.frame.size.width;
+//        nimages++;
+//    }
+    
+        for (NSDictionary *city in favoriteCitys) {
+            YBSingleWeatherViewController *single = [[YBSingleWeatherViewController alloc] initWithNibName:nil bundle:nil];
+            single.city = city;
+            
+            CGRect rect = scrollView.frame;
+            rect.size.height = scrollView.frame.size.height;
+            rect.size.width = scrollView.frame.size.width;
+            rect.origin.x = cx;
+            rect.origin.y = 0;
+            single.view.frame = rect;
+            
+            [scrollView addSubview:single.view];
+            cx+=scrollView.frame.size.width;
+            nimages++;
+        }
+    
     [pageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
-    pageControl.numberOfPages = images.count;
+    pageControl.numberOfPages = nimages;
     pageControl.currentPage = 0;
     pageControl.tag = 0;
     [scrollView setContentSize:CGSizeMake(cx, [scrollView  bounds].size.height)];

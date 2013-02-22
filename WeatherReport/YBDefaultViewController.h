@@ -15,6 +15,7 @@
     BOOL pageControllIsChangingPage;
     
     NSArray *images;
+    NSMutableArray *citys;
 }
 
 -(void)changePage : (id)sender;

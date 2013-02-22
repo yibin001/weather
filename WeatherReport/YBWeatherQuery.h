@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface YBWeatherQuery : NSObject
--(NSDictionary *)QueryWeather:(NSString *) WithCityCode;
+{
+    NSString *cityCode;
+}
+-(id)initWithCityCode:(NSString *)_cityCode;
+-(NSDictionary *)QueryWeather;
 @end
