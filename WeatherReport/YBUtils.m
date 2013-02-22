@@ -40,24 +40,36 @@
 
 -(void)LoadFavoriteCitys{
   
-
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *file = [documentsDirectory stringByAppendingString:@"city.archive"];
     
-    
-    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
-    NSLog(@"load %@",_FavoriteCity);
+    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
 }
 
 -(void)SaveFavoriteCitys:(NSDictionary *)city{
-    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:@"glossary.archive"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *file = [documentsDirectory stringByAppendingString:@"city.archive"];
+    
+    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
     if (_FavoriteCity == nil) {
         _FavoriteCity = [[NSMutableArray alloc] init];
     }
  
     [_FavoriteCity addObject:city];
-       NSLog(@"%@",_FavoriteCity);
-    [NSKeyedArchiver archiveRootObject:_FavoriteCity toFile:@"glossary.archive"];
     
-    NSLog(@"save ok");
+    [NSKeyedArchiver archiveRootObject:_FavoriteCity toFile:file];
+   
+}
+
+-(void)Save
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *file = [documentsDirectory stringByAppendingString:@"city.archive"];
+    [NSKeyedArchiver archiveRootObject:self.FavoriteCity toFile:file];
+
 }
 
 @end

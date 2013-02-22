@@ -15,4 +15,5 @@
 -(void) Load;
 -(void) LoadFavoriteCitys;
 -(void) SaveFavoriteCitys :(NSDictionary *)city;
+-(void) Save;
 @end

@@ -10,6 +10,7 @@
 #import "YBMainViewController.h"
 #import "YBCityViewController.h"
 #import "YBCityListViewController.h"
+#import "YBDefaultViewController.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -20,6 +21,11 @@
     UITabBarItem *first = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFeatured tag:1];
     
     mainView.tabBarItem = first;
+    
+    
+    YBDefaultViewController *defaultView = [[YBDefaultViewController alloc ] initWithNibName:nil bundle:nil];
+    defaultView.title=@"关注";
+    defaultView.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:3];
     
     
     YBCityListViewController *list = [[YBCityListViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -36,7 +42,7 @@
     
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.delegate = self;
-    self.tabBarController.viewControllers = @[mainView,nav];
+    self.tabBarController.viewControllers = @[mainView,nav,defaultView];
     
     
     self.window.rootViewController = self.tabBarController;// mainView;

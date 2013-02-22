@@ -11,7 +11,7 @@
 #import "YBUtils.h"
 @interface YBCityListViewController ()
 {
-    NSArray *citys;
+    YBUtils *utils;
 }
 @end
 
@@ -22,19 +22,15 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        utils = [[YBUtils alloc] init];
+        
     }
     return self;
 }
 
 -(void)PopSelectCity:(id *)sender{
-    YBUtils *utils = [[YBUtils alloc] init];
-    [utils LoadFavoriteCitys];
-    citys = utils.FavoriteCity;
-    NSLog(@"%@",citys);
-    [utils SaveFavoriteCitys:@{@"test":@"asdf"}];
-    NSLog(@"didload");
+   
     
-    return;
     YBCityViewController *view = [[YBCityViewController alloc] initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:view animated:YES];
 }
@@ -42,12 +38,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(PopSelectCity:)];
-
-    YBUtils *utils = [[YBUtils alloc] init];
     [utils LoadFavoriteCitys];
-    citys = utils.FavoriteCity;
-    NSLog(@"didload");
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(PopSelectCity:)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,7 +59,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-    return citys.count;
+    return utils.FavoriteCity.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,7 +71,8 @@
     }
     
     // Configure the cell...
-    cell.textLabel.text = citys[indexPath.row][@"cityname"];
+    cell.textLabel.text = utils.FavoriteCity[indexPath.row][@"cityname"];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -92,19 +85,20 @@
 }
 */
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
+        [utils.FavoriteCity removeObjectAtIndex:indexPath.row];
+        [utils Save];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.
