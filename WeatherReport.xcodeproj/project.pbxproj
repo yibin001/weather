@@ -32,6 +32,7 @@
 		C934F9B816D79D4000B294F4 /* 6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C934F9B216D79D4000B294F4 /* 6.jpg */; };
 		C95CF2D916D7B5C200222043 /* YBSingleWeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CF2D716D7B5C200222043 /* YBSingleWeatherViewController.m */; };
 		C95CF2DA16D7B5C200222043 /* YBSingleWeatherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C95CF2D816D7B5C200222043 /* YBSingleWeatherViewController.xib */; };
+		C989BA2516D85E3A00A6E198 /* bg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C989BA2416D85E3A00A6E198 /* bg@2x.jpg */; };
 		C99A7E8216D0F723002B7194 /* cloud.dark.lightning.rain.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E6F16D0F723002B7194 /* cloud.dark.lightning.rain.png */; };
 		C99A7E8316D0F723002B7194 /* cloud.dark.lightning.snow.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E7016D0F723002B7194 /* cloud.dark.lightning.snow.png */; };
 		C99A7E8416D0F723002B7194 /* cloud.dark.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E7116D0F723002B7194 /* cloud.dark.png */; };
@@ -99,6 +100,7 @@
 		C95CF2D616D7B5C200222043 /* YBSingleWeatherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBSingleWeatherViewController.h; sourceTree = "<group>"; };
 		C95CF2D716D7B5C200222043 /* YBSingleWeatherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBSingleWeatherViewController.m; sourceTree = "<group>"; };
 		C95CF2D816D7B5C200222043 /* YBSingleWeatherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YBSingleWeatherViewController.xib; sourceTree = "<group>"; };
+		C989BA2416D85E3A00A6E198 /* bg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "bg@2x.jpg"; sourceTree = "<group>"; };
 		C99A7E6F16D0F723002B7194 /* cloud.dark.lightning.rain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.dark.lightning.rain.png; sourceTree = "<group>"; };
 		C99A7E7016D0F723002B7194 /* cloud.dark.lightning.snow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.dark.lightning.snow.png; sourceTree = "<group>"; };
 		C99A7E7116D0F723002B7194 /* cloud.dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.dark.png; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 		C934F9AC16D79D4000B294F4 /* wallpaper */ = {
 			isa = PBXGroup;
 			children = (
+				C989BA2416D85E3A00A6E198 /* bg@2x.jpg */,
 				C934F9AD16D79D4000B294F4 /* 1.jpg */,
 				C934F9AE16D79D4000B294F4 /* 2.jpg */,
 				C934F9AF16D79D4000B294F4 /* 3.jpg */,
@@ -369,6 +372,7 @@
 				C934F9B716D79D4000B294F4 /* 5.jpg in Resources */,
 				C934F9B816D79D4000B294F4 /* 6.jpg in Resources */,
 				C95CF2DA16D7B5C200222043 /* YBSingleWeatherViewController.xib in Resources */,
+				C989BA2516D85E3A00A6E198 /* bg@2x.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

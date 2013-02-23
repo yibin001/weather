@@ -38,6 +38,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height-69)];
     pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, rect.size.height-69, rect.size.width, 20)];
+    pageControl.hidesForSinglePage=YES;
     images = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg",@"5.jpg",@"6.jpg"];
     [self.view addSubview:scrollView];
     [self.view addSubview:pageControl];

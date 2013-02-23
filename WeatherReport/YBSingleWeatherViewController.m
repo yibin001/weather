@@ -22,6 +22,7 @@
 @synthesize lblSD = _lblSD;
 @synthesize lblLastUpdate = _lblLastUpdate;
 @synthesize city = _city;
+@synthesize btnUpdate = _btnUpdate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -48,40 +49,52 @@
     self.lblSD.text = [NSString stringWithFormat:@"湿度:%@" ,weather_info[@"sk"][@"SD"]];
     //[self.btnUpdate setTitle:[NSString stringWithFormat:@""] forState:UIControlStateNormal];
     self.lblLastUpdate.text = [NSString stringWithFormat:@"更新于%@ %@",weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
-    self.lblLastUpdate.frame = CGRectMake(30, self.view.frame.size.height-30, 300, 20);
+    self.lblLastUpdate.frame = CGRectMake(40, self.view.frame.size.height-30, 300, 20);
     self.lblLastUpdate.textAlignment = NSTextAlignmentLeft;
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    btn.frame = CGRectMake(10, self.view.frame.size.height-30, 20, 20);
-    btn.backgroundColor = [UIColor clearColor];
     
-    [self.view addSubview:btn];
+    //self.btnUpdate = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    self.btnUpdate.frame = CGRectMake(10, self.view.frame.size.height-30, 20, 20);
+    self.btnUpdate.backgroundColor = [UIColor clearColor];
+    //[self.btnUpdate addTarget:self action:@selector(ReLoadBind::) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:self.btnUpdate];
         
     
     //[self.lblLastUpdate sizeToFit];
     [loadding stopAnimating];
 }
 
+-(IBAction)ReLoadBind:(id)sender{
+    NSLog(@"refersh");
+}
+
+
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]];
+    //self.view.contentMode = UIViewContentModeScaleToFill;
     loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
    
     loadding.frame = CGRectMake(10, self.view.frame.size.height-30, 20, 20);
     self.lblLastUpdate.text=@"正在更新......";
     [loadding startAnimating];
     [self.view addSubview:loadding];
-    NSLog(@"%@ updated",self.city[@"cityname"]);
-    //[self performSelector:@selector(Bind) withObject:self afterDelay:0.5];
-    //[self performSelector:@selector(Bind) withObject:self];
-   // [self performSelector:@selector(Bind) onThread:[NSThread mainThread] withObject:self waitUntilDone:NO];
-    [self performSelectorInBackground:@selector(Bind) withObject:self];
-    // Do any additional setup after loading the view from its nib.
+      [self performSelectorInBackground:@selector(Bind) withObject:self];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
 }
 
 - (void)viewDidUnload {
@@ -92,6 +105,7 @@
     [self setLblCurrTemp:nil];
     [self setLblSD:nil];
     [self setLblLastUpdate:nil];
+    [self setBtnUpdate:nil];
     [super viewDidUnload];
 }
 @end

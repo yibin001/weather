@@ -19,7 +19,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblCurrTemp;
 @property (weak, nonatomic) IBOutlet UILabel *lblSD;
 @property (weak, nonatomic) IBOutlet UILabel *lblLastUpdate;
+@property (weak, nonatomic) IBOutlet UIButton *btnUpdate;
 
+
+
+
+-(IBAction)ReLoadBind:(id)sender;
 //绑定天气
 -(void)Bind;
 
