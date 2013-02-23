@@ -23,6 +23,7 @@
 @synthesize lblLastUpdate = _lblLastUpdate;
 @synthesize city = _city;
 @synthesize btnUpdate = _btnUpdate;
+@synthesize imgBackground = _imgBackground;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,6 +34,9 @@
 }
 
 -(void)Bind{
+    self.imgBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.jpg"]];
+   
+    
     YBWeatherQuery *query = [[YBWeatherQuery alloc] initWithCityCode:self.city[@"citycode"]];
     NSDictionary *weather_info = [query QueryWeather];
     self.lblDateWeek.text= [NSString stringWithFormat:@"%@ %@", weather_info[@"all"][@"date_y"],weather_info[@"all"][@"week"]];
@@ -47,20 +51,33 @@
     
     self.lblCityName.text = [NSString stringWithFormat:@"%@",self.city[@"cityname"]];
     self.lblSD.text = [NSString stringWithFormat:@"湿度:%@" ,weather_info[@"sk"][@"SD"]];
-    //[self.btnUpdate setTitle:[NSString stringWithFormat:@""] forState:UIControlStateNormal];
+
     self.lblLastUpdate.text = [NSString stringWithFormat:@"更新于%@ %@",weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
     self.lblLastUpdate.frame = CGRectMake(40, self.view.frame.size.height-30, 300, 20);
     self.lblLastUpdate.textAlignment = NSTextAlignmentLeft;
     
-    //self.btnUpdate = [UIButton buttonWithType:UIButtonTypeInfoDark];
+
     self.btnUpdate.frame = CGRectMake(10, self.view.frame.size.height-30, 20, 20);
     self.btnUpdate.backgroundColor = [UIColor clearColor];
-    //[self.btnUpdate addTarget:self action:@selector(ReLoadBind::) forControlEvents:UIControlEventTouchUpInside];
+    
+    //EXC_BAD_ACCESS
+    [self.btnUpdate addTarget:self action:@selector(ReLoadBind::) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.btnUpdate];
         
     
-    //[self.lblLastUpdate sizeToFit];
+    
+    CGRect rect = self.view.frame;
+    NSLog(@"%f",rect.size.height);
+    rect.size.width-=10;
+    rect.size.height-=40;
+    rect.origin.x = 5;
+    rect.origin.y = 5;
+    self.imgBackground.frame = rect;
+    
+    
+    [self.view insertSubview:self.imgBackground atIndex:0];
+    
     [loadding stopAnimating];
 }
 
@@ -75,8 +92,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]];
-    //self.view.contentMode = UIViewContentModeScaleToFill;
+    
+    
+    
     loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
    
     loadding.frame = CGRectMake(10, self.view.frame.size.height-30, 20, 20);
@@ -106,6 +124,7 @@
     [self setLblSD:nil];
     [self setLblLastUpdate:nil];
     [self setBtnUpdate:nil];
+    [self setImgBackground:nil];
     [super viewDidUnload];
 }
 @end

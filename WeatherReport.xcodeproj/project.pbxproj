@@ -23,6 +23,7 @@
 		C907124916CFDD6400ED0062 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C907124816CFDD6300ED0062 /* CoreLocation.framework */; };
 		C92303BE16D50698003A14EE /* YBCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C92303BC16D50698003A14EE /* YBCityViewController.m */; };
 		C92303BF16D50698003A14EE /* YBCityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C92303BD16D50698003A14EE /* YBCityViewController.xib */; };
+		C92CDAE216D8E64300C6A8BA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92CDAE116D8E64300C6A8BA /* QuartzCore.framework */; };
 		C934F9AB16D79B6B00B294F4 /* YBDefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C934F9AA16D79B6B00B294F4 /* YBDefaultViewController.m */; };
 		C934F9B316D79D4000B294F4 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C934F9AD16D79D4000B294F4 /* 1.jpg */; };
 		C934F9B416D79D4000B294F4 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C934F9AE16D79D4000B294F4 /* 2.jpg */; };
@@ -89,6 +90,7 @@
 		C92303BB16D50698003A14EE /* YBCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBCityViewController.h; sourceTree = "<group>"; };
 		C92303BC16D50698003A14EE /* YBCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBCityViewController.m; sourceTree = "<group>"; };
 		C92303BD16D50698003A14EE /* YBCityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YBCityViewController.xib; sourceTree = "<group>"; };
+		C92CDAE116D8E64300C6A8BA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C934F9A916D79B6B00B294F4 /* YBDefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBDefaultViewController.h; sourceTree = "<group>"; };
 		C934F9AA16D79B6B00B294F4 /* YBDefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBDefaultViewController.m; sourceTree = "<group>"; };
 		C934F9AD16D79D4000B294F4 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C92CDAE216D8E64300C6A8BA /* QuartzCore.framework in Frameworks */,
 				C9EC3ACF16D26654003B76FE /* SystemConfiguration.framework in Frameworks */,
 				C907124916CFDD6400ED0062 /* CoreLocation.framework in Frameworks */,
 				C907123816CFDA5F00ED0062 /* MapKit.framework in Frameworks */,
@@ -156,6 +159,7 @@
 		C907120E16CFD92000ED0062 = {
 			isa = PBXGroup;
 			children = (
+				C92CDAE116D8E64300C6A8BA /* QuartzCore.framework */,
 				C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */,
 				C907124816CFDD6300ED0062 /* CoreLocation.framework */,
 				C907123716CFDA5F00ED0062 /* MapKit.framework */,
