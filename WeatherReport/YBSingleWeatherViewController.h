@@ -22,11 +22,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnUpdate;
 
 
-@property (strong,nonatomic)IBOutlet UIImageView *imgBackground;
 
 
 
--(IBAction)ReLoadBind:(id)sender;
+-(IBAction)reLoadBind:(id)sender;
 //绑定天气
 -(void)Bind;
 

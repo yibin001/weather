@@ -89,13 +89,17 @@
 }
 
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"%d",indexPath.row);
     NSString *cityname = data[indexPath.row][@"cityname"];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:cityname delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [self.searchBar resignFirstResponder];
     [alert show];
     [utils SaveFavoriteCitys:data[indexPath.row]];
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+   
 }
 
 - (void)didReceiveMemoryWarning
@@ -177,15 +181,5 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
 
 @end

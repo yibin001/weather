@@ -6,6 +6,8 @@
 //  Copyright (c) 2013年 us.yibin. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "YBSingleWeatherViewController.h"
 #import "YBWeatherQuery.h"
 @interface YBSingleWeatherViewController ()
@@ -23,7 +25,7 @@
 @synthesize lblLastUpdate = _lblLastUpdate;
 @synthesize city = _city;
 @synthesize btnUpdate = _btnUpdate;
-@synthesize imgBackground = _imgBackground;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,12 +36,19 @@
 }
 
 -(void)Bind{
-    self.imgBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.jpg"]];
    
+    
+    //NSLog(@"load @ %@,%@",[NSDate date],self.city[@"cityname"]);
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString=[dateFormatter stringFromDate:[NSDate date]];
+    
+    
     
     YBWeatherQuery *query = [[YBWeatherQuery alloc] initWithCityCode:self.city[@"citycode"]];
     NSDictionary *weather_info = [query QueryWeather];
-    self.lblDateWeek.text= [NSString stringWithFormat:@"%@ %@", weather_info[@"all"][@"date_y"],weather_info[@"all"][@"week"]];
+    //NSLog(@"%@",weather_info);
+    self.lblDateWeek.text= [NSString stringWithFormat:@"%@ %@", dateString,weather_info[@"all"][@"week"]];
     self.lblWeather.text=[NSString stringWithFormat:@"%@ %@%@",weather_info[@"sk2"][@"weather"], weather_info[@"sk"][@"WD"],weather_info[@"sk"][@"WS"]];
     
     
@@ -61,30 +70,29 @@
     self.btnUpdate.backgroundColor = [UIColor clearColor];
     
     //EXC_BAD_ACCESS
-    [self.btnUpdate addTarget:self action:@selector(ReLoadBind::) forControlEvents:UIControlEventTouchUpInside];
+    //[self.btnUpdate addTarget:self action:@selector(reLoadBind:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.btnUpdate];
         
     
     
-    CGRect rect = self.view.frame;
-    NSLog(@"%f",rect.size.height);
-    rect.size.width-=10;
-    rect.size.height-=40;
-    rect.origin.x = 5;
-    rect.origin.y = 5;
-    self.imgBackground.frame = rect;
-    
-    
-    [self.view insertSubview:self.imgBackground atIndex:0];
-    
+       
     [loadding stopAnimating];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
--(IBAction)ReLoadBind:(id)sender{
-    NSLog(@"refersh");
+-(IBAction)reLoadBind:(id)sender{
+    self.lblLastUpdate.text=@"正在更新......";
+    [loadding startAnimating];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [self performSelector:@selector(Bind) withObject:self afterDelay:1];
+    
 }
 
+
+- (void)dealloc {
+    NSLog(@"dealloc %@",self.city[@"cityname"]);
+}
 
 
 
@@ -92,16 +100,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    
+    [[self.view layer] setRasterizationScale:5.0f];
+    [[self.view layer] setBorderWidth:1];
     loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
    
     loadding.frame = CGRectMake(10, self.view.frame.size.height-30, 20, 20);
     self.lblLastUpdate.text=@"正在更新......";
     [loadding startAnimating];
     [self.view addSubview:loadding];
-      [self performSelectorInBackground:@selector(Bind) withObject:self];
+    //[self performSelector:@selector(Bind) onThread:[NSThread mainThread] withObject:self waitUntilDone:NO];
+    [self performSelectorInBackground:@selector(Bind) withObject:self];
     
 }
 
@@ -124,7 +132,7 @@
     [self setLblSD:nil];
     [self setLblLastUpdate:nil];
     [self setBtnUpdate:nil];
-    [self setImgBackground:nil];
+    
     [super viewDidUnload];
 }
 @end

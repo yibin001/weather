@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YBSingleWeatherViewController.h"
 @interface YBDefaultViewController : UIViewController<UIScrollViewDelegate>
 {
     UIScrollView *scrollView;
     UIPageControl *pageControl;
     BOOL pageControllIsChangingPage;
-    
+    NSMutableArray *WeatherViews;
     NSArray *images;
     NSMutableArray *citys;
 }
