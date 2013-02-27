@@ -258,6 +258,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
     font = [UIFont fontWithName:@"Helvetica" size:14.0f];
     
      [self MakeLunch];
