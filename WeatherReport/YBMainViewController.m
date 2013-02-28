@@ -197,7 +197,7 @@
     self.labelUpdateTime.textAlignment = NSTextAlignmentLeft;
     
     self.labelUpdateTime.font = font;
-    self.labelUpdateTime.textColor = [UIColor colorWithHex:0xcccccc];
+    
     
     
     self.aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

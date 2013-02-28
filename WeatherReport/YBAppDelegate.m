@@ -11,11 +11,24 @@
 #import "YBCityViewController.h"
 #import "YBCityListViewController.h"
 #import "YBDefaultViewController.h"
+#import "YBAutomaticViewController.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    
+    YBAutomaticViewController *automatic = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
+    self.window.rootViewController = nav;
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    return YES;
+
+    
+    
     YBMainViewController *mainView = [[YBMainViewController alloc] initWithNibName:nil bundle:nil];
     mainView.title = @"天气";
     UITabBarItem *first = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFeatured tag:1];
@@ -36,7 +49,7 @@
     
     
     
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:list];
+     nav = [[UINavigationController alloc] initWithRootViewController:list];
     
     
     

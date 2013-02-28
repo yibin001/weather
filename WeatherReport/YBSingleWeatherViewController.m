@@ -100,6 +100,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     [[self.view layer] setRasterizationScale:5.0f];
     [[self.view layer] setBorderWidth:1];
     loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
