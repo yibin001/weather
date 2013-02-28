@@ -149,11 +149,11 @@
 
 -(void)_initLabel{
     UIFont *font = [UIFont systemFontOfSize:11.0];
-        UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 150, 70, 20)];
-        lbl1.textAlignment = NSTextAlignmentCenter;
+    UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 150, 70, 20)];
+    lbl1.textAlignment = NSTextAlignmentCenter;
     lbl1.font = font;
     lbl1.text = weather_info[@"all"][@"weather1"];// @"今天";
-        lbl1.backgroundColor = [UIColor redColor];
+        //lbl1.backgroundColor = [UIColor redColor];
         [self.view addSubview:lbl1];
     lbl1.numberOfLines = 2;
     lbl1.contentMode = UIViewContentModeLeft;
@@ -161,14 +161,14 @@
     UILabel *lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 150, 70, 20)];
     lbl2.textAlignment = NSTextAlignmentCenter;
     lbl2.text =  weather_info[@"all"][@"weather2"];// @"明天";
-    lbl2.backgroundColor = [UIColor redColor];
+    //lbl2.backgroundColor = [UIColor redColor];
     lbl2.font = font;
     [self.view addSubview:lbl2];
     
     UILabel *lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 150, 70, 20)];
     lbl3.textAlignment = NSTextAlignmentCenter;
     lbl3.text = weather_info[@"all"][@"weather3"];// @"后天";
-    lbl3.backgroundColor = [UIColor redColor];
+    //lbl3.backgroundColor = [UIColor redColor];
     lbl3.font = font;
     [self.view addSubview:lbl3];
 
@@ -176,7 +176,7 @@
     UILabel *lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 150, 70, 20)];
     lbl4.textAlignment = NSTextAlignmentCenter;
     lbl4.text = weather_info[@"all"][@"weather4"];// @"day 1";
-    lbl4.backgroundColor = [UIColor redColor];
+    //lbl4.backgroundColor = [UIColor redColor];
     lbl4.font = font;
     [self.view addSubview:lbl4];
 
