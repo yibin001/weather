@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <MapKit/MapKit.h>
 @interface YBWeatherQuery : NSObject
 {
     NSString *cityCode;
 }
 -(id)initWithCityCode:(NSString *)_cityCode;
 -(NSDictionary *)QueryWeather;
+-(NSDictionary *)QueryAddress:(CLLocationDegrees)lat lng:(CLLocationDegrees)lng;
 @end

@@ -17,6 +17,7 @@
     UILabel *lblError;
     CGRect main;
     NSDictionary *weather_info;
+    NSDictionary *addr_info;
 }
 @end
 
@@ -63,9 +64,12 @@
         }
         for (NSDictionary *city in AllCitys) {
             if([locality hasPrefix:city[@"cityname"]]){
-                
+
                 [self.locationManager stopUpdatingLocation];
                 currCity = city;
+                YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
+                addr_info = [query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+
                 
                 [self LoaddingWeather];
                 break;
@@ -126,7 +130,19 @@
     self.lblDegree.frame = CGRectMake(250, 20, 20, 20);
     self.lblDegree.hidden = NO;
     
-    self.lblCityName.text = weather_info[@"all"][@"city"];
+    NSString *cityname = weather_info[@"all"][@"city"];
+    
+    if(addr_info){
+        if([addr_info[@"status"] isEqualToString:@"OK"]){
+            NSArray *arr = addr_info[@"results"];
+            if(arr.count>2)
+            {
+                NSDictionary *dict = arr[arr.count-2];
+                cityname =  dict[@"formatted_address"];
+            }
+        }
+    }
+    self.lblCityName.text = cityname;
     
     int min = MIN([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
     int max = MAX([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
@@ -148,7 +164,7 @@
 
 
 -(void)_initLabel{
-    UIFont *font = [UIFont systemFontOfSize:11.0];
+    UIFont *font = [UIFont systemFontOfSize:12.0];
     UIColor *background = [UIColor clearColor];
     UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 150, 70, 20)];
     lbl1.textAlignment = NSTextAlignmentCenter;

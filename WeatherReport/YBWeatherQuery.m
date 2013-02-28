@@ -10,10 +10,21 @@
 #define ALL_URL @"http://m.weather.com.cn/data/%@.html"
 
 
+#define GOOGLE_MAP_API @"http://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&sensor=true"
+
 
 #import "YBWeatherQuery.h"
-
+#import <MapKit/MapKit.h>
 @implementation YBWeatherQuery
+
+
+-(NSDictionary *)QueryAddress:(CLLocationDegrees )lat lng:(CLLocationDegrees )lng{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:GOOGLE_MAP_API,lat,lng]];
+    
+    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    return json;
+}
 
 -(id)initWithCityCode:(NSString *)_cityCode{
     cityCode = _cityCode;
