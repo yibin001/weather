@@ -117,9 +117,14 @@
     YBWeatherQuery *query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
     weather_info = [query QueryWeather];
     
-    
+    NSString *imgName = weather_info[@"sk2"][@"img1"];
+    imgName = [imgName stringByReplacingOccurrencesOfString:@"b" withString:@"a"];
+     imgName = [imgName stringByReplacingOccurrencesOfString:@"c" withString:@"a"];
+     imgName = [imgName stringByReplacingOccurrencesOfString:@"d" withString:@"a"];
+     imgName = [imgName stringByReplacingOccurrencesOfString:@"gif" withString:@"png"];
+    NSLog(@"%@",imgName);
     self.imgWeather.frame = CGRectMake(40, 10, 80, 80);
-    self.imgWeather.image = [UIImage imageNamed:@"a0.png"];
+    self.imgWeather.image = [UIImage imageNamed:imgName];
     self.lblMinMaxTemp.frame = CGRectMake(30, 70, 100, 30);
     //self.lblMinMaxTemp.backgroundColor = [UIColor redColor];
     
@@ -164,37 +169,46 @@
 
 
 -(void)_initLabel{
-    UIFont *font = [UIFont systemFontOfSize:12.0];
+    UIFont *font = [UIFont systemFontOfSize:13.0];
     UIColor *background = [UIColor clearColor];
-    UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 150, 70, 20)];
+    UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 150, 70, 40)];
     lbl1.textAlignment = NSTextAlignmentCenter;
     lbl1.font = font;
-    lbl1.text = weather_info[@"all"][@"weather1"];// @"今天";
+    lbl1.text = [NSString stringWithFormat:@"%@\n%@",  @"今天",weather_info[@"all"][@"weather1"]];
+    
     lbl1.backgroundColor = background;
     [self.view addSubview:lbl1];
-    lbl1.numberOfLines = 2;
-    lbl1.contentMode = UIViewContentModeLeft;
+    lbl1.numberOfLines = 0;
+    lbl1.lineBreakMode = UILineBreakModeWordWrap;
     
-    UILabel *lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 150, 70, 20)];
+    UILabel *lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 150, 70, 40)];
     lbl2.textAlignment = NSTextAlignmentCenter;
-    lbl2.text =  weather_info[@"all"][@"weather2"];// @"明天";
+    
+    lbl2.text = [NSString stringWithFormat:@"%@\n%@",@"明天", weather_info[@"all"][@"weather2"] ];
     lbl2.backgroundColor = background;
     lbl2.font = font;
+    lbl2.numberOfLines = 0;
+    lbl2.lineBreakMode = UILineBreakModeWordWrap;
     [self.view addSubview:lbl2];
     
-    UILabel *lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 150, 70, 20)];
+    UILabel *lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 150, 70, 40)];
     lbl3.textAlignment = NSTextAlignmentCenter;
-    lbl3.text = weather_info[@"all"][@"weather3"];// @"后天";
+    lbl3.text = [NSString stringWithFormat:@"%@\n%@",@"后天", weather_info[@"all"][@"weather3"] ];
+    
     lbl3.backgroundColor = background;
     lbl3.font = font;
+    lbl3.numberOfLines = 0;
+    lbl3.lineBreakMode = UILineBreakModeWordWrap;
     [self.view addSubview:lbl3];
 
     
-    UILabel *lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 150, 70, 20)];
+    UILabel *lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 150, 70, 40)];
     lbl4.textAlignment = NSTextAlignmentCenter;
     lbl4.text = weather_info[@"all"][@"weather4"];// @"day 1";
     lbl4.backgroundColor = background;
     lbl4.font = font;
+    lbl4.numberOfLines = 0;
+    lbl4.lineBreakMode = UILineBreakModeWordWrap;
     [self.view addSubview:lbl4];
 
     
@@ -228,6 +242,15 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(BtnPress:)];
     self.navigationItem.rightBarButtonItem.tag = 1;
     [self Start];
+    
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh-CN"];
+    [dateFormatter setDateFormat: @"yyyy.MM.dd EEEE"];
+    NSDate *today = [NSDate date];
+    NSLog(@"%@",today);
+    
+    
     // Do any additional setup after loading the view from its nib.
 }
 
