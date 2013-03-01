@@ -9,6 +9,7 @@
 #import "YBAutomaticViewController.h"
 #import "YBUtils.h"
 #import "YBWeatherQuery.h"
+#import "CheckNetwork.h"
 @interface YBAutomaticViewController ()
 {
     NSMutableArray *AllCitys;
@@ -203,7 +204,7 @@
     
     
     
-    UIFont *font = [UIFont systemFontOfSize:13.0];
+   
     UIColor *background = [UIColor clearColor];
     UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 210, 70, 60)];
     img1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 150, 60, 60)];
@@ -278,10 +279,19 @@
     
     main = [UIScreen mainScreen].bounds;
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
-    
     self.lblDegree.hidden = YES;
     self.AviLoadding.frame = CGRectMake(10, 10, 20, 20);
     self.AviLoadding.hidesWhenStopped = YES;
+    
+    
+    if (![CheckNetwork isExistenceNetwork]) {
+        [self.AviLoadding stopAnimating];
+      
+        [self LoadError:@"No network connection"];
+        return;
+    }
+    
+    
     [self.AviLoadding startAnimating];
    
     

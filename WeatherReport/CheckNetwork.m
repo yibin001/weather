@@ -18,22 +18,17 @@
     switch ([r currentReachabilityStatus]) {
         case NotReachable:
 			isExistenceNetwork=FALSE;
-            //   NSLog(@"娌℃湁缃戠粶");
+            
             break;
         case ReachableViaWWAN:
 			isExistenceNetwork=TRUE;
-            //   NSLog(@"姝ｅ湪浣跨敤3G缃戠粶");
-            break;
+                       break;
         case ReachableViaWiFi:
 			isExistenceNetwork=TRUE;
-            //  NSLog(@"姝ｅ湪浣跨敤wifi缃戠粶");
+           
             break;
     }
-//	if (!isExistenceNetwork) {
-//		UIAlertView *myalert = [[UIAlertView alloc] initWithTitle:@"璀﹀憡" message:@"缃戠粶涓嶅瓨鍦�" delegate:self cancelButtonTitle:@"纭" otherButtonTitles:nil,nil];
-//		[myalert show];
-//		[myalert release];
-//	}
+
 	return isExistenceNetwork;
 }
 @end
