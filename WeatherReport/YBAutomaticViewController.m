@@ -18,6 +18,8 @@
     CGRect main;
     NSDictionary *weather_info;
     NSDictionary *addr_info;
+    BOOL IsLoad;
+    UIFont *font;
 }
 @end
 
@@ -37,7 +39,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        font = [UIFont systemFontOfSize:13.0];
        
     }
     return self;
@@ -64,7 +66,7 @@
         }
         for (NSDictionary *city in AllCitys) {
             if([locality hasPrefix:city[@"cityname"]]){
-
+                
                 [self.locationManager stopUpdatingLocation];
                 currCity = city;
                 YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
@@ -72,6 +74,7 @@
 
                 
                 [self LoaddingWeather];
+                IsLoad = YES;
                 break;
             }
         }
@@ -110,6 +113,11 @@
 }
 
 -(void)LoaddingWeather{
+    
+    
+    
+    if(IsLoad) return;
+    
     if (!currCity) {
         [self LoadError:@"Unable load GPS"];
         return;
@@ -119,47 +127,68 @@
     
     NSString *imgName = weather_info[@"sk2"][@"img1"];
     imgName = [imgName stringByReplacingOccurrencesOfString:@"b" withString:@"a"];
-     imgName = [imgName stringByReplacingOccurrencesOfString:@"c" withString:@"a"];
-     imgName = [imgName stringByReplacingOccurrencesOfString:@"d" withString:@"a"];
-     imgName = [imgName stringByReplacingOccurrencesOfString:@"gif" withString:@"png"];
-    NSLog(@"%@",imgName);
-    self.imgWeather.frame = CGRectMake(40, 10, 80, 80);
+    imgName = [imgName stringByReplacingOccurrencesOfString:@"c" withString:@"a"];
+    imgName = [imgName stringByReplacingOccurrencesOfString:@"d" withString:@"a"];
+    imgName = [imgName stringByReplacingOccurrencesOfString:@"n" withString:@"a"];
+    imgName = [imgName stringByReplacingOccurrencesOfString:@"gif" withString:@"png"];
+    
+    self.imgWeather.frame = CGRectMake(40, 10, 100, 100);
     self.imgWeather.image = [UIImage imageNamed:imgName];
-    self.lblMinMaxTemp.frame = CGRectMake(30, 70, 100, 30);
-    //self.lblMinMaxTemp.backgroundColor = [UIColor redColor];
+    self.lblMinMaxTemp.frame = CGRectMake(40, 80, 100, 30);
+ 
     
-    self.lblTemp.frame = CGRectMake(140, 10, 120, 100);
-    self.lblTemp.font = [UIFont fontWithName:@"verdana" size:80.0];
-    //self.lblTemp.backgroundColor = [UIColor blueColor];
+    self.lblTemp.frame = CGRectMake(150, 10, 100, 100);
+    self.lblTemp.font = [UIFont fontWithName:@"verdana" size:95.0];
     
-    self.lblDegree.frame = CGRectMake(250, 20, 20, 20);
+    self.lblWeather.text = weather_info[@"sk2"][@"weather"];
+    self.lblWeather.font = font;
+    self.lblUpdateTime.font = font;
+    self.lblSD.text = [NSString stringWithFormat:@"湿度:%@", weather_info[@"sk"][@"SD"]];
+    self.lblSD.font = font;
+    self.lblUpdateTime.font = font;
+    self.lblDegree.frame = CGRectMake(220, 20, 20, 20);
     self.lblDegree.hidden = NO;
+    self.lblDegree.textAlignment = NSTextAlignmentLeft;
     
     NSString *cityname = weather_info[@"all"][@"city"];
     
     if(addr_info){
         if([addr_info[@"status"] isEqualToString:@"OK"]){
             NSArray *arr = addr_info[@"results"];
-            if(arr.count>2)
+            if(arr.count>3)
             {
-                NSDictionary *dict = arr[arr.count-2];
+                NSDictionary *dict = arr[arr.count-4];
                 cityname =  dict[@"formatted_address"];
+                
             }
         }
     }
-    self.lblCityName.text = cityname;
+    NSLog(@"%@",cityname);
+    self.lblCityName.text = [NSString stringWithFormat:@"当前位置:%@",cityname];
+    self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-68, 20, 20);
+    self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
+    CGRect iconRect = self.imgLocationIcon.frame;
+    iconRect.origin.x+=25;
+    iconRect.size.width = 200.0;
+    
+    self.lblCityName.frame = iconRect;
+    self.lblCityName.textAlignment = NSTextAlignmentLeft;
+    [self.lblCityName sizeToFit];
+    self.lblCityName.font = [UIFont systemFontOfSize:12.0];
+    
     
     int min = MIN([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
     int max = MAX([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
     self.lblMinMaxTemp.text= [NSString stringWithFormat:@"%d / %d",min,max];
     self.lblTemp.text=weather_info[@"sk"][@"temp"];
 
-    self.lblUpdateTime.text = [NSString stringWithFormat:@"更新于%@ %@",weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
+    self.lblUpdateTime.text = [NSString stringWithFormat:@"更新于%@ %@", weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
     self.lblUpdateTime.font = [UIFont systemFontOfSize:12.0];
-    self.lblUpdateTime.frame = CGRectMake((main.size.width-200)/2, main
+    self.lblUpdateTime.textColor = [UIColor grayColor];
+    self.lblUpdateTime.frame = CGRectMake(10, main
                                           .size.height-50-46, 200, 20);
     
-    [self _initLabel];
+        [self _initLabel];
     
     [self.AviLoadding stopAnimating];
     
@@ -169,48 +198,75 @@
 
 
 -(void)_initLabel{
+    UIImageView *img1,*img2,*img3,*img4;
+    
+    
+    
+    
     UIFont *font = [UIFont systemFontOfSize:13.0];
     UIColor *background = [UIColor clearColor];
-    UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 150, 70, 40)];
+    UILabel *lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 210, 70, 60)];
+    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 150, 60, 60)];
+    img1.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img1"]]];
+    img1.contentMode = UIViewContentModeCenter;
+    [self.view addSubview:img1];
+    
     lbl1.textAlignment = NSTextAlignmentCenter;
     lbl1.font = font;
-    lbl1.text = [NSString stringWithFormat:@"%@\n%@",  @"今天",weather_info[@"all"][@"weather1"]];
+    lbl1.text = [NSString stringWithFormat:@"%@\n%@\n%@",  @"今天",weather_info[@"all"][@"weather1"],weather_info[@"all"][@"temp1"]];
     
     lbl1.backgroundColor = background;
     [self.view addSubview:lbl1];
     lbl1.numberOfLines = 0;
     lbl1.lineBreakMode = UILineBreakModeWordWrap;
     
-    UILabel *lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 150, 70, 40)];
+    
+    
+    
+    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(90, 150, 60, 60)];
+    img2.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img3"]]];
+    img2.contentMode = UIViewContentModeCenter;
+    [self.view addSubview:img2];
+    
+    UILabel *lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 210, 70, 60)];
     lbl2.textAlignment = NSTextAlignmentCenter;
     
-    lbl2.text = [NSString stringWithFormat:@"%@\n%@",@"明天", weather_info[@"all"][@"weather2"] ];
+    lbl2.text = [NSString stringWithFormat:@"%@\n%@\n%@",@"明天", weather_info[@"all"][@"weather2"],weather_info[@"all"][@"temp2"] ];
     lbl2.backgroundColor = background;
     lbl2.font = font;
     lbl2.numberOfLines = 0;
     lbl2.lineBreakMode = UILineBreakModeWordWrap;
     [self.view addSubview:lbl2];
     
-    UILabel *lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 150, 70, 40)];
+    UILabel *lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 210, 70, 60)];
     lbl3.textAlignment = NSTextAlignmentCenter;
-    lbl3.text = [NSString stringWithFormat:@"%@\n%@",@"后天", weather_info[@"all"][@"weather3"] ];
+    lbl3.text = [NSString stringWithFormat:@"%@\n%@\n%@",@"后天", weather_info[@"all"][@"weather3"],weather_info[@"all"][@"temp3"] ];
     
     lbl3.backgroundColor = background;
     lbl3.font = font;
     lbl3.numberOfLines = 0;
     lbl3.lineBreakMode = UILineBreakModeWordWrap;
     [self.view addSubview:lbl3];
+    
+    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(170, 150, 60, 60)];
+    img3.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img5"]]];
+    img3.contentMode = UIViewContentModeCenter;
+    [self.view addSubview:img3];
+    
 
     
-    UILabel *lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 150, 70, 40)];
+    UILabel *lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 210, 70, 60)];
     lbl4.textAlignment = NSTextAlignmentCenter;
-    lbl4.text = weather_info[@"all"][@"weather4"];// @"day 1";
+    lbl4.text = [NSString stringWithFormat:@"%@\n%@\n%@",@"大后天", weather_info[@"all"][@"weather4"],weather_info[@"all"][@"temp4"] ];
     lbl4.backgroundColor = background;
     lbl4.font = font;
     lbl4.numberOfLines = 0;
     lbl4.lineBreakMode = UILineBreakModeWordWrap;
     [self.view addSubview:lbl4];
-
+    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(250, 150, 60, 60)];
+    img4.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img7"]]];
+    img4.contentMode = UIViewContentModeCenter;
+    [self.view addSubview:img4];
     
    
 }
@@ -218,8 +274,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    IsLoad = NO;
+    
     main = [UIScreen mainScreen].bounds;
-    self.view.backgroundColor = [UIColor colorWithRed:77.0/255 green:194.0/255 blue:212.0/255 alpha:1.0];// [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     self.lblDegree.hidden = YES;
     self.AviLoadding.frame = CGRectMake(10, 10, 20, 20);
@@ -239,24 +297,26 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
     self.navigationItem.leftBarButtonItem.tag = 0;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(BtnPress:)];
-    self.navigationItem.rightBarButtonItem.tag = 1;
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(BtnPress:)];
+//    self.navigationItem.rightBarButtonItem.tag = 1;
     [self Start];
     
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh-CN"];
-    [dateFormatter setDateFormat: @"yyyy.MM.dd EEEE"];
+
     NSDate *today = [NSDate date];
-    NSLog(@"%@",today);
-    
-    
+
+    NSCalendar*       calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents* components =  [calendar components:(NSDayCalendarUnit | NSWeekdayCalendarUnit) fromDate:today];
+    components.day = 3;
+    NSDate* newDate = [calendar dateByAddingComponents: components toDate: today options: 0];
+    NSLog(@"%d",components.weekday);
     // Do any additional setup after loading the view from its nib.
 }
 
 -(void)BtnPress:(UIBarItem *)sender{
     if(sender.tag==0)
     {
+        IsLoad = NO;
+        [self.AviLoadding startAnimating];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         [self performSelector:@selector(LoaddingWeather) withObject:self afterDelay:1];
     }
@@ -279,6 +339,9 @@
     [self setLblCityName:nil];
     [self setLblUpdateTime:nil];
     [self setLblDegree:nil];
+    [self setImgLocationIcon:nil];
+    [self setLblWeather:nil];
+    [self setLblSD:nil];
     [super viewDidUnload];
 }
 @end

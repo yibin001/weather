@@ -22,7 +22,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblCityName;
 @property (weak, nonatomic) IBOutlet UILabel *lblUpdateTime;
 @property (weak, nonatomic) IBOutlet UILabel *lblDegree;
+@property (weak, nonatomic) IBOutlet UIImageView *imgLocationIcon;
+@property (weak, nonatomic) IBOutlet UILabel *lblWeather;
 
+@property (weak, nonatomic) IBOutlet UILabel *lblSD;
 
 /*
 @property (weak,nonatomic)UIImage *imgDay0;
