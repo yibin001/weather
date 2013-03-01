@@ -1,4 +1,4 @@
-![ALT](./WeatherReport/Icon@2x.png "Weather")
+![ALT](./WeatherReport/Resource/icon/a0@2x.png "Weather")
 
 
 iOS上的简易天气预报
