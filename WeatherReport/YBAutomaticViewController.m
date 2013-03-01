@@ -143,6 +143,11 @@
     
     self.lblWeather.text = weather_info[@"sk2"][@"weather"];
     self.lblWeather.font = font;
+    
+    CGRect weatherRect = self.lblWeather.frame;
+    weatherRect.origin.y -=2;
+    self.lblWeather.frame = weatherRect;
+    
     self.lblUpdateTime.font = font;
     self.lblSD.text = [NSString stringWithFormat:@"湿度:%@", weather_info[@"sk"][@"SD"]];
     self.lblSD.font = font;
