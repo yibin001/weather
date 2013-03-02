@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-
-@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate>
-
+#import "MBProgressHUD.h"
+@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,MBProgressHUDDelegate>
+{
+    MBProgressHUD *HUD;
+}
 @property (strong,nonatomic) CLLocationManager *locationManager;
 @property  CLLocationCoordinate2D CurrentLocaltion;
 
@@ -25,19 +27,4 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgLocationIcon;
 @property (weak, nonatomic) IBOutlet UILabel *lblWeather;
 
-@property (weak, nonatomic) IBOutlet UILabel *lblSD;
-
-/*
-@property (weak,nonatomic)UIImage *imgDay0;
-@property (weak,nonatomic)UIImage *imgDay1;
-@property (weak,nonatomic)UIImage *imgDay2;
-@property (weak,nonatomic)UIImage *imgDay3;
-
-
-
-@property (weak,nonatomic)UILabel *lblDay0;
-@property (weak,nonatomic)UILabel *lblDay1;
-@property (weak,nonatomic)UILabel *lblDay2;
-@property (weak,nonatomic)UILabel *lblDay3;
- */
 @end

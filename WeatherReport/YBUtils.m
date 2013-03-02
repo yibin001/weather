@@ -10,6 +10,8 @@
 @interface YBUtils()
 {
     NSDictionary *dict;
+    NSDictionary *weekday;
+    NSString *city_archive_path;
 }
 @end
 
@@ -22,6 +24,9 @@
     if (self) {
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"city" ofType:@"plist"];
         dict =[NSDictionary dictionaryWithContentsOfFile:plistPath];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        city_archive_path = [documentsDirectory stringByAppendingString:@"city.archive"];
     }
     return self;
 }
@@ -40,36 +45,60 @@
 
 -(void)LoadFavoriteCitys{
   
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *file = [documentsDirectory stringByAppendingString:@"city.archive"];
     
-    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+    
+    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:city_archive_path];
 }
 
 -(void)SaveFavoriteCitys:(NSDictionary *)city{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *file = [documentsDirectory stringByAppendingString:@"city.archive"];
-    
-    _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+        _FavoriteCity = [NSKeyedUnarchiver unarchiveObjectWithFile:city_archive_path];
     if (_FavoriteCity == nil) {
         _FavoriteCity = [[NSMutableArray alloc] init];
     }
  
     [_FavoriteCity addObject:city];
     
-    [NSKeyedArchiver archiveRootObject:_FavoriteCity toFile:file];
+    [NSKeyedArchiver archiveRootObject:_FavoriteCity toFile:city_archive_path];
    
 }
 
 -(void)Save
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *file = [documentsDirectory stringByAppendingString:@"city.archive"];
-    [NSKeyedArchiver archiveRootObject:self.FavoriteCity toFile:file];
+   
+    [NSKeyedArchiver archiveRootObject:self.FavoriteCity toFile:city_archive_path];
 
+}
+
+
+-(NSString *)GetChineseWeekDay:(NSDate *)date{
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDateComponents *weekdayComponents = [gregorian components:(NSDayCalendarUnit | NSWeekdayCalendarUnit) fromDate:date];
+    NSInteger _weekday = [weekdayComponents weekday];
+    switch (_weekday) {
+        case 1:
+            return @"周日";
+            break;
+        case 2:
+            return @"周一";
+            break;
+        case 3:
+            return @"周二";
+            break;
+        case 4:
+            return @"周三";
+            break;
+        case 5:
+            return @"周四";
+            break;
+        case 6:
+            return @"周五";
+            break;
+            
+        default:
+            break;
+    }
+    return @"周六";
 }
 
 @end

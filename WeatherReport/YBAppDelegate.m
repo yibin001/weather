@@ -7,10 +7,7 @@
 //
 
 #import "YBAppDelegate.h"
-#import "YBMainViewController.h"
-#import "YBCityViewController.h"
-#import "YBCityListViewController.h"
-#import "YBDefaultViewController.h"
+
 #import "YBAutomaticViewController.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
@@ -28,41 +25,6 @@
     return YES;
 
     
-    
-    YBMainViewController *mainView = [[YBMainViewController alloc] initWithNibName:nil bundle:nil];
-    mainView.title = @"天气";
-    UITabBarItem *first = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFeatured tag:1];
-    
-    mainView.tabBarItem = first;
-    
-    
-    YBDefaultViewController *defaultView = [[YBDefaultViewController alloc ] initWithNibName:nil bundle:nil];
-    defaultView.title=@"关注";
-    defaultView.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemFavorites tag:3];
-    
-    
-    YBCityListViewController *list = [[YBCityListViewController alloc] initWithStyle:UITableViewStylePlain];
-    list.title=@"我的收藏";
-    
-    UITabBarItem *second = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemBookmarks tag:2];
-    list.tabBarItem = second;
-    
-    
-    
-     nav = [[UINavigationController alloc] initWithRootViewController:list];
-    
-    
-    
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.delegate = self;
-    self.tabBarController.viewControllers = @[mainView,nav,defaultView];
-    
-    
-    self.window.rootViewController = self.tabBarController;// mainView;
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

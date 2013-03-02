@@ -16,4 +16,5 @@
 -(void) LoadFavoriteCitys;
 -(void) SaveFavoriteCitys :(NSDictionary *)city;
 -(void) Save;
+-(NSString *)GetChineseWeekDay:(NSDate *)date;
 @end
