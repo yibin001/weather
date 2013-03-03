@@ -77,22 +77,22 @@
     NSInteger _weekday = [weekdayComponents weekday];
     switch (_weekday) {
         case 1:
-            return @"周日";
+            return @"星期日";
             break;
         case 2:
-            return @"周一";
+            return @"星期一";
             break;
         case 3:
-            return @"周二";
+            return @"星期二";
             break;
         case 4:
-            return @"周三";
+            return @"星期三";
             break;
         case 5:
-            return @"周四";
+            return @"星期四";
             break;
         case 6:
-            return @"周五";
+            return @"星期五";
             break;
             
         default:

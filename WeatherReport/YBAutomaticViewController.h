@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblTemp;
 @property (weak, nonatomic) IBOutlet UIImageView *imgWeather;
 @property (weak, nonatomic) IBOutlet UILabel *lblMinMaxTemp;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *AviLoadding;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblCityName;
 @property (weak, nonatomic) IBOutlet UILabel *lblUpdateTime;
 @property (weak, nonatomic) IBOutlet UILabel *lblDegree;
