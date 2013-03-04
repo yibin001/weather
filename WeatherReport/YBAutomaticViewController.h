@@ -27,4 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgLocationIcon;
 @property (weak, nonatomic) IBOutlet UILabel *lblWeather;
 
+@property (weak, nonatomic) IBOutlet UILabel *lblIntro;
+@property (weak, nonatomic) IBOutlet UIButton *btnInfo;
+
+
 @end

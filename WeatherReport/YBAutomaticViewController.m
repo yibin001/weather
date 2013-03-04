@@ -43,7 +43,7 @@
 @synthesize lblDegree = _lblDegree;
 @synthesize locationManager = _locationManager;
 @synthesize CurrentLocaltion = _CurrentLocaltion;
-
+@synthesize lblIntro = _lblIntro;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -183,7 +183,7 @@
     
     self.lblUpdateTime.font = font;
     
-    
+
     
     self.lblUpdateTime.font = font;
     self.lblDegree.frame = CGRectMake(245, 20, 20, 20);
@@ -232,9 +232,22 @@
     self.lblUpdateTime.textAlignment = NSTextAlignmentLeft;
     self.lblUpdateTime.frame = CGRectMake(10, main.size.height-50-46, 200, 20);
     
+    
+    
+    self.btnInfo.frame = CGRectMake(10, 300, 20, 20);
+    self.lblIntro.font = font;
+    self.lblIntro.text = weather_info[@"all"][@"index_d"];
+    self.lblIntro.frame = CGRectMake(30, 300, main.size.width-40, 60);
+    self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
+    
+    NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
+    
+    CGSize size = {main.size.width-40,2000};
+    CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    self.lblIntro.frame = CGRectMake(30,300, labelsize.width, labelsize.height);
     [self Render4Days];
     
-    
+    self.btnInfo.hidden = NO;
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
@@ -336,7 +349,7 @@
     
     
     self.lblDegree.hidden = YES;
-       
+    self.btnInfo.hidden = YES;
     if (![CheckNetwork isExistenceNetwork]) {
         [self LoadError:@"No network connection"];
         return;
@@ -393,6 +406,8 @@
     [self setImgLocationIcon:nil];
     [self setLblWeather:nil];
     
+    [self setLblIntro:nil];
+    [self setBtnInfo:nil];
     [super viewDidUnload];
 }
 @end
