@@ -98,7 +98,7 @@
         default:
             break;
     }
-    return @"周六";
+    return @"星期六";
 }
 
 @end
