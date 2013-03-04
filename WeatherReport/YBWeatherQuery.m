@@ -15,15 +15,34 @@
 
 #import "YBWeatherQuery.h"
 #import <MapKit/MapKit.h>
+#import "AFJSONRequestOperation.h"
+
+@interface  YBWeatherQuery()
+{
+    NSDictionary *location;
+}
+@end
+
 @implementation YBWeatherQuery
+
+
 
 
 -(NSDictionary *)QueryAddress:(CLLocationDegrees )lat lng:(CLLocationDegrees )lng{
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:GOOGLE_MAP_API,lat,lng]];
-    
+        
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+//        
+//    }  failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+//        NSLog(@"%@",error);
+//    }];
+//    [operation start];
+
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     return json;
+    
 }
 
 -(id)initWithCityCode:(NSString *)_cityCode{
@@ -36,6 +55,9 @@
     NSDictionary *weather_info = nil;
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:SK_URL,cityCode]];
+    
+      
+    
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *sk =   json[@"weatherinfo"];

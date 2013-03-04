@@ -107,6 +107,17 @@
     
 }
 
+-(void)LoadLocalWeatherData{
+    NSString *data_file_path;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    data_file_path = [documentsDirectory stringByAppendingString:@"local.bin"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:data_file_path]) {
+        weather_info = [NSDictionary dictionaryWithContentsOfFile:data_file_path];
+    }
+    
+}
+
 -(void)LoadError:(NSString *)message{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
    
@@ -215,7 +226,7 @@
     self.lblMinMaxTemp.text= [NSString stringWithFormat:@"%d℃ / %d℃",min,max];
     
 
-    self.lblUpdateTime.text = [NSString stringWithFormat:@"更新于%@ %@", weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
+    self.lblUpdateTime.text = [NSString stringWithFormat:@"发布于%@ %@", weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
     self.lblUpdateTime.font = [UIFont systemFontOfSize:12.0];
     self.lblUpdateTime.textColor = [UIColor grayColor];
     self.lblUpdateTime.textAlignment = NSTextAlignmentLeft;
