@@ -17,5 +17,5 @@
 -(void) SaveFavoriteCitys :(NSDictionary *)city;
 -(void) Save;
 -(NSString *)GetChineseWeekDay:(NSDate *)date;
-+(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate;
++(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate withFormat:(NSString *)format;
 @end

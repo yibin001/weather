@@ -12,6 +12,9 @@
 {
     NSString *cityCode;
 }
+@property (strong,nonatomic) NSDictionary *google_location;
+
+
 -(id)initWithCityCode:(NSString *)_cityCode;
 -(NSDictionary *)QueryWeather;
 -(NSDictionary *)QueryAddress:(CLLocationDegrees)lat lng:(CLLocationDegrees)lng;

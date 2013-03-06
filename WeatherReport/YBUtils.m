@@ -101,11 +101,11 @@
     return @"星期六";
 }
 
-//标准时间格式化为中国时间字符串
-+(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate{
++(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate withFormat:(NSString *)format
+{
     NSDateFormatter *formatter    =  [[NSDateFormatter alloc] init];
     [formatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar]];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formatter setDateFormat:format];
     [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Shanghai"]];
     NSString *chinaDate = [formatter stringFromDate:localDate];
     return chinaDate;

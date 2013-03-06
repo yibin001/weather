@@ -226,7 +226,8 @@
     self.lblMinMaxTemp.text= [NSString stringWithFormat:@"%d℃ / %d℃",min,max];
     
 
-    self.lblUpdateTime.text = [NSString stringWithFormat:@"发布于%@ %@", weather_info[@"all"][@"date_y"], weather_info[@"sk"][@"time"]];
+
+    self.lblUpdateTime.text = [NSString stringWithFormat:@"发布于%@ %@", [YBUtils convertChinaTimeStringByiOSDate:[NSDate date] withFormat:@"yyyy-MM-dd"], weather_info[@"sk"][@"time"]];
     self.lblUpdateTime.font = [UIFont systemFontOfSize:12.0];
     self.lblUpdateTime.textColor = [UIColor grayColor];
     self.lblUpdateTime.textAlignment = NSTextAlignmentLeft;
@@ -237,7 +238,7 @@
     self.btnInfo.frame = CGRectMake(10, 300, 20, 20);
     self.lblIntro.font = font;
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
-    self.lblIntro.frame = CGRectMake(30, 300, main.size.width-40, 60);
+    self.lblIntro.frame = CGRectMake(35, 300, main.size.width-40, 60);
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
@@ -304,7 +305,7 @@
     img2.contentMode = UIViewContentModeCenter;
     lbl2.textAlignment = NSTextAlignmentCenter;
     
-    NSString *weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
+    NSString *weekday = @"明天";// [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
     lbl2.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"weather2"],weather_info[@"all"][@"temp2"] ];
    
     lbl2.font = font;
@@ -336,7 +337,7 @@
 {
     [super viewDidLoad];
     main = [UIScreen mainScreen].bounds;
-    self.title = @"Weather";
+    self.title = @"简约天气";
     IsLoad = NO;
     loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     loadding.frame = CGRectMake((main.size.width-20)/2, (main.size.height-40)/2, 20, 20);
@@ -347,6 +348,7 @@
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     
+    //self.navigationController.navigationBarHidden = YES;
     
     self.lblDegree.hidden = YES;
     self.btnInfo.hidden = YES;

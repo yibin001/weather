@@ -30,7 +30,6 @@
 
 -(NSDictionary *)QueryAddress:(CLLocationDegrees )lat lng:(CLLocationDegrees )lng{
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:GOOGLE_MAP_API,lat,lng]];
-        
 //    NSURLRequest *request = [NSURLRequest requestWithURL:url];
 //    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
 //        
@@ -38,7 +37,8 @@
 //        NSLog(@"%@",error);
 //    }];
 //    [operation start];
-
+//   
+//    NSLog(@"%@",self.google_location);
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     return json;
