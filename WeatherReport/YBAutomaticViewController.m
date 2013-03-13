@@ -11,10 +11,13 @@
 #import "YBWeatherQuery.h"
 #import "CheckNetwork.h"
 #import "MBProgressHUD.h"
+#import "POAPinyin.h"
 
+#define ISDEBUG YES
+#define DEBUG_CITY_CODE @"101021000"
+#define DEFAULT_CITY_CODE @"101010300"
+#define DEFAULT_CITY_NAME @"beijing"
 
-#define ISDEBUG YES;
-#define DEBUG_CITY_CODE @"101021000";
 
 @interface YBAutomaticViewController ()
 {
@@ -69,29 +72,32 @@
         if (locality ==nil) {
             locality = place.subLocality;
         }
+        
+        NSLog(@"%@",locality);
+        
         if(locality==nil)
         {
-            [self LoadError:@"Unable load GPS"];
-            return;
+            currCity = @{@"cityname":DEFAULT_CITY_NAME, @"citycode":DEFAULT_CITY_CODE};
         }
-        for (NSDictionary *city in AllCitys) {
-            if([locality hasPrefix:city[@"cityname"]]){
-                
-                [self.locationManager stopUpdatingLocation];
-                currCity = city;
-                YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
-                addr_info = [query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
-
-                
-                [self LoaddingWeather];
-                IsLoad = YES;
-                break;
+        else
+        {
+            for (NSDictionary *city in AllCitys) {
+                if([locality hasPrefix:city[@"cityname"]]){
+                    [self.locationManager stopUpdatingLocation];
+                    currCity = city;
+                    break;
+                    
+                }
             }
+            
+            YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
+            addr_info = [query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+            [self LoaddingWeather];
+            IsLoad = YES;
         }
-        if(currCity==nil)
-                [self LoadError:@"Unable load your location"];
-        
+        [self.locationManager stopUpdatingLocation];
     }];
+    
 }
 
 
@@ -122,7 +128,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
    
     if(!lblError){
-        lblError = [[UILabel alloc] initWithFrame:CGRectMake((main.size.width-200)/2, (main.size.height-20)/2, 200, 20)];
+        lblError = [[UILabel alloc] initWithFrame:CGRectMake(0, (main.size.height-20)/2, main.size.width, 20)];
         
         lblError.backgroundColor = [UIColor clearColor];
         lblError.textAlignment = NSTextAlignmentCenter;
@@ -140,7 +146,7 @@
     
     
     if (!currCity) {
-        [self LoadError:@"Unable load GPS"];
+        [self LoadError:@"对不起，只支持中国地区天气预报"];
         return;
     }
     if(IsLoad) return;
@@ -295,7 +301,7 @@
    
     img1.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img1"]]];
     img1.contentMode = UIViewContentModeCenter;
-    lbl1.text = [NSString stringWithFormat:@"%@\n%@\n%@",  @"今天",weather_info[@"all"][@"weather1"],weather_info[@"all"][@"temp1"]];
+    lbl1.text = [NSString stringWithFormat:@"%@\n%@",  @"今天",weather_info[@"all"][@"temp1"]];
    
     lbl1.numberOfLines = 0;
     lbl1.lineBreakMode = UILineBreakModeWordWrap;
@@ -306,14 +312,14 @@
     lbl2.textAlignment = NSTextAlignmentCenter;
     
     NSString *weekday = @"明天";// [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
-    lbl2.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"weather2"],weather_info[@"all"][@"temp2"] ];
+    lbl2.text = [NSString stringWithFormat:@"%@\n%@",weekday, weather_info[@"all"][@"temp2"] ];
    
     lbl2.font = font;
     lbl2.numberOfLines = 0;
     lbl2.lineBreakMode = UILineBreakModeWordWrap;
     weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:2*24*60*60]];
     lbl3.textAlignment = NSTextAlignmentCenter;
-    lbl3.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"weather3"],weather_info[@"all"][@"temp3"] ];
+    lbl3.text = [NSString stringWithFormat:@"%@\n%@",weekday,weather_info[@"all"][@"temp3"] ];
    
     lbl3.font = font;
     lbl3.numberOfLines = 0;
@@ -322,7 +328,7 @@
     img3.contentMode = UIViewContentModeCenter;
     weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:3*24*60*60]];
     lbl4.textAlignment = NSTextAlignmentCenter;
-    lbl4.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"weather4"],weather_info[@"all"][@"temp4"] ];
+    lbl4.text = [NSString stringWithFormat:@"%@\n%@",weekday, weather_info[@"all"][@"temp4"] ];
    
     lbl4.font = font;
     lbl4.numberOfLines = 0;

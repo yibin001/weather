@@ -65,6 +65,7 @@
 		C93ED72816E4BFE600D1890E /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71D16E4BFE600D1890E /* AFURLConnectionOperation.m */; };
 		C93ED72916E4BFE600D1890E /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71F16E4BFE600D1890E /* AFXMLRequestOperation.m */; };
 		C93ED72A16E4BFE600D1890E /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED72116E4BFE600D1890E /* UIImageView+AFNetworking.m */; };
+		C948E07E16E8CB3D000589FB /* POAPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = C948E07D16E8CB3D000589FB /* POAPinyin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C94B0F3816E0E56600201899 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = C94B0F3616E0E56600201899 /* location.png */; };
 		C94B0F3916E0E56600201899 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C94B0F3716E0E56600201899 /* location@2x.png */; };
 		C972BF2F16E0EEC5008706EC /* a0s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF1116E0EEC5008706EC /* a0s@2x.png */; };
@@ -187,6 +188,8 @@
 		C93ED71F16E4BFE600D1890E /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		C93ED72016E4BFE600D1890E /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		C93ED72116E4BFE600D1890E /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		C948E07C16E8CB3D000589FB /* POAPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POAPinyin.h; sourceTree = "<group>"; };
+		C948E07D16E8CB3D000589FB /* POAPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POAPinyin.m; sourceTree = "<group>"; };
 		C94B0F3616E0E56600201899 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		C94B0F3716E0E56600201899 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
 		C972BF1116E0EEC5008706EC /* a0s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a0s@2x.png"; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 		C907122016CFD92000ED0062 /* WeatherReport */ = {
 			isa = PBXGroup;
 			children = (
+				C948E07B16E8CB3D000589FB /* allPinyin */,
 				C93ED70E16E4BFE600D1890E /* AFNetworking */,
 				C9F8953916E1917B00440783 /* MBProgressHUD.h */,
 				C9F8953A16E1917B00440783 /* MBProgressHUD.m */,
@@ -362,6 +366,15 @@
 				C93ED72116E4BFE600D1890E /* UIImageView+AFNetworking.m */,
 			);
 			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		C948E07B16E8CB3D000589FB /* allPinyin */ = {
+			isa = PBXGroup;
+			children = (
+				C948E07C16E8CB3D000589FB /* POAPinyin.h */,
+				C948E07D16E8CB3D000589FB /* POAPinyin.m */,
+			);
+			path = allPinyin;
 			sourceTree = "<group>";
 		};
 		C99A7E6E16D0F723002B7194 /* icon */ = {
@@ -597,6 +610,7 @@
 				C93ED72816E4BFE600D1890E /* AFURLConnectionOperation.m in Sources */,
 				C93ED72916E4BFE600D1890E /* AFXMLRequestOperation.m in Sources */,
 				C93ED72A16E4BFE600D1890E /* UIImageView+AFNetworking.m in Sources */,
+				C948E07E16E8CB3D000589FB /* POAPinyin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
