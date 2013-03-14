@@ -33,6 +33,7 @@
     UIActivityIndicatorView *loadding;
     UIImageView *img1,*img2,*img3,*img4;
     UILabel *lbl1,*lbl2,*lbl3,*lbl4;
+    BOOL IsFoundCity;
 }
 @end
 
@@ -58,6 +59,12 @@
     return self;
 }
 
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    [self LoadError:@"定位服务好像没有开启哦~"];
+    
+}
+
+
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     
     
@@ -73,11 +80,12 @@
             locality = place.subLocality;
         }
         
-        NSLog(@"%@",locality);
+        //NSLog(@"%@",locality);
         
         if(locality==nil)
         {
             currCity = @{@"cityname":DEFAULT_CITY_NAME, @"citycode":DEFAULT_CITY_CODE};
+            IsFoundCity = NO;
         }
         else
         {
@@ -88,6 +96,14 @@
                     break;
                     
                 }
+            }
+            
+            
+            if(currCity==nil)
+            {
+                currCity = @{@"cityname":DEFAULT_CITY_NAME, @"citycode":DEFAULT_CITY_CODE};
+                [self.locationManager stopUpdatingLocation];
+                IsFoundCity = NO;
             }
             
             YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
@@ -102,8 +118,7 @@
 
 
 -(void)Start{
-    
-   
+
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = 1000.0f;
@@ -128,8 +143,9 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
    
     if(!lblError){
-        lblError = [[UILabel alloc] initWithFrame:CGRectMake(0, (main.size.height-20)/2, main.size.width, 20)];
-        
+        lblError = [[UILabel alloc] initWithFrame:CGRectMake(0, (main.size.height-20-46)/2, main.size.width, 20)];
+        lblError.numberOfLines = 0;
+        lblError.lineBreakMode = UILineBreakModeWordWrap;
         lblError.backgroundColor = [UIColor clearColor];
         lblError.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:lblError];
@@ -146,7 +162,8 @@
     
     
     if (!currCity) {
-        [self LoadError:@"对不起，只支持中国地区天气预报"];
+        [self LoadError:@"对不起，只支持中国地区天气预报\nSorry only support china area."];
+        self.navigationItem.leftBarButtonItem = nil;
         return;
     }
     if(IsLoad) return;
@@ -255,7 +272,8 @@
     [self Render4Days];
     
     self.btnInfo.hidden = NO;
-    
+    if(!IsFoundCity)
+        self.lblCityName.text = @"Beijing,China";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 }
@@ -265,16 +283,16 @@
     UIColor *background = [UIColor clearColor];
     lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 230, 70, 60)];
     
-    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 180, 60, 60)];
+    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 190, 60, 60)];
     
    
     lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 230, 70, 60)];
-    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(90, 180, 60, 60)];
+    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(90, 190, 60, 60)];
     lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 230, 70, 60)];
 
-    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(170, 180, 60, 60)];
+    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(170, 190, 60, 60)];
     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 230, 70, 60)];
-    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(250, 180, 60, 60)];
+    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(250, 190, 60, 60)];
 
     
     
@@ -311,7 +329,7 @@
     img2.contentMode = UIViewContentModeCenter;
     lbl2.textAlignment = NSTextAlignmentCenter;
     
-    NSString *weekday = @"明天";// [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
+    NSString *weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
     lbl2.text = [NSString stringWithFormat:@"%@\n%@",weekday, weather_info[@"all"][@"temp2"] ];
    
     lbl2.font = font;
@@ -342,8 +360,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    IsFoundCity = YES;
     main = [UIScreen mainScreen].bounds;
     self.title = @"简约天气";
+    
+   
+    
     IsLoad = NO;
     loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     loadding.frame = CGRectMake((main.size.width-20)/2, (main.size.height-40)/2, 20, 20);
