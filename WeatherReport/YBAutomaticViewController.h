@@ -29,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lblIntro;
 @property (weak, nonatomic) IBOutlet UIButton *btnInfo;
+@property (weak, nonatomic) IBOutlet UILabel *lblPM25;
 
 
 @end

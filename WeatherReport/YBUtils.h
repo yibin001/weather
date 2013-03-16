@@ -18,4 +18,11 @@
 -(void) Save;
 -(NSString *)GetChineseWeekDay:(NSDate *)date;
 +(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate withFormat:(NSString *)format;
+
+
++(NSString *)ConvertPM25ToString : (NSNumber *)Num;
+
++(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap;
+
+
 @end

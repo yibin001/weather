@@ -12,12 +12,14 @@
 #import "CheckNetwork.h"
 #import "MBProgressHUD.h"
 #import "POAPinyin.h"
+#import "AFNetworking/AFJSONRequestOperation.h"
 
 #define ISDEBUG YES
 #define DEBUG_CITY_CODE @"101021000"
 #define DEFAULT_CITY_CODE @"101010300"
 #define DEFAULT_CITY_NAME @"beijing"
 
+#define PM25_API @"http://pm25api.sinaapp.com/index.php?city=%@"
 
 @interface YBAutomaticViewController ()
 {
@@ -34,6 +36,7 @@
     UIImageView *img1,*img2,*img3,*img4;
     UILabel *lbl1,*lbl2,*lbl3,*lbl4;
     BOOL IsFoundCity;
+    NSString *province;
 }
 @end
 
@@ -108,6 +111,7 @@
             
             YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
             addr_info = [query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+            
             [self LoaddingWeather];
             IsLoad = YES;
         }
@@ -154,6 +158,24 @@
     [loadding stopAnimating];
 }
 
+-(void)QueryPM25 :(NSString *)citypy{
+    citypy = [citypy lowercaseString];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:PM25_API,citypy]];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSArray *array = JSON[@"data"];
+        if(array.count > 0)
+        {
+          
+            self.lblPM25.text = [NSString stringWithFormat:@"%@ (pm2.5值 - %@)",[YBUtils ConvertPM25ToString:[NSNumber numberWithInt:[array[0][@"aqi"] intValue]]],array[0][@"aqi"]];
+        }
+        
+    } failure:nil];
+    [operation start];
+}
+
+
 -(void)LoaddingWeather{
     
     
@@ -187,6 +209,9 @@
     self.imgWeather.frame = CGRectMake(60, 5, 100, 100);
     self.imgWeather.image = [UIImage imageNamed:imgName];
   
+    
+    
+    
     self.imgWeather.contentMode = UIViewContentModeCenter;
     self.lblMinMaxTemp.frame = CGRectMake(60, 90, 100, 30);
  
@@ -202,7 +227,13 @@
     self.lblWeather.textAlignment = NSTextAlignmentLeft;
     
     
-    self.lblWeather.frame = CGRectMake(10, 150, 200, 20);
+    self.lblWeather.frame = CGRectMake(10, 140, 200, 20);
+    
+    
+    self.lblPM25.frame = CGRectMake(10, 170, 320, 20);
+    self.lblPM25.font = font;
+    self.lblPM25.textColor = [UIColor redColor];
+
     
     self.lblUpdateTime.font = font;
     
@@ -219,15 +250,23 @@
     NSString *cityname = weather_info[@"all"][@"city"];
     
     if(addr_info){
-        if([addr_info[@"status"] isEqualToString:@"OK"]){
-            NSArray *arr = addr_info[@"results"];
-            if(arr.count>3)
-            {
-                NSDictionary *dict = arr[arr.count-4];
-                cityname =  dict[@"formatted_address"];
-                
-            }
-        }
+        
+        NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
+        cityname = simpleCity[@"address"];
+        
+        province = [POAPinyin convert:simpleCity[@"city"]];
+        [self QueryPM25:province];
+//        if([addr_info[@"status"] isEqualToString:@"OK"]){
+//            NSArray *arr = addr_info[@"results"];
+//            if(arr.count>3)
+//            {
+//                NSDictionary *dict = arr[arr.count-4];
+//                cityname =  dict[@"formatted_address"];
+//                province = arr[arr.count-3][@"address_components"][0][@"short_name"];
+//                province = [POAPinyin convert:province];
+//                [self QueryPM25:province];
+//            }
+//        }
     }
     //NSLog(@"%@",cityname);
     self.lblCityName.text = [NSString stringWithFormat:@"%@",cityname];
@@ -354,7 +393,7 @@
 
     img4.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img7"]]];
     img4.contentMode = UIViewContentModeCenter;
-   
+   // [self QueryPM25];
 }
 
 - (void)viewDidLoad
@@ -438,6 +477,7 @@
     
     [self setLblIntro:nil];
     [self setBtnInfo:nil];
+    [self setLblPM25:nil];
     [super viewDidUnload];
 }
 @end

@@ -111,4 +111,62 @@
     return chinaDate;
 }
 
++(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[@"address"] = @"";
+    dict[@"city"] = @"";
+    dict[@"country"] = @"";
+    if([GoogleMap[@"status"] isEqualToString:@"OK"])
+    {
+        NSArray *compare = [NSArray arrayWithObjects:@"sublocality",@"political", nil];
+        NSArray *compare_1 =  [NSArray arrayWithObjects:@"locality",@"political", nil];
+        NSArray *data = GoogleMap[@"results"];
+        for (NSDictionary *item in data) {
+            if ([item[@"types"] isEqualToArray:compare]) {
+                dict[@"address"] = item[@"formatted_address"];
+                for (NSDictionary *_item in item[@"address_components"]) {
+                    if([_item[@"types"] isEqualToArray:compare_1])
+                    {
+                        dict[@"city"] = _item[@"long_name"];
+                    }
+                    if([_item[@"types"] isEqualToArray:[NSArray arrayWithObjects:@"country",@"political", nil]])
+                    {
+                        
+                        dict[@"country"] = _item[@"long_name"];
+                    }
+                   
+                }
+                
+                break;
+            }
+        }
+    }
+    return dict;
+}
+
++(NSString *)ConvertPM25ToString:(NSNumber *)Num{
+    int i = [Num intValue];
+    if(i>=0 && i <=50)
+    {
+        return @"优";
+    }
+    if (i>50 && i<101) {
+        return @"良";
+    }
+    if (i>100 && i<151) {
+        return @"轻微污染";
+    }
+    if(i>151 && i<201)
+        return @"轻度污染";
+    if (i>200 && i<251) {
+        return @"中度污染";
+    }
+    if(i>250 && i<301){
+        return @"中度重污染";
+    }
+    if(i>300 && i<501)
+        return @"重污染";
+    return @"极度重污染";
+}
+
 @end
