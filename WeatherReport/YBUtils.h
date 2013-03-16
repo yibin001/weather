@@ -20,9 +20,10 @@
 +(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate withFormat:(NSString *)format;
 
 
-+(NSString *)ConvertPM25ToString : (NSNumber *)Num;
++(NSDictionary *)ConvertPM25ToString : (NSNumber *)Num;
 
 +(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap;
 
++(NSString *)ChineseToPinYin:(NSString *)Chinaese;
 
 @end

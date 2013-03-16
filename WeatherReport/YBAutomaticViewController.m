@@ -159,6 +159,9 @@
 }
 
 -(void)QueryPM25 :(NSString *)citypy{
+    if ([citypy isEqualToString:@""]) {
+        return;
+    }
     citypy = [citypy lowercaseString];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:PM25_API,citypy]];
     
@@ -167,8 +170,9 @@
         NSArray *array = JSON[@"data"];
         if(array.count > 0)
         {
-          
-            self.lblPM25.text = [NSString stringWithFormat:@"%@ (pm2.5值 - %@)",[YBUtils ConvertPM25ToString:[NSNumber numberWithInt:[array[0][@"aqi"] intValue]]],array[0][@"aqi"]];
+            NSDictionary *pm25 = [YBUtils ConvertPM25ToString:[NSNumber numberWithInt:[array[0][@"aqi"] intValue]]];
+            self.lblPM25.text = [NSString stringWithFormat:@"%@ (pm2.5值 - %@)",pm25[@"summary"],array[0][@"aqi"]];
+            
         }
         
     } failure:nil];
@@ -227,12 +231,12 @@
     self.lblWeather.textAlignment = NSTextAlignmentLeft;
     
     
-    self.lblWeather.frame = CGRectMake(10, 140, 200, 20);
+    self.lblWeather.frame = CGRectMake(10, 140, 320, 20);
     
     
     self.lblPM25.frame = CGRectMake(10, 170, 320, 20);
-    self.lblPM25.font = font;
-    self.lblPM25.textColor = [UIColor redColor];
+    self.lblPM25.font = [UIFont boldSystemFontOfSize:14];
+    
 
     
     self.lblUpdateTime.font = font;
@@ -248,7 +252,9 @@
     self.lblDegree.textAlignment = NSTextAlignmentLeft;
     
     NSString *cityname = weather_info[@"all"][@"city"];
-    
+   
+
+   
     if(addr_info){
         
         NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];

@@ -112,6 +112,11 @@
 }
 
 +(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap{
+    
+    @autoreleasepool {
+        
+    
+    
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     dict[@"address"] = @"";
     dict[@"city"] = @"";
@@ -142,31 +147,50 @@
         }
     }
     return dict;
+    }
 }
 
-+(NSString *)ConvertPM25ToString:(NSNumber *)Num{
++(NSDictionary *)ConvertPM25ToString:(NSNumber *)Num{
     int i = [Num intValue];
     if(i>=0 && i <=50)
     {
-        return @"优";
+        return @{@"rank":@"0",@"summary": @"优"};
     }
     if (i>50 && i<101) {
-        return @"良";
+         return @{@"rank":@"1",@"summary": @"良"};
+      
     }
     if (i>100 && i<151) {
-        return @"轻微污染";
+       
+           return @{@"rank":@"2",@"summary": @"轻微污染"};
     }
     if(i>151 && i<201)
-        return @"轻度污染";
+        
+       return @{@"rank":@"3",@"summary": @"轻度污染"};
     if (i>200 && i<251) {
-        return @"中度污染";
+       
+           return @{@"rank":@"4",@"summary": @"中度污染"};
     }
     if(i>250 && i<301){
-        return @"中度重污染";
+       
+           return @{@"rank":@"5",@"summary": @"中度重污染"};
     }
     if(i>300 && i<501)
-        return @"重污染";
-    return @"极度重污染";
+       
+       return @{@"rank":@"6",@"summary": @"重污染"};
+    return @{@"rank":@"7",@"summary": @"极度污染"};
+   
+}
+
+
++(NSString *)ChineseToPinYin:(NSString *)Chinaese{
+    NSMutableString *string = [@"你好" mutableCopy];
+    NSLog(@"Before: %@", string); // Before: 你好
+    CFStringTransform((__bridge CFMutableStringRef)string, NULL, kCFStringTransformMandarinLatin, NO);
+    NSLog(@"After: %@", string);  // After: nǐ hǎo
+    CFStringTransform((__bridge CFMutableStringRef)string, NULL, kCFStringTransformStripDiacritics, NO);
+    NSLog(@"Striped: %@", string); // Striped: ni hao
+    return string;
 }
 
 @end
