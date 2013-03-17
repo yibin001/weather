@@ -308,19 +308,15 @@
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
     self.lblIntro.frame = CGRectMake(35, 300, main.size.width-40, 60);
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
-    
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
-    
     CGSize size = {main.size.width-40,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     self.lblIntro.frame = CGRectMake(30,300, labelsize.width, labelsize.height);
     [self Render4Days];
-    
     self.btnInfo.hidden = NO;
     if(!IsFoundCity)
         self.lblCityName.text = @"Beijing,China";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
 }
 
 
