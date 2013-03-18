@@ -19,6 +19,12 @@
 @synthesize AllCitys = _AllCitys;
 @synthesize AllProvince = _AllProvince;
 @synthesize FavoriteCity = _FavoriteCity;
+
+
+-(NSString *)AppName{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+}
+
 -(id)init{
     self = [super init];
     if (self) {
@@ -77,28 +83,28 @@
     NSInteger _weekday = [weekdayComponents weekday];
     switch (_weekday) {
         case 1:
-            return @"星期日";
+            return @"周日";
             break;
         case 2:
-            return @"星期一";
+            return @"周一";
             break;
         case 3:
-            return @"星期二";
+            return @"周二";
             break;
         case 4:
-            return @"星期三";
+            return @"周三";
             break;
         case 5:
-            return @"星期四";
+            return @"周四";
             break;
         case 6:
-            return @"星期五";
+            return @"周五";
             break;
             
         default:
             break;
     }
-    return @"星期六";
+    return @"周六";
 }
 
 +(NSString *)convertChinaTimeStringByiOSDate:(NSDate *)localDate withFormat:(NSString *)format

@@ -12,6 +12,7 @@
 @property (nonatomic,strong) NSMutableArray *AllCitys;
 @property (nonatomic,strong) NSArray *AllProvince;
 @property (nonatomic,strong) NSMutableArray *FavoriteCity;
+@property (readonly, nonatomic,strong) NSString *AppName;
 -(void) Load;
 -(void) LoadFavoriteCitys;
 -(void) SaveFavoriteCitys :(NSDictionary *)city;

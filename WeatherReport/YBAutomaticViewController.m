@@ -37,6 +37,7 @@
     UILabel *lbl1,*lbl2,*lbl3,*lbl4;
     BOOL IsFoundCity;
     NSString *province;
+    UIView *popView;
 }
 @end
 
@@ -122,7 +123,8 @@
 
 
 -(void)Start{
-
+    if(![self CheckGPS])
+        return;
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = 1000.0f;
@@ -159,14 +161,16 @@
 }
 
 -(void)QueryPM25 :(NSString *)citypy{
+    //NSLog(@"%@",citypy);
     if ([citypy isEqualToString:@""]) {
         return;
     }
     citypy = [citypy lowercaseString];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:PM25_API,citypy]];
-    
+    //NSLog(@"%@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+      //  NSLog(@"%@",JSON);
         NSArray *array = JSON[@"data"];
         if(array.count > 0)
         {
@@ -175,7 +179,14 @@
             
         }
         
-    } failure:nil];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON){
+        NSLog(@"%@",error);
+        NSLog(@"%@",JSON);
+        NSLog(@"%d",response.statusCode);
+    }];
+    
+    
+    
     [operation start];
 }
 
@@ -191,23 +202,28 @@
 }
 
 
+-(BOOL)CheckGPS{
+    if(![CLLocationManager locationServicesEnabled])
+    {
+        [self LoadError:@"请去设置中开启定位服务。"];
+        
+        return NO;
+    }
+    
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+        [self LoadError:@"请去设置中允许\"简约天气\"使用定位服务。"];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)LoaddingWeather{
   
     
     if(loadding.isAnimating)
         [loadding stopAnimating];
-    if(![CLLocationManager locationServicesEnabled])
-    {
-        [self LoadError:@"请去设置中开启定位服务。"];
-        
+    if(![self CheckGPS])
         return;
-    }
-    
-    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
-        [self LoadError:@"请去设置中允许使用定位服务。"];
-        return;
-    }
-    
     if (!currCity) {
         [self LoadError:@"对不起，只支持中国地区天气预报\nSorry only support china area."];
         self.navigationItem.leftBarButtonItem = nil;
@@ -453,9 +469,8 @@
    
 
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
-    self.navigationItem.leftBarButtonItem.tag = 0;
-    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
+    self.navigationItem.rightBarButtonItem.tag = 0;
     
     [self performSelector:@selector(Start) withObject:self afterDelay:2];
    
@@ -474,7 +489,28 @@
         [HUD showWhileExecuting:@selector(LoaddingWeather) onTarget:self withObject:nil animated:YES];
     }
     else
-        return;
+    {
+        if(!popView)
+        {
+            popView = [[UIView alloc] initWithFrame:CGRectMake(10, 190, 320, 100)];
+            popView.backgroundColor = [UIColor clearColor];
+            UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,80)];
+            lbl.text = @"";
+            lbl.numberOfLines = 0;
+            lbl.lineBreakMode =  UILineBreakModeWordWrap;
+            lbl.backgroundColor = [UIColor clearColor];
+            [popView addSubview:lbl];
+            popView.hidden = YES;
+            [self.view addSubview:popView];
+        }
+        if(popView.isHidden)
+        {
+            popView.hidden = NO;
+        }
+        else
+            popView.hidden = YES;
+    
+    }
 }
 
 
