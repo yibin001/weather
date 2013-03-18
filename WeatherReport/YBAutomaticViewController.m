@@ -180,12 +180,36 @@
 }
 
 
--(void)LoaddingWeather{
+-(void)RediectToSettings{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"需要开启您的定位服务" message:@"需要开启您的定位服务" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(buttonIndex==0)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
+        return;
+    }
+}
+
+
+-(void)LoaddingWeather{
+  
     
     if(loadding.isAnimating)
         [loadding stopAnimating];
+    if(![CLLocationManager locationServicesEnabled])
+    {
+        [self RediectToSettings];
+        return;
+    }
     
+    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+        [self RediectToSettings];
+        return;
+    }
     
     if (!currCity) {
         [self LoadError:@"对不起，只支持中国地区天气预报\nSorry only support china area."];
@@ -303,17 +327,15 @@
     
     
     
-    self.btnInfo.frame = CGRectMake(10, 300, 20, 20);
     self.lblIntro.font = font;
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
-    self.lblIntro.frame = CGRectMake(35, 300, main.size.width-40, 60);
+    self.lblIntro.frame = CGRectMake(10, 300, main.size.width-40, 60);
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
     CGSize size = {main.size.width-40,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    self.lblIntro.frame = CGRectMake(30,300, labelsize.width, labelsize.height);
+    self.lblIntro.frame = CGRectMake(10,300, labelsize.width, labelsize.height);
     [self Render4Days];
-    self.btnInfo.hidden = NO;
     if(!IsFoundCity)
         self.lblCityName.text = @"Beijing,China";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -420,7 +442,6 @@
     //self.navigationController.navigationBarHidden = YES;
     
     self.lblDegree.hidden = YES;
-    self.btnInfo.hidden = YES;
     if (![CheckNetwork isExistenceNetwork]) {
         [self LoadError:@"No network connection"];
         return;
@@ -478,7 +499,6 @@
     [self setLblWeather:nil];
     
     [self setLblIntro:nil];
-    [self setBtnInfo:nil];
     [self setLblPM25:nil];
     [super viewDidUnload];
 }

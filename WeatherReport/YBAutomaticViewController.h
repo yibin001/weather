@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "MBProgressHUD.h"
-@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,MBProgressHUDDelegate>
+@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,MBProgressHUDDelegate,UIAlertViewDelegate>
 {
     MBProgressHUD *HUD;
 }
@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblWeather;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblIntro;
-@property (weak, nonatomic) IBOutlet UIButton *btnInfo;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblPM25;
 
 
