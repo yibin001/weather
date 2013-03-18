@@ -180,18 +180,14 @@
 }
 
 
--(void)RediectToSettings{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"需要开启您的定位服务" message:@"需要开启您的定位服务" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    
-    [alert show];
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(buttonIndex==0)
-    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=LOCATION_SERVICES"]];
-        return;
+-(NSString*)appName 
+{
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *appName = [bundle objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    if (!appName) {
+    appName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
     }
+    return appName;
 }
 
 
@@ -202,12 +198,13 @@
         [loadding stopAnimating];
     if(![CLLocationManager locationServicesEnabled])
     {
-        [self RediectToSettings];
+        [self LoadError:@"请去设置中开启定位服务。"];
+        
         return;
     }
     
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
-        [self RediectToSettings];
+        [self LoadError:@"请去设置中允许使用定位服务。"];
         return;
     }
     
