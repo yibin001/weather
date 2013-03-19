@@ -64,8 +64,7 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    [self LoadError:@"定位服务好像没有开启哦~"];
-    
+    [self CheckGPS];
 }
 
 
@@ -123,8 +122,8 @@
 
 
 -(void)Start{
-    if(![self CheckGPS])
-        return;
+    //if(![self CheckGPS])
+      //  return;
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = 1000.0f;
@@ -167,7 +166,7 @@
     }
     citypy = [citypy lowercaseString];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:PM25_API,citypy]];
-    //NSLog(@"%@",url);
+//    NSLog(@"%@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
       //  NSLog(@"%@",JSON);
