@@ -19,7 +19,7 @@
 #define DEFAULT_CITY_CODE @"101010300"
 #define DEFAULT_CITY_NAME @"beijing"
 
-#define PM25_API @"http://pm25api.sinaapp.com/index.php?city=%@"
+#define PM25_API @"http://pm25api.sinaapp.com/city/%@.json"
 
 @interface YBAutomaticViewController ()
 {
