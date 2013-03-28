@@ -70,7 +70,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     
-    
+    NSLog(@"load");
     
     self.CurrentLocaltion= [newLocation coordinate];
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
@@ -83,15 +83,17 @@
             locality = place.subLocality;
         }
         
-        //NSLog(@"%@",locality);
+        NSLog(@"%@",locality);
         
         if(locality==nil)
         {
+            NSLog(@"but......");
             currCity = @{@"cityname":DEFAULT_CITY_NAME, @"citycode":DEFAULT_CITY_CODE};
             IsFoundCity = NO;
         }
         else
         {
+            NSLog(@"all city :%@",AllCitys);
             for (NSDictionary *city in AllCitys) {
                 if([locality hasPrefix:city[@"cityname"]]){
                     [self.locationManager stopUpdatingLocation];
@@ -100,7 +102,7 @@
                     
                 }
             }
-            
+            NSLog(@"%@",currCity);
             
             if(currCity==nil)
             {
@@ -111,7 +113,7 @@
             
             YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
             addr_info = [query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
-            
+            NSLog(@"%@",addr_info);
             [self LoaddingWeather];
             IsLoad = YES;
         }
@@ -122,8 +124,7 @@
 
 
 -(void)Start{
-    //if(![self CheckGPS])
-      //  return;
+   
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.distanceFilter = 1000.0f;
@@ -201,6 +202,15 @@
 }
 
 
+
+-(BOOL)CheckNetwork{
+    if (![CheckNetwork isExistenceNetwork]) {
+        [self LoadError:@"No network connection"];
+        return NO;
+    }
+    return YES;
+}
+
 -(BOOL)CheckGPS{
     if(![CLLocationManager locationServicesEnabled])
     {
@@ -217,10 +227,12 @@
 }
 
 -(void)LoaddingWeather{
-  
+    NSLog(@"X");
     
     if(loadding.isAnimating)
         [loadding stopAnimating];
+    if(![self CheckNetwork])
+        return;
     if(![self CheckGPS])
         return;
     if (!currCity) {
@@ -298,19 +310,8 @@
         
         province = [POAPinyin convert:simpleCity[@"city"]];
         [self QueryPM25:province];
-//        if([addr_info[@"status"] isEqualToString:@"OK"]){
-//            NSArray *arr = addr_info[@"results"];
-//            if(arr.count>3)
-//            {
-//                NSDictionary *dict = arr[arr.count-4];
-//                cityname =  dict[@"formatted_address"];
-//                province = arr[arr.count-3][@"address_components"][0][@"short_name"];
-//                province = [POAPinyin convert:province];
-//                [self QueryPM25:province];
-//            }
-//        }
+
     }
-    //NSLog(@"%@",cityname);
     self.lblCityName.text = [NSString stringWithFormat:@"%@",cityname];
     self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-68, 20, 20);
    
@@ -450,14 +451,11 @@
    
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
+    self.navigationItem.rightBarButtonItem.tag = 0;
     
-    //self.navigationController.navigationBarHidden = YES;
     
     self.lblDegree.hidden = YES;
-    if (![CheckNetwork isExistenceNetwork]) {
-        [self LoadError:@"No network connection"];
-        return;
-    }
     utils = [[YBUtils alloc] init];
     
     [utils Load];
@@ -465,13 +463,12 @@
     
     [self _initLableAndImgView];
     
-   
-
+    if(![self CheckNetwork])
+        return;
+    NSLog(@"haha");
+    [self Start];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
-    self.navigationItem.rightBarButtonItem.tag = 0;
-    
-    [self performSelector:@selector(Start) withObject:self afterDelay:2];
+    //[self performSelector:@selector(Start) withObject:self afterDelay:2];
    
     
 }

@@ -30,7 +30,18 @@
 
     
 }
-
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    NSLog(@"%@",userInfo);
+    if ([[userInfo objectForKey:@"aps"] objectForKey:@"alert"] != nil) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"通知"
+                                                        message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
+                                                       delegate:self
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
     //获得 device token
