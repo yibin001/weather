@@ -45,9 +45,7 @@
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
     //获得 device token
-    NSString *str = [NSString
-                     stringWithFormat:@"Device Token=%@",deviceToken];
-    NSLog(@"%@",str);
+   // NSString *str = [NSString stringWithFormat:@"Device Token=%@",deviceToken];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
