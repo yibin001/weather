@@ -170,7 +170,7 @@
        
            return @{@"rank":@"2",@"summary": @"轻微污染"};
     }
-    if(i>151 && i<201)
+    if(i>150 && i<201)
         
        return @{@"rank":@"3",@"summary": @"轻度污染"};
     if (i>200 && i<251) {
