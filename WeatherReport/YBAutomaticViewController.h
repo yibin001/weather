@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "MBProgressHUD.h"
-@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,MBProgressHUDDelegate,UIAlertViewDelegate>
+#import "YBWeatherQuery.h"
+@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,UIAlertViewDelegate>
 {
-    MBProgressHUD *HUD;
+    
 }
 @property (strong,nonatomic) CLLocationManager *locationManager;
 @property  CLLocationCoordinate2D CurrentLocaltion;
@@ -31,5 +31,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lblPM25;
 
+
+@property (strong,nonatomic)YBWeatherQuery *Query;
 
 @end

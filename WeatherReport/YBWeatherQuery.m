@@ -67,7 +67,16 @@
     return weather_info;
 }
 
-
+-(NSDictionary *)LoadWeatherFromLocal{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    return (NSDictionary *)[ud objectForKey:LOCAL_WEATHER_KEY];
+    
+}
+-(void)SaveWeatherToLocal:(NSDictionary *)Weather{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setObject:Weather forKey:LOCAL_WEATHER_KEY];
+}
 -(NSDictionary *)QueryWeather{
     return [self Query];
 }

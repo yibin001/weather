@@ -17,5 +17,7 @@
 
 -(id)initWithCityCode:(NSString *)_cityCode;
 -(NSDictionary *)QueryWeather;
+-(NSDictionary *)LoadWeatherFromLocal;
+-(void)SaveWeatherToLocal:(NSDictionary *)Weather;
 -(NSDictionary *)QueryAddress:(CLLocationDegrees)lat lng:(CLLocationDegrees)lng;
 @end
