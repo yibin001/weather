@@ -18,7 +18,7 @@
 #define ISDEBUG YES
 #define DEBUG_CITY_CODE @"101021000"
 #define DEFAULT_CITY_CODE @"101010300"
-#define DEFAULT_CITY_NAME @"beijing"
+#define DEFAULT_CITY_NAME @"BeiJing,China"
 
 #define PM25_API @"http://pm25api.sinaapp.com/city/%@.json"
 
@@ -123,12 +123,13 @@
                 currCity = @{@"cityname":DEFAULT_CITY_NAME, @"citycode":DEFAULT_CITY_CODE};
                 IsFoundCity = NO;
             }
-           
+            
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 self.Query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
                 addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
                
                 weather_info = [self.Query QueryWeather];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self LoaddingWeather];
                     [self.Query SaveWeatherToLocal:weather_info];
@@ -262,10 +263,7 @@
 }
 
 -(void)LoaddingWeather{
-    
-    
-       
-    [self RemoveError];
+       [self RemoveError];
     
     NSString *imgName = weather_info[@"sk2"][@"img1"];
     
@@ -323,19 +321,35 @@
     self.lblDegree.textAlignment = NSTextAlignmentLeft;
     
     NSString *cityname = weather_info[@"all"][@"city"];
-   
+    
 
    
     if(addr_info){
         
         NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
         cityname = simpleCity[@"address"];
+        @try {
+            province = [POAPinyin convert:simpleCity[@"city"]];
+             [self QueryPM25:province];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@",exception);
+        }
+        @finally {
         
-        province = [POAPinyin convert:simpleCity[@"city"]];
-        [self QueryPM25:province];
-
+        }
+        
+       
     }
-    self.lblCityName.text = [NSString stringWithFormat:@"%@",cityname];
+    if(!IsFoundCity)
+    {
+        cityname = DEFAULT_CITY_NAME;
+    }
+    
+    
+   self.lblCityName.text =cityname;// [NSString stringWithFormat:@"%@",weather_info[@"all"][@"city"]]; 
+    
+    
     self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-68, 20, 20);
    
     self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
@@ -371,7 +385,9 @@
     CGSize size = {main.size.width-40,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     self.lblIntro.frame = CGRectMake(10,300, labelsize.width, labelsize.height);
+    
     [self Render4Days];
+    
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [SVProgressHUD dismiss];
@@ -463,7 +479,7 @@
     self.Query = [[YBWeatherQuery alloc] init];
     [SVProgressHUD showWithStatus:@"正在加载......"];
     
-  
+    IsFoundCity = YES;
     
     
     main = [UIScreen mainScreen].bounds;
