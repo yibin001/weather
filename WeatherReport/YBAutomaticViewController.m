@@ -10,14 +10,15 @@
 #import "YBUtils.h"
 #import "YBWeatherQuery.h"
 #import "CheckNetwork.h"
-#import "MBProgressHUD.h"
+
 #import "POAPinyin.h"
 #import "AFNetworking/AFJSONRequestOperation.h"
+#import "SVProgressHUD.h"
 
 #define ISDEBUG YES
 #define DEBUG_CITY_CODE @"101021000"
 #define DEFAULT_CITY_CODE @"101010300"
-#define DEFAULT_CITY_NAME @"beijing"
+#define DEFAULT_CITY_NAME @"BeiJing,China"
 
 #define PM25_API @"http://pm25api.sinaapp.com/city/%@.json"
 
@@ -30,14 +31,15 @@
     CGRect main;
     NSDictionary *weather_info;
     NSDictionary *addr_info;
-    BOOL IsLoad;
+    
     UIFont *font;
-    UIActivityIndicatorView *loadding;
+    
     UIImageView *img1,*img2,*img3,*img4;
     UILabel *lbl1,*lbl2,*lbl3,*lbl4;
     BOOL IsFoundCity;
     NSString *province;
     UIView *popView;
+    BOOL IsSuccess;
 }
 @end
 
@@ -52,7 +54,7 @@
 @synthesize locationManager = _locationManager;
 @synthesize CurrentLocaltion = _CurrentLocaltion;
 @synthesize lblIntro = _lblIntro;
-
+@synthesize Query = _Query;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -64,27 +66,42 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    [self LoadError:@"定位服务好像没有开启哦~"];
-    
+    [manager stopUpdatingLocation];
+    NSString *err;
+    switch([error code])
+    {
+        case kCLErrorNetwork: 
+        {
+            err = @"please check your network connection or that you are not in airplane mode" ;
+            break;
+        }
+        case kCLErrorDenied:{
+            err =@"请去设置中允许\"简约天气\"使用定位服务\nLocation service is disabled";
+            break;
+        }
+        default:
+        {
+            err=@"unknown network error";
+            break;
+        }
+    }
+    [self LoadError:err];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:err delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
 
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
-    
-    
-    
     self.CurrentLocaltion= [newLocation coordinate];
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
+    [self.locationManager stopUpdatingLocation];
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        
         CLPlacemark *place = placemarks[0];
         
         NSString *locality = place.locality;
         if (locality ==nil) {
             locality = place.subLocality;
         }
-        
-        //NSLog(@"%@",locality);
         
         if(locality==nil)
         {
@@ -95,88 +112,97 @@
         {
             for (NSDictionary *city in AllCitys) {
                 if([locality hasPrefix:city[@"cityname"]]){
-                    [self.locationManager stopUpdatingLocation];
                     currCity = city;
                     break;
                     
                 }
             }
             
-            
             if(currCity==nil)
             {
                 currCity = @{@"cityname":DEFAULT_CITY_NAME, @"citycode":DEFAULT_CITY_CODE};
-                [self.locationManager stopUpdatingLocation];
                 IsFoundCity = NO;
             }
             
-            YBWeatherQuery *query = [[YBWeatherQuery alloc] init];
-            addr_info = [query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
-            
-            [self LoaddingWeather];
-            IsLoad = YES;
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                self.Query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
+                addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+               
+                weather_info = [self.Query QueryWeather];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self LoaddingWeather];
+                    [self.Query SaveWeatherToLocal:weather_info];
+                });
+                
+                
+            });
+
         }
-        [self.locationManager stopUpdatingLocation];
+
     }];
     
 }
 
 
 -(void)Start{
-    if(![self CheckGPS])
-        return;
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.distanceFilter = 1000.0f;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-    self.locationManager.distanceFilter = kCLHeadingFilterNone;
-    [self.locationManager startUpdatingLocation];
+    if(!self.locationManager)
+    {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        self.locationManager.distanceFilter = 1000.0f;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        self.locationManager.distanceFilter = kCLHeadingFilterNone;
+    }
+    IsSuccess = NO;
+    if(![self CheckNetwork])
     
+        return;
+    IsSuccess = YES;
+    [self.locationManager startUpdatingLocation];
 }
 
--(void)LoadLocalWeatherData{
-    NSString *data_file_path;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    data_file_path = [documentsDirectory stringByAppendingString:@"local.bin"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:data_file_path]) {
-        weather_info = [NSDictionary dictionaryWithContentsOfFile:data_file_path];
-    }
-    
+-(void)RemoveError{
+    lblError.backgroundColor = [UIColor clearColor];
+    lblError.text = @"";
+
 }
 
 -(void)LoadError:(NSString *)message{
+    [SVProgressHUD dismiss];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-   
     if(!lblError){
-        lblError = [[UILabel alloc] initWithFrame:CGRectMake(0, (main.size.height-20-46)/2, main.size.width, 20)];
+        lblError = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, main.size.width, main.size.height-46)];
         lblError.numberOfLines = 0;
         lblError.lineBreakMode = UILineBreakModeWordWrap;
-        lblError.backgroundColor = [UIColor clearColor];
+        
         lblError.textAlignment = NSTextAlignmentCenter;
+        lblError.tag = 100;
         [self.view addSubview:lblError];
+       
     }
+    lblError.backgroundColor = [UIColor whiteColor];
     lblError.text = message;
-    [loadding stopAnimating];
+   
 }
 
 -(void)QueryPM25 :(NSString *)citypy{
-    //NSLog(@"%@",citypy);
     if ([citypy isEqualToString:@""]) {
         return;
     }
     citypy = [citypy lowercaseString];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:PM25_API,citypy]];
-    //NSLog(@"%@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-      //  NSLog(@"%@",JSON);
-        NSArray *array = JSON[@"data"];
-        if(array.count > 0)
+        if([JSON[@"code"] intValue] ==0)
         {
-            NSDictionary *pm25 = [YBUtils ConvertPM25ToString:[NSNumber numberWithInt:[array[0][@"aqi"] intValue]]];
-            self.lblPM25.text = [NSString stringWithFormat:@"%@ (pm2.5值 - %@)",pm25[@"summary"],array[0][@"aqi"]];
-            
+            NSArray *array = JSON[@"data"];
+            if(array.count > 0)
+            {
+                NSDictionary *pm25 = [YBUtils ConvertPM25ToString:[NSNumber numberWithInt:[array[0][@"aqi"] intValue]]];
+                self.lblPM25.text = [NSString stringWithFormat:@"%@ (pm2.5值 - %@)",pm25[@"summary"],array[0][@"aqi"]];
+                
+            }
         }
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON){
@@ -202,36 +228,42 @@
 }
 
 
--(BOOL)CheckGPS{
-    if(![CLLocationManager locationServicesEnabled])
-    {
-        [self LoadError:@"请去设置中开启定位服务。"];
-        
-        return NO;
-    }
-    
-    if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
-        [self LoadError:@"请去设置中允许\"简约天气\"使用定位服务。"];
+
+-(BOOL)CheckNetwork{
+    if (![CheckNetwork isExistenceNetwork]) {
+        [self LoadError:@"没有网络连接\nNo network connection"];
         return NO;
     }
     return YES;
 }
 
--(void)LoaddingWeather{
-  
-    
-    if(loadding.isAnimating)
-        [loadding stopAnimating];
-    if(![self CheckGPS])
-        return;
-    if (!currCity) {
-        [self LoadError:@"对不起，只支持中国地区天气预报\nSorry only support china area."];
-        self.navigationItem.leftBarButtonItem = nil;
-        return;
+-(BOOL)CheckGPSWithBoth:(BOOL)Both{
+    BOOL enable = YES;
+    if(![CLLocationManager locationServicesEnabled])
+    {
+        
+        
+        
+        [self LoadError:@"请去设置中开启定位服务\nLocation service is disabled."];
+        
+        enable =  NO;
     }
-    if(IsLoad) return;
-    YBWeatherQuery *query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
-    weather_info = [query QueryWeather];
+    else
+    {
+        if(Both)
+        {
+            if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorized) {
+                
+                [self LoadError:@"请去设置中允许\"简约天气\"使用定位服务\nLocation service is disabled"];
+                enable =  NO;
+            }
+        }
+    }
+    return enable;
+}
+
+-(void)LoaddingWeather{
+       [self RemoveError];
     
     NSString *imgName = weather_info[@"sk2"][@"img1"];
     
@@ -289,30 +321,35 @@
     self.lblDegree.textAlignment = NSTextAlignmentLeft;
     
     NSString *cityname = weather_info[@"all"][@"city"];
-   
+    
 
    
     if(addr_info){
         
         NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
         cityname = simpleCity[@"address"];
+        @try {
+            province = [POAPinyin convert:simpleCity[@"city"]];
+             [self QueryPM25:province];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@",exception);
+        }
+        @finally {
         
-        province = [POAPinyin convert:simpleCity[@"city"]];
-        [self QueryPM25:province];
-//        if([addr_info[@"status"] isEqualToString:@"OK"]){
-//            NSArray *arr = addr_info[@"results"];
-//            if(arr.count>3)
-//            {
-//                NSDictionary *dict = arr[arr.count-4];
-//                cityname =  dict[@"formatted_address"];
-//                province = arr[arr.count-3][@"address_components"][0][@"short_name"];
-//                province = [POAPinyin convert:province];
-//                [self QueryPM25:province];
-//            }
-//        }
+        }
+        
+       
     }
-    //NSLog(@"%@",cityname);
-    self.lblCityName.text = [NSString stringWithFormat:@"%@",cityname];
+    if(!IsFoundCity)
+    {
+        cityname = DEFAULT_CITY_NAME;
+    }
+    
+    
+   self.lblCityName.text =cityname;// [NSString stringWithFormat:@"%@",weather_info[@"all"][@"city"]]; 
+    
+    
     self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-68, 20, 20);
    
     self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
@@ -348,10 +385,13 @@
     CGSize size = {main.size.width-40,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     self.lblIntro.frame = CGRectMake(10,300, labelsize.width, labelsize.height);
+    
     [self Render4Days];
-    if(!IsFoundCity)
-        self.lblCityName.text = @"Beijing,China";
+    
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [SVProgressHUD dismiss];
+    
 }
 
 
@@ -430,35 +470,39 @@
 
     img4.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img7"]]];
     img4.contentMode = UIViewContentModeCenter;
-   // [self QueryPM25];
+   
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.Query = [[YBWeatherQuery alloc] init];
+    [SVProgressHUD showWithStatus:@"正在加载......"];
+    
     IsFoundCity = YES;
+    
+    
     main = [UIScreen mainScreen].bounds;
     self.title = @"简约天气";
     
    
     
-    IsLoad = NO;
-    loadding = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    loadding.frame = CGRectMake((main.size.width-20)/2, (main.size.height-40)/2, 20, 20);
-    loadding.hidesWhenStopped = YES;
-    [loadding startAnimating];
-    [self.view addSubview:loadding];
    
+    
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
-    
-    //self.navigationController.navigationBarHidden = YES;
-    
-    self.lblDegree.hidden = YES;
-    if (![CheckNetwork isExistenceNetwork]) {
-        [self LoadError:@"No network connection"];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
+    self.navigationItem.rightBarButtonItem.tag = 0;
+    if(![self CheckNetwork])
+    {
+        [SVProgressHUD showErrorWithStatus:@"没有网络连接\nno network connection"];
+        [self LoadError:@"没有网络连接\nno network connection"];
         return;
     }
+    
+    
+    
+    self.lblDegree.hidden = YES;
     utils = [[YBUtils alloc] init];
     
     [utils Load];
@@ -466,13 +510,21 @@
     
     [self _initLableAndImgView];
     
-   
-
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
-    self.navigationItem.rightBarButtonItem.tag = 0;
+    weather_info =  [self.Query LoadWeatherFromLocal];
+    if(weather_info)
+    {
     
-    [self performSelector:@selector(Start) withObject:self afterDelay:2];
+        [self LoaddingWeather];
+        [SVProgressHUD showWithStatus:@"正在加载......"]; 
+    }
+    
+    
+    
+    [self Start];
+    
+    
+    
    
     
 }
@@ -480,18 +532,18 @@
 -(void)BtnPress:(UIBarItem *)sender{
     if(sender.tag==0)
     {
-        IsLoad = NO;
+       
+        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-        [self.navigationController.view addSubview:HUD];
-        HUD.delegate = self;
-        HUD.labelText = @"Loading";
-        [HUD showWhileExecuting:@selector(LoaddingWeather) onTarget:self withObject:nil animated:YES];
+
+        [SVProgressHUD showWithStatus:@"正在加载......"];
+        [self Start];
     }
     else
     {
         if(!popView)
         {
+            
             popView = [[UIView alloc] initWithFrame:CGRectMake(10, 190, 320, 100)];
             popView.backgroundColor = [UIColor clearColor];
             UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,80)];
@@ -504,8 +556,10 @@
             [self.view addSubview:popView];
         }
         if(popView.isHidden)
+            
         {
             popView.hidden = NO;
+            
         }
         else
             popView.hidden = YES;
@@ -513,6 +567,10 @@
     }
 }
 
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self CheckGPSWithBoth:NO];
+}
 
 - (void)didReceiveMemoryWarning
 {

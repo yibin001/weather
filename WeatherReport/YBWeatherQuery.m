@@ -47,19 +47,21 @@
     NSDictionary *weather_info = nil;
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:SK_URL,cityCode]];
-    
+   
       
     
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *sk =   json[@"weatherinfo"];
     url = [NSURL URLWithString:[NSString stringWithFormat:SK2_URL,cityCode]];
+    
     data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     
     json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *sk2 = json[@"weatherinfo"];
     
     url = [NSURL URLWithString:[NSString stringWithFormat:ALL_URL,cityCode]];
+    
     data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *all = json[@"weatherinfo"];
@@ -67,7 +69,16 @@
     return weather_info;
 }
 
-
+-(NSDictionary *)LoadWeatherFromLocal{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    return (NSDictionary *)[ud objectForKey:LOCAL_WEATHER_KEY];
+    
+}
+-(void)SaveWeatherToLocal:(NSDictionary *)Weather{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setObject:Weather forKey:LOCAL_WEATHER_KEY];
+}
 -(NSDictionary *)QueryWeather{
     return [self Query];
 }

@@ -13,11 +13,13 @@
 @synthesize tabBarController = _tabBarController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+   
+    
     
     [NSThread sleepForTimeInterval:2];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];
     YBAutomaticViewController *automatic = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
@@ -27,6 +29,23 @@
     return YES;
 
     
+}
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    NSLog(@"%@",userInfo);
+    if ([[userInfo objectForKey:@"aps"] objectForKey:@"alert"] != nil) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"通知"
+                                                        message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
+                                                       delegate:self
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    //获得 device token
+   // NSString *str = [NSString stringWithFormat:@"Device Token=%@",deviceToken];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
