@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface FreeWeatherViewController : UIViewController
+#import <MapKit/MapKit.h>
+@interface FreeWeatherViewController : UIViewController<CLLocationManagerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *LabelCity;
+@property (weak, nonatomic) IBOutlet UILabel *LabelWeather;
 
 @end

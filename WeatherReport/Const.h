@@ -13,3 +13,5 @@
 @end
 #define LOCAL_WEATHER_KEY @"localweather"
 
+#define WORLD_WEATHER_QUERY_URI @"http://api.worldweatheronline.com/free/v1/weather.ashx?q=%f,%f&format=json&num_of_days=5&key=c5m35zscghrj2subhpx537fk"
+

@@ -115,6 +115,8 @@
 		C9EC3ACA16D2652A003B76FE /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3AC916D2652A003B76FE /* CheckNetwork.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C9EC3ACD16D2657E003B76FE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3ACC16D2657E003B76FE /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C9EC3ACF16D26654003B76FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */; };
+		C9F7BB4217236B3100B36F4F /* FreeWeatherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F7BB4017236B3100B36F4F /* FreeWeatherViewController.m */; };
+		C9F7BB4317236B3100B36F4F /* FreeWeatherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9F7BB4117236B3100B36F4F /* FreeWeatherViewController.xib */; };
 		C9F8953816E183D700440783 /* reload@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9F8953716E183D700440783 /* reload@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -250,6 +252,9 @@
 		C9EC3ACB16D2657E003B76FE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C9EC3ACC16D2657E003B76FE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C9F7BB3F17236B3100B36F4F /* FreeWeatherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeWeatherViewController.h; sourceTree = "<group>"; };
+		C9F7BB4017236B3100B36F4F /* FreeWeatherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreeWeatherViewController.m; sourceTree = "<group>"; };
+		C9F7BB4117236B3100B36F4F /* FreeWeatherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FreeWeatherViewController.xib; sourceTree = "<group>"; };
 		C9F8953716E183D700440783 /* reload@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -333,6 +338,9 @@
 				C9371DFC16DF7E3700A77266 /* YBAutomaticViewController.m */,
 				C9371DFD16DF7E3700A77266 /* YBAutomaticViewController.xib */,
 				C941A0561714549F005F76B5 /* Const.h */,
+				C9F7BB3F17236B3100B36F4F /* FreeWeatherViewController.h */,
+				C9F7BB4017236B3100B36F4F /* FreeWeatherViewController.m */,
+				C9F7BB4117236B3100B36F4F /* FreeWeatherViewController.xib */,
 			);
 			path = WeatherReport;
 			sourceTree = "<group>";
@@ -616,6 +624,7 @@
 				C92C124517159ED700BE0598 /* Icon-Small.png in Resources */,
 				C92C124617159ED700BE0598 /* Icon-Small@2x.png in Resources */,
 				C92C124717159ED700BE0598 /* ItunesArtwork in Resources */,
+				C9F7BB4317236B3100B36F4F /* FreeWeatherViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +654,7 @@
 				C93ED72A16E4BFE600D1890E /* UIImageView+AFNetworking.m in Sources */,
 				C948E07E16E8CB3D000589FB /* POAPinyin.m in Sources */,
 				C941A05517145199005F76B5 /* SVProgressHUD.m in Sources */,
+				C9F7BB4217236B3100B36F4F /* FreeWeatherViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
