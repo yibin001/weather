@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "UIImageView+AFNetworking.h"
 #import "WeatherDetail.h"
+#import "TodayWeather.h"
 @interface FreeWeatherViewController ()
 @property CLLocationManager *LocationManager;
 @property CLLocationCoordinate2D CCLC;
@@ -50,41 +51,17 @@
 }
 -(void)LoadWeather{
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:WORLD_WEATHER_QUERY_URI,self.CCLC.latitude,self.CCLC.longitude]];
-        
-        
-        
-        
-        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
-        self.Weather = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil][@"data"];
-        
-       dispatch_async(dispatch_get_main_queue(), ^{
-           self.LabelWeather.text = self.Weather[@"current_condition"][0][@"weatherDesc"][0][@"value"];
-           [self.ImageViewWeather setImageWithURL:[NSURL URLWithString:self.Weather[@"current_condition"][0][@"weatherIconUrl"][0][@"value"]] placeholderImage:[UIImage imageNamed:@"placeholder-avatar"]];
-           CGRect frame = self.LabelWeather.frame;
-           frame.origin.y+=30;
-           frame.size = CGSizeMake(320, 50);
-           
-           WeatherDetail *detail = [[WeatherDetail alloc] initWithFrame:frame];
-          
-           
-           self.LabelReportTime.text = [NSString stringWithFormat:@"发布时间：%@",self.Weather[@"current_condition"][0][@"observation_time"]];
-           
-           self.LabelReportTime.frame = CGRectMake(frame.origin.x, 380, 200, 20);
-           detail.TodayWeather = self.Weather[@"current_condition"][0];
-           
-           [detail Render];
-           [self.view addSubview:detail];
-       });
-    });
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:WORLD_WEATHER_QUERY_URI,self.CCLC.latitude,self.CCLC.longitude]];
+    self.TodayWeather = [[TodayWeather alloc] init];
     
     
     
-    
-    
-    
+    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
+    self.Weather = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil][@"data"];
+    self.TodayWeather.Weather = self.Weather[@"current_condition"][0];
+    [self.view addSubview:self.TodayWeather];
 
+    
 }
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     
@@ -92,7 +69,7 @@
     self.CCLC = newLocation.coordinate;
     
     [self.LocationManager stopUpdatingLocation];
-   
+    
     
     [self LoadWeather];
     
@@ -119,10 +96,7 @@
 }
 
 - (void)viewDidUnload {
-    [self setLabelCity:nil];
-    [self setLabelWeather:nil];
-    [self setImageViewWeather:nil];
-    [self setLabelReportTime:nil];
+    
     [super viewDidUnload];
 }
 @end

@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "TodayWeather.h"
 @interface FreeWeatherViewController : UIViewController<CLLocationManagerDelegate,UIScrollViewDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *LabelCity;
-@property (weak, nonatomic) IBOutlet UILabel *LabelWeather;
-@property (weak, nonatomic) IBOutlet UIImageView *ImageViewWeather;
-@property (weak, nonatomic) IBOutlet UILabel *LabelReportTime;
+
+@property (strong,nonatomic) UIScrollView *ScrollView;
 
 
-@property (weak,nonatomic) UIScrollView *ScrollView;
-
+@property (nonatomic,strong) TodayWeather *TodayWeather;
 @end
