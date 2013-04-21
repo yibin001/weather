@@ -23,7 +23,7 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];
     YBAutomaticViewController *automatic = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
     FreeWeatherViewController *free = [[FreeWeatherViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:free];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
     self.window.rootViewController = nav;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
