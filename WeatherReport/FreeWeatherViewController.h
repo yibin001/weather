@@ -14,5 +14,4 @@
 @property (strong,nonatomic) UIScrollView *ScrollView;
 
 
-@property (nonatomic,strong) TodayWeather *TodayWeather;
 @end

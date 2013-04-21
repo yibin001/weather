@@ -14,6 +14,7 @@
 
 
 -(void)setWeather:(NSDictionary *)Weather{
+    NSLog(@"%@",Weather);
     if(_Weather!=Weather)
     {
         _Weather = Weather;
@@ -28,6 +29,7 @@
                                                           owner:self
                                                         options:nil];
         self = nibViews[0];
+        NSLog(@"haha");
         
     }
     return self;

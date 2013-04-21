@@ -15,6 +15,9 @@
 @property CLLocationManager *LocationManager;
 @property CLLocationCoordinate2D CCLC;
 @property NSMutableDictionary  *Weather;
+
+@property (nonatomic,strong) WeatherDetail *Detail;
+@property (nonatomic,strong) TodayWeather *TodayWeather;
 @end
 
 @implementation FreeWeatherViewController
@@ -52,15 +55,18 @@
 -(void)LoadWeather{
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:WORLD_WEATHER_QUERY_URI,self.CCLC.latitude,self.CCLC.longitude]];
-    self.TodayWeather = [[TodayWeather alloc] init];
+//    self.TodayWeather = [[TodayWeather alloc] init];
     
+    NSLog(@"%@",url);
     
     
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     self.Weather = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil][@"data"];
-    self.TodayWeather.Weather = self.Weather[@"current_condition"][0];
-    [self.view addSubview:self.TodayWeather];
-
+    //self.TodayWeather.Weather = self.Weather[@"current_condition"][0];
+    
+    self.Detail.TodayWeather = self.Weather[@"current_condition"][0];
+    //[self.view addSubview:self.TodayWeather];
+    [self.Detail Render];
     
 }
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
@@ -78,13 +84,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.ScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 1000)];
+    self.ScrollView.contentSize = CGSizeMake(320, 1000);
+    self.ScrollView.delegate = self;
+    self.Detail = [[WeatherDetail alloc] init];
+    [self.ScrollView addSubview:self.Detail];
     self.LocationManager = [[CLLocationManager alloc] init];
     self.LocationManager.delegate = self;
     self.LocationManager.distanceFilter = 1000.0f;
     self.LocationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     self.LocationManager.distanceFilter = kCLHeadingFilterNone;
     [self.LocationManager startUpdatingLocation];
-    
+    [self.view addSubview:self.ScrollView];
     
     
 }
