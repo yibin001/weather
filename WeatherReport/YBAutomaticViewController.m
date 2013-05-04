@@ -14,7 +14,7 @@
 #import "POAPinyin.h"
 #import "AFNetworking/AFJSONRequestOperation.h"
 #import "SVProgressHUD.h"
-
+#import "YBMapViewController.h"
 #define ISDEBUG YES
 #define DEBUG_CITY_CODE @"101021000"
 #define DEFAULT_CITY_CODE @"101010300"
@@ -40,6 +40,7 @@
     NSString *province;
     UIView *popView;
     BOOL IsSuccess;
+    NSString *locality;
 }
 @end
 
@@ -95,10 +96,11 @@
     self.CurrentLocaltion= [newLocation coordinate];
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [self.locationManager stopUpdatingLocation];
+    
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *place = placemarks[0];
         
-        NSString *locality = place.locality;
+        locality = place.locality;
         if (locality ==nil) {
             locality = place.subLocality;
         }
@@ -347,16 +349,17 @@
     }
     
     
-   self.lblCityName.text =cityname;// [NSString stringWithFormat:@"%@",weather_info[@"all"][@"city"]]; 
+    self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f)\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,cityname];//  cityname;// [NSString stringWithFormat:@"%@",weather_info[@"all"][@"city"]];
+    self.lblCityName.numberOfLines=0;
     
-    
-    self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-68, 20, 20);
+    self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-78, 20, 20);
    
     self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
     CGRect iconRect = self.imgLocationIcon.frame;
     iconRect.origin.x+=25;
-    iconRect.size.width = 200.0;
-    
+    iconRect.origin.y-=5;
+    iconRect.size.width = 300.0;
+    iconRect.size.height = 40.0;
     self.lblCityName.frame = iconRect;
     self.lblCityName.textAlignment = NSTextAlignmentLeft;
     
@@ -493,6 +496,12 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
     self.navigationItem.rightBarButtonItem.tag = 0;
+    
+    
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonItemStylePlain target:self action:@selector(BtnPress:)];
+//    self.navigationItem.leftBarButtonItem.title=@"经纬度";
+//    self.navigationItem.leftBarButtonItem.tag = 10;
+    
     if(![self CheckNetwork])
     {
         [SVProgressHUD showErrorWithStatus:@"没有网络连接\nno network connection"];
@@ -519,7 +528,11 @@
         [SVProgressHUD showWithStatus:@"正在加载......"]; 
     }
     
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ToMapDetail:)];
     
+    singleTap.numberOfTouchesRequired = 1;
+    [self.imgLocationIcon addGestureRecognizer:singleTap];
+    self.imgLocationIcon.userInteractionEnabled = YES;
     
     [self Start];
     
@@ -527,6 +540,13 @@
     
    
     
+}
+
+-(IBAction)ToMapDetail  :(id)sender
+{
+    YBMapViewController *map = [[YBMapViewController alloc] init];
+    map.CurrentLocaltion = self.CurrentLocaltion;
+    [self.navigationController pushViewController:map animated:YES];
 }
 
 -(void)BtnPress:(UIBarItem *)sender{
@@ -539,31 +559,9 @@
         [SVProgressHUD showWithStatus:@"正在加载......"];
         [self Start];
     }
-    else
+    else if(sender.tag==10)
     {
-        if(!popView)
-        {
-            
-            popView = [[UIView alloc] initWithFrame:CGRectMake(10, 190, 320, 100)];
-            popView.backgroundColor = [UIColor clearColor];
-            UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,80)];
-            lbl.text = @"";
-            lbl.numberOfLines = 0;
-            lbl.lineBreakMode =  UILineBreakModeWordWrap;
-            lbl.backgroundColor = [UIColor clearColor];
-            [popView addSubview:lbl];
-            popView.hidden = YES;
-            [self.view addSubview:popView];
-        }
-        if(popView.isHidden)
-            
-        {
-            popView.hidden = NO;
-            
-        }
-        else
-            popView.hidden = YES;
-    
+       
     }
 }
 

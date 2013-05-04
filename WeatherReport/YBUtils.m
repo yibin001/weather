@@ -129,7 +129,7 @@
     dict[@"country"] = @"";
     if([GoogleMap[@"status"] isEqualToString:@"OK"])
     {
-        NSArray *compare = [NSArray arrayWithObjects:@"sublocality",@"political", nil];
+        NSArray *compare =@[@"locality",@"political"];// [NSArray arrayWithObjects:@"sublocality",@"political", nil];
         NSArray *compare_1 =  [NSArray arrayWithObjects:@"locality",@"political", nil];
         NSArray *data = GoogleMap[@"results"];
         for (NSDictionary *item in data) {
