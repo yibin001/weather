@@ -34,8 +34,8 @@
     
     UIFont *font;
     
-    UIImageView *img1,*img2,*img3,*img4;
-    UILabel *lbl1,*lbl2,*lbl3,*lbl4;
+    UIImageView *img1,*img2,*img3,*img4,*img5,*img6;
+    UILabel *lbl1,*lbl2,*lbl3,*lbl4,*lbl5,*lbl6;
     BOOL IsFoundCity;
     NSString *province;
     UIView *popView;
@@ -154,7 +154,7 @@
         self.locationManager.delegate = self;
         self.locationManager.distanceFilter = 1000.0f;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-        self.locationManager.distanceFilter = kCLHeadingFilterNone;
+        self.locationManager.distanceFilter =  kCLHeadingFilterNone;
     }
     IsSuccess = NO;
     if(![self CheckNetwork])
@@ -399,34 +399,77 @@
 
 
 -(void)_initLableAndImgView{
-    UIColor *background = [UIColor clearColor];
-    lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 230, 70, 60)];
     
-    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 190, 60, 60)];
+    CGRect frame = CGRectMake(5, 200, 320, 97);
+    
+    self.ScrollView = [[UIScrollView alloc] initWithFrame:frame];
+    self.ScrollView.contentSize = CGSizeMake(640, 97);
+
+    UIColor *background = [UIColor  clearColor];
+    lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 90, 60)];
+     
+    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(40, 0, 30, 30)];
     
    
-    lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(85, 230, 70, 60)];
-    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(90, 190, 60, 60)];
-    lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(165, 230, 70, 60)];
-
-    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(170, 190, 60, 60)];
-    lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(245, 230, 70, 60)];
-    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(250, 190, 60, 60)];
+    
+    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(140, 0, 30, 30)];
+    lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(110, 30, 90, 60)];
+    
+    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(245, 0, 30, 30)];
+    lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(215, 30, 90, 60)];
 
     
+   
+    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(350, 0, 30, 30)];
+     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(320, 30, 90, 60)];
+    
+    
+    
+    img5 = [[UIImageView alloc] initWithFrame:CGRectMake(460, 0, 30, 30)];
+    lbl5 = [[UILabel alloc] initWithFrame:CGRectMake(430, 30, 90, 60)];
+    lbl5.backgroundColor = background;
+    
+    
+    img6 = [[UIImageView alloc] initWithFrame:CGRectMake(570, 0, 30, 30)];
+    lbl6 = [[UILabel alloc] initWithFrame:CGRectMake(540, 30, 90, 60)];
+    lbl6.backgroundColor = background;
     
     lbl1.backgroundColor = background;
     lbl2.backgroundColor = background;
     lbl3.backgroundColor = background;
     lbl4.backgroundColor = background;
-    [self.view addSubview:img1];
-    [self.view addSubview:lbl1];
-    [self.view addSubview:img2];
-    [self.view addSubview:lbl2];
-    [self.view addSubview:img3];
-    [self.view addSubview:lbl3];
-    [self.view addSubview:img4];
-    [self.view addSubview:lbl4];
+    
+    [self.view addSubview:self.ScrollView];
+    
+    
+    
+    
+    
+    
+    
+    [self.ScrollView addSubview:img1];
+    [self.ScrollView addSubview:lbl1];
+    [self.ScrollView addSubview:img2];
+    [self.ScrollView addSubview:lbl2];
+    [self.ScrollView addSubview:img3];
+    [self.ScrollView addSubview:lbl3];
+    [self.ScrollView addSubview:img4];
+    [self.ScrollView addSubview:lbl4];
+    [self.ScrollView addSubview:img5];
+    [self.ScrollView addSubview:lbl5];
+    [self.ScrollView addSubview:img6];
+    [self.ScrollView addSubview:lbl6];
+    
+    
+    
+//    [self.view addSubview:img1];
+//    [self.view addSubview:lbl1];
+//    [self.view addSubview:img2];
+//    [self.view addSubview:lbl2];
+//    [self.view addSubview:img3];
+//    [self.view addSubview:lbl3];
+//    [self.view addSubview:img4];
+//    [self.view addSubview:lbl4];
    
 }
 
@@ -438,7 +481,7 @@
    
     img1.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img1"]]];
     img1.contentMode = UIViewContentModeCenter;
-    lbl1.text = [NSString stringWithFormat:@"%@\n%@",  @"今天",weather_info[@"all"][@"temp1"]];
+    lbl1.text = [NSString stringWithFormat:@"%@\n%@\n%@",  @"今天",weather_info[@"all"][@"temp1"],weather_info[@"all"][@"weather1"]];
    
     lbl1.numberOfLines = 0;
     lbl1.lineBreakMode = UILineBreakModeWordWrap;
@@ -449,23 +492,27 @@
     lbl2.textAlignment = NSTextAlignmentCenter;
     
     NSString *weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
-    lbl2.text = [NSString stringWithFormat:@"%@\n%@",weekday, weather_info[@"all"][@"temp2"] ];
+    lbl2.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp2"],weather_info[@"all"][@"weather2"] ];
    
     lbl2.font = font;
     lbl2.numberOfLines = 0;
     lbl2.lineBreakMode = UILineBreakModeWordWrap;
     weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:2*24*60*60]];
     lbl3.textAlignment = NSTextAlignmentCenter;
-    lbl3.text = [NSString stringWithFormat:@"%@\n%@",weekday,weather_info[@"all"][@"temp3"] ];
+    lbl3.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday,weather_info[@"all"][@"temp3"],weather_info[@"all"][@"weather3"] ];
    
     lbl3.font = font;
     lbl3.numberOfLines = 0;
     lbl3.lineBreakMode = UILineBreakModeWordWrap;
     img3.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img5"]]];
     img3.contentMode = UIViewContentModeCenter;
+    
     weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:3*24*60*60]];
+    
+    
+    
     lbl4.textAlignment = NSTextAlignmentCenter;
-    lbl4.text = [NSString stringWithFormat:@"%@\n%@",weekday, weather_info[@"all"][@"temp4"] ];
+    lbl4.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp4"] ,weather_info[@"all"][@"weather4"]];
    
     lbl4.font = font;
     lbl4.numberOfLines = 0;
@@ -473,6 +520,32 @@
 
     img4.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img7"]]];
     img4.contentMode = UIViewContentModeCenter;
+    
+    
+    
+    
+    weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:4*24*60*60]]; 
+    lbl5.textAlignment = NSTextAlignmentCenter;
+    lbl5.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp5"] ,weather_info[@"all"][@"weather5"]];
+    
+    lbl5.font = font;
+    lbl5.numberOfLines = 0;
+    lbl5.lineBreakMode = UILineBreakModeWordWrap;
+    
+    img5.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img9"]]];
+    img5.contentMode = UIViewContentModeCenter;
+    
+    weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:5*24*60*60]];
+    lbl6.textAlignment = NSTextAlignmentCenter;
+    lbl6.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp6"] ,weather_info[@"all"][@"weather6"]];
+    
+    lbl6.font = font;
+    lbl6.numberOfLines = 0;
+    lbl6.lineBreakMode = UILineBreakModeWordWrap;
+    
+    img6.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img11"]]];
+    img6.contentMode = UIViewContentModeCenter;
+
    
 }
 

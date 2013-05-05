@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "YBWeatherQuery.h"
-@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,UIAlertViewDelegate>
+@interface YBAutomaticViewController : UIViewController<CLLocationManagerDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
 {
     
 }
 @property (strong,nonatomic) CLLocationManager *locationManager;
 @property  CLLocationCoordinate2D CurrentLocaltion;
 
+@property (strong,nonatomic) UIScrollView *ScrollView;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblTemp;
 @property (weak, nonatomic) IBOutlet UIImageView *imgWeather;

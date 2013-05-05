@@ -61,7 +61,7 @@
     NSDictionary *sk2 = json[@"weatherinfo"];
     
     url = [NSURL URLWithString:[NSString stringWithFormat:ALL_URL,cityCode]];
-    
+    NSLog(@"%@",url);
     data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     NSDictionary *all = json[@"weatherinfo"];

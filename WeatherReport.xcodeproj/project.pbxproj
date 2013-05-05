@@ -61,6 +61,7 @@
 		C9371E8116DF836D00A77266 /* a31@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9371E3F16DF836D00A77266 /* a31@2x.png */; };
 		C9371E8216DF836D00A77266 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = C9371E4016DF836D00A77266 /* background.png */; };
 		C9371E8316DF836D00A77266 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9371E4116DF836D00A77266 /* background@2x.png */; };
+		C93CD2D21735C2BB000E8FDC /* YBMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */; };
 		C93ED72216E4BFE600D1890E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71016E4BFE600D1890E /* AFHTTPClient.m */; };
 		C93ED72316E4BFE600D1890E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71216E4BFE600D1890E /* AFHTTPRequestOperation.m */; };
 		C93ED72416E4BFE600D1890E /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71416E4BFE600D1890E /* AFImageRequestOperation.m */; };
@@ -187,6 +188,8 @@
 		C9371E3F16DF836D00A77266 /* a31@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a31@2x.png"; sourceTree = "<group>"; };
 		C9371E4016DF836D00A77266 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		C9371E4116DF836D00A77266 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		C93CD2D01735C2BB000E8FDC /* YBMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBMainViewController.h; sourceTree = "<group>"; };
+		C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBMainViewController.m; sourceTree = "<group>"; };
 		C93ED70F16E4BFE600D1890E /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C93ED71016E4BFE600D1890E /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C93ED71116E4BFE600D1890E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 				C99941BC1735234A001DD691 /* YBMapViewController.h */,
 				C99941BD1735234A001DD691 /* YBMapViewController.m */,
 				C99941BE1735234A001DD691 /* YBMapViewController.xib */,
+				C93CD2D01735C2BB000E8FDC /* YBMainViewController.h */,
+				C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */,
 			);
 			path = WeatherReport;
 			sourceTree = "<group>";
@@ -689,6 +694,7 @@
 				C9ADEA971723CD7200F2A656 /* WeatherDetail.m in Sources */,
 				C9ADEA9B1723F32500F2A656 /* TodayWeather.m in Sources */,
 				C99941BF1735234A001DD691 /* YBMapViewController.m in Sources */,
+				C93CD2D21735C2BB000E8FDC /* YBMainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

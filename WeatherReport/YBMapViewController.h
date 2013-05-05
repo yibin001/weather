@@ -11,6 +11,7 @@
 
 @interface YBMapViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextView *TextView;
+@property (weak, nonatomic) IBOutlet MKMapView *MapView;
 
 @property  CLLocationCoordinate2D CurrentLocaltion;
 

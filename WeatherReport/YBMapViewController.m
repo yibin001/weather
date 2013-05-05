@@ -9,7 +9,7 @@
 #import "YBMapViewController.h"
 #import "AFJSONRequestOperation.h"
 #import "SVProgressHUD.h"
-
+#define METERS_PER_MILE 1609.344
 @interface YBMapViewController ()
 
 @end
@@ -64,13 +64,30 @@
     [operation start];
 }
 -(void)viewWillAppear:(BOOL)animated{
+    self.TextView.frame = CGRectMake(5, 5, 320, 60);
+    
+    self.MapView.frame = CGRectMake(5, 70, 320, 320);
     [SVProgressHUD showWithStatus:@"正在加载......"];
     [self LoadMapInfo];
+    MKCoordinateRegion region;
+    
+    region.center.latitude = self.CurrentLocaltion.latitude;
+    
+    region.center.longitude = self.CurrentLocaltion.longitude;
+    
+    region.span.latitudeDelta = 0.05;
+    
+    region.span.longitudeDelta = 0.05;
+    
+    //region = [self.MapView regionThatFites:region];
+    [self.MapView setRegion:region animated:YES];
+    
     [SVProgressHUD dismiss];
 }
 
 - (void)viewDidUnload {
     [self setTextView:nil];
+    [self setMapView:nil];
     [super viewDidUnload];
 }
 @end

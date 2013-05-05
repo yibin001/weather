@@ -10,6 +10,7 @@
 
 #import "YBAutomaticViewController.h"
 #import "FreeWeatherViewController.h"
+#import "YBMainViewController.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -22,8 +23,8 @@
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];
     YBAutomaticViewController *automatic = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
-    FreeWeatherViewController *free = [[FreeWeatherViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
+    
+       UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
     //self.window.rootViewController = automatic;
     
     self.window.rootViewController = nav;
