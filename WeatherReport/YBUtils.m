@@ -117,8 +117,25 @@
     return chinaDate;
 }
 
-+(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap{
++(NSDictionary *)ConvertToAddressInfo:(NSDictionary *)BaiDuInfo{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[@"address"] = @"";
+    dict[@"city"] = @"";
+    dict[@"country"] = @"";
     
+    
+    @autoreleasepool {
+        if ([BaiDuInfo[@"status"] intValue]==0) {
+            dict[@"address"] = BaiDuInfo[@"result"][@"formatted_address"];
+            dict[@"city"] = BaiDuInfo[@"result"][@"addressComponent"][@"city"];
+            dict[@"country"] = @"";
+        }
+    }
+    return dict;
+}
+
++(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap{
+   // return [YBUtils ConvertToAddressInfo:GoogleMap];
     @autoreleasepool {
         
     

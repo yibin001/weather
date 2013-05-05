@@ -17,7 +17,7 @@
 @property  CLLocationCoordinate2D CurrentLocaltion;
 
 @property (strong,nonatomic) UIScrollView *ScrollView;
-
+@property (strong,nonatomic) UIPageControl *PageControl;
 @property (weak, nonatomic) IBOutlet UILabel *lblTemp;
 @property (weak, nonatomic) IBOutlet UIImageView *imgWeather;
 @property (weak, nonatomic) IBOutlet UILabel *lblMinMaxTemp;

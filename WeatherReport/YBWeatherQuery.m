@@ -11,7 +11,7 @@
 
 
 #define GOOGLE_MAP_API @"http://maps.googleapis.com/maps/api/geocode/json?latlng=%f,%f&sensor=true"
-
+#define BAIDU_MAP_API @"http://api.map.baidu.com/geocoder/v2/?ak=CCb2bb072cc0a8fa208bee76622e52ab&location=%f,%f&output=json&pois=0"
 
 #import "YBWeatherQuery.h"
 #import <MapKit/MapKit.h>
@@ -26,7 +26,14 @@
 @implementation YBWeatherQuery
 
 
-
+-(NSDictionary *)QueryAddressByBaiDuAPI:(CLLocationCoordinate2D)geolocation{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:BAIDU_MAP_API,geolocation.latitude,geolocation.longitude]];
+    NSLog(@"%@",url);
+    NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+    
+    return json;
+}
 
 -(NSDictionary *)QueryAddress:(CLLocationDegrees )lat lng:(CLLocationDegrees )lng{
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:GOOGLE_MAP_API,lat,lng]];

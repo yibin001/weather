@@ -20,4 +20,5 @@
 -(NSDictionary *)LoadWeatherFromLocal;
 -(void)SaveWeatherToLocal:(NSDictionary *)Weather;
 -(NSDictionary *)QueryAddress:(CLLocationDegrees)lat lng:(CLLocationDegrees)lng;
+-(NSDictionary *)QueryAddressByBaiDuAPI:(CLLocationCoordinate2D)location;
 @end

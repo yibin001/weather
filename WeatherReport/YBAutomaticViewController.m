@@ -129,7 +129,8 @@
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 self.Query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
                 addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
-               
+                //addr_info = [self.Query QueryAddressByBaiDuAPI:self.CurrentLocaltion];
+                
                 weather_info = [self.Query QueryWeather];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -329,6 +330,7 @@
     if(addr_info){
         
         NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
+       // NSLog(@"%@",simpleCity);
         cityname = simpleCity[@"address"];
         @try {
             province = [POAPinyin convert:simpleCity[@"city"]];
@@ -382,12 +384,12 @@
     
     self.lblIntro.font = font;
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
-    self.lblIntro.frame = CGRectMake(10, 300, main.size.width-40, 60);
+    self.lblIntro.frame = CGRectMake(10, 320, main.size.width-40, 60);
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
     CGSize size = {main.size.width-40,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    self.lblIntro.frame = CGRectMake(10,300, labelsize.width, labelsize.height);
+    self.lblIntro.frame = CGRectMake(10,310, labelsize.width, labelsize.height);
     
     [self Render4Days];
     
@@ -398,13 +400,27 @@
 }
 
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGFloat pageWidth = self.ScrollView.frame.size.width;
+    int page = floor((self.ScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    self.PageControl.currentPage = page;
+    
+}
+
 -(void)_initLableAndImgView{
     
     CGRect frame = CGRectMake(5, 200, 320, 97);
     
     self.ScrollView = [[UIScrollView alloc] initWithFrame:frame];
     self.ScrollView.contentSize = CGSizeMake(640, 97);
-
+    self.ScrollView.delegate = self;
+    self.ScrollView.showsHorizontalScrollIndicator = NO;
+    frame.origin.y+=52;
+    self.PageControl = [[UIPageControl alloc] initWithFrame:frame];
+    self.PageControl.numberOfPages = 2;
+    self.PageControl.pageIndicatorTintColor = [UIColor grayColor];
+    self.PageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    [self.view addSubview:self.PageControl];
     UIColor *background = [UIColor  clearColor];
     lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 90, 60)];
      
@@ -460,16 +476,7 @@
     [self.ScrollView addSubview:img6];
     [self.ScrollView addSubview:lbl6];
     
-    
-    
-//    [self.view addSubview:img1];
-//    [self.view addSubview:lbl1];
-//    [self.view addSubview:img2];
-//    [self.view addSubview:lbl2];
-//    [self.view addSubview:img3];
-//    [self.view addSubview:lbl3];
-//    [self.view addSubview:img4];
-//    [self.view addSubview:lbl4];
+
    
 }
 
@@ -570,10 +577,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
     self.navigationItem.rightBarButtonItem.tag = 0;
     
-    
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonItemStylePlain target:self action:@selector(BtnPress:)];
-//    self.navigationItem.leftBarButtonItem.title=@"经纬度";
-//    self.navigationItem.leftBarButtonItem.tag = 10;
+
     
     if(![self CheckNetwork])
     {

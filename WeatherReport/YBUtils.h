@@ -24,7 +24,7 @@
 +(NSDictionary *)ConvertPM25ToString : (NSNumber *)Num;
 
 +(NSDictionary *)ConvertToSimpleCity:(NSDictionary *)GoogleMap;
-
++(NSDictionary *)ConvertToAddressInfo:(NSDictionary *)BaiDuInfo;
 +(NSString *)ChineseToPinYin:(NSString *)Chinaese;
 
 @end
