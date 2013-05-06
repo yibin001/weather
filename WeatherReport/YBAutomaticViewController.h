@@ -35,4 +35,6 @@
 
 @property (strong,nonatomic)YBWeatherQuery *Query;
 
+@property (strong,nonatomic) UIButton *ReloadImage;
+
 @end

@@ -21,6 +21,7 @@
 		C907124516CFDB6100ED0062 /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = C907124416CFDB6100ED0062 /* UIColor+HEX.m */; };
 		C907124716CFDC8900ED0062 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = C907124616CFDC8900ED0062 /* city.plist */; };
 		C907124916CFDD6400ED0062 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C907124816CFDD6300ED0062 /* CoreLocation.framework */; };
+		C92435071737DD6A00E532C0 /* MKLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C92435061737DD6A00E532C0 /* MKLocation.m */; };
 		C92C124317159ED700BE0598 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C92C123E17159ED700BE0598 /* Icon-72.png */; };
 		C92C124417159ED700BE0598 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = C92C123F17159ED700BE0598 /* Icon-Small-50.png */; };
 		C92C124517159ED700BE0598 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = C92C124017159ED700BE0598 /* Icon-Small.png */; };
@@ -114,6 +115,8 @@
 		C99941C01735234A001DD691 /* YBMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99941BE1735234A001DD691 /* YBMapViewController.xib */; };
 		C99A7E9716D0F72F002B7194 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9516D0F72F002B7194 /* Icon.png */; };
 		C99A7E9816D0F72F002B7194 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9616D0F72F002B7194 /* Icon@2x.png */; };
+		C99EB9AA17387001009D624C /* coat.png in Resources */ = {isa = PBXBuildFile; fileRef = C99EB9A817387001009D624C /* coat.png */; };
+		C99EB9AB17387001009D624C /* coat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C99EB9A917387001009D624C /* coat@2x.png */; };
 		C9ADEA971723CD7200F2A656 /* WeatherDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ADEA961723CD7200F2A656 /* WeatherDetail.m */; };
 		C9ADEA9B1723F32500F2A656 /* TodayWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ADEA9A1723F32500F2A656 /* TodayWeather.m */; };
 		C9ADEA9D1723F36800F2A656 /* TodayWeather.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9ADEA9C1723F36800F2A656 /* TodayWeather.xib */; };
@@ -147,6 +150,8 @@
 		C907124416CFDB6100ED0062 /* UIColor+HEX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HEX.m"; sourceTree = "<group>"; };
 		C907124616CFDC8900ED0062 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		C907124816CFDD6300ED0062 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C92435051737DD6A00E532C0 /* MKLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLocation.h; sourceTree = "<group>"; };
+		C92435061737DD6A00E532C0 /* MKLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLocation.m; sourceTree = "<group>"; };
 		C92C123E17159ED700BE0598 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		C92C123F17159ED700BE0598 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		C92C124017159ED700BE0598 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -256,6 +261,8 @@
 		C99941BE1735234A001DD691 /* YBMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YBMapViewController.xib; sourceTree = "<group>"; };
 		C99A7E9516D0F72F002B7194 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C99A7E9616D0F72F002B7194 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		C99EB9A817387001009D624C /* coat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coat.png; sourceTree = "<group>"; };
+		C99EB9A917387001009D624C /* coat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coat@2x.png"; sourceTree = "<group>"; };
 		C9ADEA951723CD7200F2A656 /* WeatherDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeatherDetail.h; path = ../WeatherDetail.h; sourceTree = "<group>"; };
 		C9ADEA961723CD7200F2A656 /* WeatherDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeatherDetail.m; path = ../WeatherDetail.m; sourceTree = "<group>"; };
 		C9ADEA991723F32500F2A656 /* TodayWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayWeather.h; sourceTree = "<group>"; };
@@ -363,6 +370,8 @@
 				C99941BE1735234A001DD691 /* YBMapViewController.xib */,
 				C93CD2D01735C2BB000E8FDC /* YBMainViewController.h */,
 				C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */,
+				C92435051737DD6A00E532C0 /* MKLocation.h */,
+				C92435061737DD6A00E532C0 /* MKLocation.m */,
 			);
 			path = WeatherReport;
 			sourceTree = "<group>";
@@ -438,6 +447,8 @@
 		C99A7E6E16D0F723002B7194 /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				C99EB9A817387001009D624C /* coat.png */,
+				C99EB9A917387001009D624C /* coat@2x.png */,
 				C9F8953716E183D700440783 /* reload@2x.png */,
 				C972BF4D16E0EF02008706EC /* a15@2x.png */,
 				C972BF4E16E0EF02008706EC /* a15s@2x.png */,
@@ -661,6 +672,8 @@
 				C9F7BB4317236B3100B36F4F /* FreeWeatherViewController.xib in Resources */,
 				C9ADEA9D1723F36800F2A656 /* TodayWeather.xib in Resources */,
 				C99941C01735234A001DD691 /* YBMapViewController.xib in Resources */,
+				C99EB9AA17387001009D624C /* coat.png in Resources */,
+				C99EB9AB17387001009D624C /* coat@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,6 +708,7 @@
 				C9ADEA9B1723F32500F2A656 /* TodayWeather.m in Sources */,
 				C99941BF1735234A001DD691 /* YBMapViewController.m in Sources */,
 				C93CD2D21735C2BB000E8FDC /* YBMainViewController.m in Sources */,
+				C92435071737DD6A00E532C0 /* MKLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@
 #import "YBUtils.h"
 #import "YBWeatherQuery.h"
 #import "CheckNetwork.h"
-
+#import <QuartzCore/QuartzCore.h>
 #import "POAPinyin.h"
 #import "AFNetworking/AFJSONRequestOperation.h"
 #import "SVProgressHUD.h"
@@ -21,6 +21,13 @@
 #define DEFAULT_CITY_NAME @"BeiJing,China"
 
 #define PM25_API @"http://pm25api.sinaapp.com/city/%@.json"
+
+
+@interface MKLocationManager
++ (id)sharedLocationManager;
+- (BOOL)chinaShiftEnabled;
+- (CLLocation*)_applyChinaLocationShift:(CLLocation*)arg;
+@end
 
 @interface YBAutomaticViewController ()
 {
@@ -41,6 +48,7 @@
     UIView *popView;
     BOOL IsSuccess;
     NSString *locality;
+    BOOL IsLoad;
 }
 @end
 
@@ -93,10 +101,28 @@
 
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    
+//    if(IsLoad)
+//        return;
+    
+    
     self.CurrentLocaltion= [newLocation coordinate];
+    
+    
+//    if ([[MKLocationManager sharedLocationManager] chinaShiftEnabled]) {
+//        newLocation = [[MKLocationManager sharedLocationManager] _applyChinaLocationShift:newLocation];
+//        if (newLocation == nil) {  // 很重要，计算location好像是要联网的，软件刚启动时前几次计算会返回nil。
+//            NSLog(@"fuck");
+//            return;
+//        }
+//    }
+    
+    self.CurrentLocaltion = [newLocation coordinate];
+    
+    
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [self.locationManager stopUpdatingLocation];
-    
+    IsLoad = YES;
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *place = placemarks[0];
         
@@ -153,8 +179,8 @@
     {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
-        self.locationManager.distanceFilter = 1000.0f;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        self.locationManager.distanceFilter = 50.0f;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locationManager.distanceFilter =  kCLHeadingFilterNone;
     }
     IsSuccess = NO;
@@ -354,7 +380,7 @@
     self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f)\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,cityname];//  cityname;// [NSString stringWithFormat:@"%@",weather_info[@"all"][@"city"]];
     self.lblCityName.numberOfLines=0;
     
-    self.imgLocationIcon.frame = CGRectMake(10, main.size.height-50-78, 20, 20);
+    self.imgLocationIcon.frame = CGRectMake(5, main.size.height-85, 20, 20);
    
     self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
     CGRect iconRect = self.imgLocationIcon.frame;
@@ -378,20 +404,25 @@
     self.lblUpdateTime.font = [UIFont systemFontOfSize:12.0];
     self.lblUpdateTime.textColor = [UIColor grayColor];
     self.lblUpdateTime.textAlignment = NSTextAlignmentLeft;
-    self.lblUpdateTime.frame = CGRectMake(10, main.size.height-50-46, 200, 20);
+    
     
     
     
     self.lblIntro.font = font;
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
-    self.lblIntro.frame = CGRectMake(10, 320, main.size.width-40, 60);
+    self.lblIntro.frame = CGRectMake(40, main.size.height-110, main.size.width-40, 60);
+    
+    
+    //self.lblIntro.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"coat"]];
+
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
     CGSize size = {main.size.width-40,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    self.lblIntro.frame = CGRectMake(10,310, labelsize.width, labelsize.height);
-    
+    self.lblIntro.frame = CGRectMake(10,main.size.height-130, labelsize.width, labelsize.height);
     [self Render4Days];
+    
+    
     
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -402,52 +433,70 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat pageWidth = self.ScrollView.frame.size.width;
+    
     int page = floor((self.ScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     self.PageControl.currentPage = page;
     
 }
 
+
+
+- (IBAction)changePage:(id)sender {
+    
+    int page = self.PageControl.currentPage;
+    
+    [self.ScrollView setContentOffset:CGPointMake(330 * page, 0)];
+    
+}
+
 -(void)_initLableAndImgView{
     
-    CGRect frame = CGRectMake(5, 200, 320, 97);
+    CGRect frame = CGRectMake(5, 220, main.size.width-10, 97);
     
     self.ScrollView = [[UIScrollView alloc] initWithFrame:frame];
     self.ScrollView.contentSize = CGSizeMake(640, 97);
     self.ScrollView.delegate = self;
+    //self.ScrollView.pagingEnabled = YES;
     self.ScrollView.showsHorizontalScrollIndicator = NO;
+    self.ScrollView.layer.borderWidth = 1;
+    self.ScrollView.layer.cornerRadius = 5;
+    self.ScrollView.layer.masksToBounds=YES;
+    self.ScrollView.layer.borderColor = [UIColor blackColor].CGColor;
     frame.origin.y+=52;
     self.PageControl = [[UIPageControl alloc] initWithFrame:frame];
     self.PageControl.numberOfPages = 2;
     self.PageControl.pageIndicatorTintColor = [UIColor grayColor];
     self.PageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    self.PageControl.userInteractionEnabled = YES;
+    [self.PageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.PageControl];
     UIColor *background = [UIColor  clearColor];
-    lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(5, 30, 90, 60)];
-     
-    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(40, 0, 30, 30)];
+    lbl1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 100, 60)];
+    lbl1.backgroundColor = [UIColor yellowColor];
+    img1 = [[UIImageView alloc] initWithFrame:CGRectMake(35, 0, 30, 30)];
     
    
     
-    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(140, 0, 30, 30)];
-    lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(110, 30, 90, 60)];
+    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(150, 0, 30, 30)];
+    lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(105, 30, 100, 60)];
     
-    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(245, 0, 30, 30)];
-    lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(215, 30, 90, 60)];
+    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(250, 0, 30, 30)];
+    lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 100, 60)];
 
     
    
-    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(350, 0, 30, 30)];
-     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(320, 30, 90, 60)];
+    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(355, 0, 30, 30)];
+     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(320, 30, 100, 60)];
     
     
     
-    img5 = [[UIImageView alloc] initWithFrame:CGRectMake(460, 0, 30, 30)];
-    lbl5 = [[UILabel alloc] initWithFrame:CGRectMake(430, 30, 90, 60)];
+    img5 = [[UIImageView alloc] initWithFrame:CGRectMake(465, 0, 30, 30)];
+    lbl5 = [[UILabel alloc] initWithFrame:CGRectMake(430, 30, 100, 60)];
     lbl5.backgroundColor = background;
     
     
-    img6 = [[UIImageView alloc] initWithFrame:CGRectMake(570, 0, 30, 30)];
-    lbl6 = [[UILabel alloc] initWithFrame:CGRectMake(540, 30, 90, 60)];
+    img6 = [[UIImageView alloc] initWithFrame:CGRectMake(575, 0, 30, 30)];
+    lbl6 = [[UILabel alloc] initWithFrame:CGRectMake(540, 30, 100, 60)];
     lbl6.backgroundColor = background;
     
     lbl1.backgroundColor = background;
@@ -559,6 +608,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBarHidden = YES;
     self.Query = [[YBWeatherQuery alloc] init];
     [SVProgressHUD showWithStatus:@"正在加载......"];
     
@@ -613,7 +663,16 @@
     
     [self Start];
     
+    self.ReloadImage =[[UIButton alloc] init];
+    self.ReloadImage.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"reload"]];
+    self.ReloadImage.frame = CGRectMake(5, main.size.height-50, 20, 20);
+    [self.ReloadImage addTarget:self action:@selector(BtnPress:) forControlEvents:UIControlEventTouchUpInside];
+    self.lblUpdateTime.frame = CGRectMake(30, main.size.height-50, 200, 20);
     
+    
+    
+    
+    [self.view addSubview:self.ReloadImage];
     
    
     
@@ -626,7 +685,7 @@
     [self.navigationController pushViewController:map animated:YES];
 }
 
--(void)BtnPress:(UIBarItem *)sender{
+-(void)BtnPress:(UIButton *)sender{
     if(sender.tag==0)
     {
        

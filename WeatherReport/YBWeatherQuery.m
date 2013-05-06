@@ -17,6 +17,8 @@
 #import <MapKit/MapKit.h>
 #import "AFJSONRequestOperation.h"
 
+
+
 @interface  YBWeatherQuery()
 {
     NSDictionary *location;
@@ -37,6 +39,7 @@
 
 -(NSDictionary *)QueryAddress:(CLLocationDegrees )lat lng:(CLLocationDegrees )lng{
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:GOOGLE_MAP_API,lat,lng]];
+    NSLog(@"%@",url);
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
     
