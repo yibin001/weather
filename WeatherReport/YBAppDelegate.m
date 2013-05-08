@@ -9,7 +9,7 @@
 #import "YBAppDelegate.h"
 
 #import "YBAutomaticViewController.h"
-#import "FreeWeatherViewController.h"
+
 #import "YBMainViewController.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;

@@ -431,10 +431,20 @@
 }
 
 
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat pageWidth = self.ScrollView.frame.size.width;
+    NSLog(@"%f,%f",self.ScrollView.contentOffset.x,pageWidth);
     
-    int page = floor((self.ScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    if (self.ScrollView.contentOffset.x<176) {
+        self.PageControl.currentPage = 0;
+        
+    }
+    else
+        self.PageControl.currentPage = 1;
+    return;
+    
+    int page =fabs(self.ScrollView.contentOffset.x / pageWidth);
     self.PageControl.currentPage = page;
     
 }
@@ -451,22 +461,25 @@
 
 -(void)_initLableAndImgView{
     
-    CGRect frame = CGRectMake(5, 220, main.size.width-10, 97);
+    CGRect frame = CGRectMake(5, 220, main.size.width-10, 100);
     
     self.ScrollView = [[UIScrollView alloc] initWithFrame:frame];
-    self.ScrollView.contentSize = CGSizeMake(640, 97);
+    self.ScrollView.contentSize = CGSizeMake(635, 100);
     self.ScrollView.delegate = self;
     //self.ScrollView.pagingEnabled = YES;
     self.ScrollView.showsHorizontalScrollIndicator = NO;
     self.ScrollView.layer.borderWidth = 1;
     self.ScrollView.layer.cornerRadius = 5;
     self.ScrollView.layer.masksToBounds=YES;
-    self.ScrollView.layer.borderColor = [UIColor blackColor].CGColor;
-    frame.origin.y+=52;
+    frame.origin.y+=60;
     self.PageControl = [[UIPageControl alloc] initWithFrame:frame];
     self.PageControl.numberOfPages = 2;
-    self.PageControl.pageIndicatorTintColor = [UIColor grayColor];
-    self.PageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    if([self.PageControl respondsToSelector:@selector(pageIndicatorTintColor)]){
+        self.PageControl.pageIndicatorTintColor = [UIColor grayColor];
+    }
+    if ([self.PageControl respondsToSelector:@selector(currentPageIndicatorTintColor)]) {
+        self.PageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    }
     self.PageControl.userInteractionEnabled = YES;
     [self.PageControl addTarget:self action:@selector(changePage:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.PageControl];
@@ -477,10 +490,10 @@
     
    
     
-    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(150, 0, 30, 30)];
+    img2 = [[UIImageView alloc] initWithFrame:CGRectMake(140, 0, 30, 30)];
     lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(105, 30, 100, 60)];
     
-    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(250, 0, 30, 30)];
+    img3 = [[UIImageView alloc] initWithFrame:CGRectMake(245, 0, 30, 30)];
     lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 100, 60)];
 
     
@@ -601,7 +614,7 @@
     
     img6.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img11"]]];
     img6.contentMode = UIViewContentModeCenter;
-
+    self.ScrollView.layer.borderColor = [UIColor blackColor].CGColor;
    
 }
 
@@ -610,7 +623,7 @@
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
     self.Query = [[YBWeatherQuery alloc] init];
-    [SVProgressHUD showWithStatus:@"正在加载......"];
+    [SVProgressHUD showWithStatus:@"正在更新..."];
     
     IsFoundCity = YES;
     
@@ -652,7 +665,7 @@
     {
     
         [self LoaddingWeather];
-        [SVProgressHUD showWithStatus:@"正在加载......"]; 
+        [SVProgressHUD showWithStatus:@"正在更新..."];
     }
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ToMapDetail:)];
@@ -692,7 +705,7 @@
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
-        [SVProgressHUD showWithStatus:@"正在加载......"];
+        [SVProgressHUD showWithStatus:@"正在更新..."];
         [self Start];
     }
     else if(sender.tag==10)

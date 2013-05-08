@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet MKMapView *MapView;
 
 @property  CLLocationCoordinate2D CurrentLocaltion;
+@property (weak, nonatomic) IBOutlet UIButton *btnBack;
 
 -(void)LoadMapInfo;
 @end

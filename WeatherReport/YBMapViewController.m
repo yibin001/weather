@@ -81,13 +81,17 @@
     
     //region = [self.MapView regionThatFites:region];
     [self.MapView setRegion:region animated:YES];
-    
+    self.btnBack.titleLabel.text=@"back";
+    [self.btnBack addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [SVProgressHUD dismiss];
 }
-
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)viewDidUnload {
     [self setTextView:nil];
     [self setMapView:nil];
+    [self setBtnBack:nil];
     [super viewDidUnload];
 }
 @end
