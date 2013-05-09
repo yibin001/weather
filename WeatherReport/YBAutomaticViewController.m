@@ -417,7 +417,7 @@
 
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
-    CGSize size = {main.size.width-40,2000};
+    CGSize size = {main.size.width-10,2000};
     CGSize labelsize = [index_d sizeWithFont:font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     self.lblIntro.frame = CGRectMake(10,main.size.height-130, labelsize.width, labelsize.height);
     [self Render4Days];
