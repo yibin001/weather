@@ -434,15 +434,6 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat pageWidth = self.ScrollView.frame.size.width;
-    NSLog(@"%f,%f",self.ScrollView.contentOffset.x,pageWidth);
-    
-    if (self.ScrollView.contentOffset.x<176) {
-        self.PageControl.currentPage = 0;
-        
-    }
-    else
-        self.PageControl.currentPage = 1;
-    return;
     
     int page =fabs(self.ScrollView.contentOffset.x / pageWidth);
     self.PageControl.currentPage = page;
@@ -455,7 +446,7 @@
     
     int page = self.PageControl.currentPage;
     
-    [self.ScrollView setContentOffset:CGPointMake(330 * page, 0)];
+    [self.ScrollView setContentOffset:CGPointMake(310 * page, 0)];
     
 }
 
@@ -464,9 +455,9 @@
     CGRect frame = CGRectMake(5, 220, main.size.width-10, 100);
     
     self.ScrollView = [[UIScrollView alloc] initWithFrame:frame];
-    self.ScrollView.contentSize = CGSizeMake(635, 100);
+    self.ScrollView.contentSize = CGSizeMake(620, 100);
     self.ScrollView.delegate = self;
-    //self.ScrollView.pagingEnabled = YES;
+    self.ScrollView.pagingEnabled = YES;
     self.ScrollView.showsHorizontalScrollIndicator = NO;
     self.ScrollView.layer.borderWidth = 1;
     self.ScrollView.layer.cornerRadius = 5;
@@ -498,18 +489,18 @@
 
     
    
-    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(355, 0, 30, 30)];
-     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(320, 30, 100, 60)];
+    img4 = [[UIImageView alloc] initWithFrame:CGRectMake(343, 0, 30, 30)];
+     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(310, 30, 100, 60)];
     
     
     
-    img5 = [[UIImageView alloc] initWithFrame:CGRectMake(465, 0, 30, 30)];
-    lbl5 = [[UILabel alloc] initWithFrame:CGRectMake(430, 30, 100, 60)];
+    img5 = [[UIImageView alloc] initWithFrame:CGRectMake(450, 0, 30, 30)];
+    lbl5 = [[UILabel alloc] initWithFrame:CGRectMake(415, 30, 100, 60)];
     lbl5.backgroundColor = background;
     
     
-    img6 = [[UIImageView alloc] initWithFrame:CGRectMake(575, 0, 30, 30)];
-    lbl6 = [[UILabel alloc] initWithFrame:CGRectMake(540, 30, 100, 60)];
+    img6 = [[UIImageView alloc] initWithFrame:CGRectMake(545, 0, 30, 30)];
+    lbl6 = [[UILabel alloc] initWithFrame:CGRectMake(510, 30, 100, 60)];
     lbl6.backgroundColor = background;
     
     lbl1.backgroundColor = background;
