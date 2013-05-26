@@ -14,7 +14,9 @@
 #import "POAPinyin.h"
 #import "AFNetworking/AFJSONRequestOperation.h"
 #import "SVProgressHUD.h"
-#import "YBMapViewController.h"
+
+#include "convert.h"
+#import "MapKitViewController.h"
 #define ISDEBUG YES
 #define DEBUG_CITY_CODE @"101021000"
 #define DEFAULT_CITY_CODE @"101010300"
@@ -23,11 +25,7 @@
 #define PM25_API @"http://pm25api.sinaapp.com/city/%@.json"
 
 
-@interface MKLocationManager
-+ (id)sharedLocationManager;
-- (BOOL)chinaShiftEnabled;
-- (CLLocation*)_applyChinaLocationShift:(CLLocation*)arg;
-@end
+
 
 @interface YBAutomaticViewController ()
 {
@@ -40,7 +38,7 @@
     NSDictionary *addr_info;
     
     UIFont *font;
-    
+    int tryCount;
     UIImageView *img1,*img2,*img3,*img4,*img5,*img6;
     UILabel *lbl1,*lbl2,*lbl3,*lbl4,*lbl5,*lbl6;
     BOOL IsFoundCity;
@@ -101,27 +99,15 @@
 
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
-    
-//    if(IsLoad)
-//        return;
-    
-    
-    self.CurrentLocaltion= [newLocation coordinate];
-    
-    
-//    if ([[MKLocationManager sharedLocationManager] chinaShiftEnabled]) {
-//        newLocation = [[MKLocationManager sharedLocationManager] _applyChinaLocationShift:newLocation];
-//        if (newLocation == nil) {  // 很重要，计算location好像是要联网的，软件刚启动时前几次计算会返回nil。
-//            NSLog(@"fuck");
-//            return;
-//        }
-//    }
-    
-    self.CurrentLocaltion = [newLocation coordinate];
-    
-    
+    CLLocationCoordinate2D _location = [newLocation coordinate];
+   // NSLog(@"精确到:%f米",[newLocation horizontalAccuracy] );
+    CLLocationCoordinate2D marsCoordinate =  transform(_location);
+    self.CurrentLocaltion = marsCoordinate;
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
-    [self.locationManager stopUpdatingLocation];
+    if ([newLocation horizontalAccuracy] <=10.0f) {
+        [self.locationManager stopUpdatingLocation];
+    }
+    
     IsLoad = YES;
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *place = placemarks[0];
@@ -179,9 +165,10 @@
     {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
-        self.locationManager.distanceFilter = 50.0f;
+        self.locationManager.distanceFilter = 10.0f;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.locationManager.distanceFilter =  kCLHeadingFilterNone;
+        //self.locationManager.distanceFilter = kCLDistanceFilterNone;
+        
     }
     IsSuccess = NO;
     if(![self CheckNetwork])
@@ -609,8 +596,18 @@
    
 }
 
+
+-(void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    NSString *lat=[[NSString alloc] initWithFormat:@"%f",userLocation.coordinate.latitude];
+    NSString *lng=[[NSString alloc] initWithFormat:@"%f",userLocation.coordinate.longitude];
+    
+    NSLog(@"%@,%@",lat,lng);
+    
+}
+
 - (void)viewDidLoad
 {
+    tryCount = 0;
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
     self.Query = [[YBWeatherQuery alloc] init];
@@ -623,9 +620,12 @@
     self.title = @"简约天气";
     
    
-    
-   
-    
+//    self.mpview = [[MKMapView alloc ] initWithFrame:CGRectMake(0, 0, 0, 0)];
+//    self.mpview.showsUserLocation = YES;
+//    self.mpview.mapType = MKMapTypeStandard;
+//    self.mpview.delegate = self;
+//    [self.view addSubview:self.mpview];
+//    
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
@@ -663,7 +663,7 @@
     
     singleTap.numberOfTouchesRequired = 1;
     [self.imgLocationIcon addGestureRecognizer:singleTap];
-    self.imgLocationIcon.userInteractionEnabled = YES;
+    self.imgLocationIcon.userInteractionEnabled =NO;// YES;
     
     [self Start];
     
@@ -684,9 +684,8 @@
 
 -(IBAction)ToMapDetail  :(id)sender
 {
-    YBMapViewController *map = [[YBMapViewController alloc] init];
-    map.CurrentLocaltion = self.CurrentLocaltion;
-    [self.navigationController pushViewController:map animated:YES];
+    MapKitViewController *map = [[MapKitViewController alloc] init];
+       [self.navigationController pushViewController:map animated:YES];
 }
 
 -(void)BtnPress:(UIButton *)sender{

@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface YBMainViewController : UIViewController<UIScrollViewDelegate>
 
 
 @property (strong,nonatomic) UIScrollView *ScrollView;
 
--(void)Reload;
+
 
 @end

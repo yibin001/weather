@@ -21,7 +21,6 @@
 		C907124516CFDB6100ED0062 /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = C907124416CFDB6100ED0062 /* UIColor+HEX.m */; };
 		C907124716CFDC8900ED0062 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = C907124616CFDC8900ED0062 /* city.plist */; };
 		C907124916CFDD6400ED0062 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C907124816CFDD6300ED0062 /* CoreLocation.framework */; };
-		C92435071737DD6A00E532C0 /* MKLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C92435061737DD6A00E532C0 /* MKLocation.m */; };
 		C92C124317159ED700BE0598 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C92C123E17159ED700BE0598 /* Icon-72.png */; };
 		C92C124417159ED700BE0598 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = C92C123F17159ED700BE0598 /* Icon-Small-50.png */; };
 		C92C124517159ED700BE0598 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = C92C124017159ED700BE0598 /* Icon-Small.png */; };
@@ -62,7 +61,6 @@
 		C9371E8116DF836D00A77266 /* a31@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9371E3F16DF836D00A77266 /* a31@2x.png */; };
 		C9371E8216DF836D00A77266 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = C9371E4016DF836D00A77266 /* background.png */; };
 		C9371E8316DF836D00A77266 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9371E4116DF836D00A77266 /* background@2x.png */; };
-		C93CD2D21735C2BB000E8FDC /* YBMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */; };
 		C93ED72216E4BFE600D1890E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71016E4BFE600D1890E /* AFHTTPClient.m */; };
 		C93ED72316E4BFE600D1890E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71216E4BFE600D1890E /* AFHTTPRequestOperation.m */; };
 		C93ED72416E4BFE600D1890E /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C93ED71416E4BFE600D1890E /* AFImageRequestOperation.m */; };
@@ -77,6 +75,9 @@
 		C948E07E16E8CB3D000589FB /* POAPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = C948E07D16E8CB3D000589FB /* POAPinyin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C94B0F3816E0E56600201899 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = C94B0F3616E0E56600201899 /* location.png */; };
 		C94B0F3916E0E56600201899 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C94B0F3716E0E56600201899 /* location@2x.png */; };
+		C95016931752159200E2F4EC /* MapPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C95016921752159200E2F4EC /* MapPoint.m */; };
+		C950169C17521BFA00E2F4EC /* MapKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C950169A17521BFA00E2F4EC /* MapKitViewController.m */; };
+		C950169D17521BFA00E2F4EC /* MapKitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C950169B17521BFA00E2F4EC /* MapKitViewController.xib */; };
 		C972BF2F16E0EEC5008706EC /* a0s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF1116E0EEC5008706EC /* a0s@2x.png */; };
 		C972BF3016E0EEC5008706EC /* a1s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF1216E0EEC5008706EC /* a1s@2x.png */; };
 		C972BF3116E0EEC5008706EC /* a2s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF1316E0EEC5008706EC /* a2s@2x.png */; };
@@ -111,8 +112,6 @@
 		C972BF5216E0EF02008706EC /* a15s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF4E16E0EF02008706EC /* a15s@2x.png */; };
 		C972BF5316E0EF02008706EC /* a19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF4F16E0EF02008706EC /* a19@2x.png */; };
 		C972BF5416E0EF02008706EC /* a19s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C972BF5016E0EF02008706EC /* a19s@2x.png */; };
-		C99941BF1735234A001DD691 /* YBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99941BD1735234A001DD691 /* YBMapViewController.m */; };
-		C99941C01735234A001DD691 /* YBMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99941BE1735234A001DD691 /* YBMapViewController.xib */; };
 		C99A7E9716D0F72F002B7194 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9516D0F72F002B7194 /* Icon.png */; };
 		C99A7E9816D0F72F002B7194 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C99A7E9616D0F72F002B7194 /* Icon@2x.png */; };
 		C99EB9AA17387001009D624C /* coat.png in Resources */ = {isa = PBXBuildFile; fileRef = C99EB9A817387001009D624C /* coat.png */; };
@@ -148,8 +147,6 @@
 		C907124416CFDB6100ED0062 /* UIColor+HEX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HEX.m"; sourceTree = "<group>"; };
 		C907124616CFDC8900ED0062 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		C907124816CFDD6300ED0062 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		C92435051737DD6A00E532C0 /* MKLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLocation.h; sourceTree = "<group>"; };
-		C92435061737DD6A00E532C0 /* MKLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLocation.m; sourceTree = "<group>"; };
 		C92C123E17159ED700BE0598 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		C92C123F17159ED700BE0598 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		C92C124017159ED700BE0598 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -191,8 +188,6 @@
 		C9371E3F16DF836D00A77266 /* a31@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a31@2x.png"; sourceTree = "<group>"; };
 		C9371E4016DF836D00A77266 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		C9371E4116DF836D00A77266 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
-		C93CD2D01735C2BB000E8FDC /* YBMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBMainViewController.h; sourceTree = "<group>"; };
-		C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBMainViewController.m; sourceTree = "<group>"; };
 		C93ED70F16E4BFE600D1890E /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		C93ED71016E4BFE600D1890E /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		C93ED71116E4BFE600D1890E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -220,6 +215,12 @@
 		C948E07D16E8CB3D000589FB /* POAPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POAPinyin.m; sourceTree = "<group>"; };
 		C94B0F3616E0E56600201899 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		C94B0F3716E0E56600201899 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
+		C95016901752159200E2F4EC /* convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convert.h; sourceTree = "<group>"; };
+		C95016911752159200E2F4EC /* MapPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPoint.h; sourceTree = "<group>"; };
+		C95016921752159200E2F4EC /* MapPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPoint.m; sourceTree = "<group>"; };
+		C950169917521BFA00E2F4EC /* MapKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapKitViewController.h; sourceTree = "<group>"; };
+		C950169A17521BFA00E2F4EC /* MapKitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapKitViewController.m; sourceTree = "<group>"; };
+		C950169B17521BFA00E2F4EC /* MapKitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapKitViewController.xib; sourceTree = "<group>"; };
 		C972BF1116E0EEC5008706EC /* a0s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a0s@2x.png"; sourceTree = "<group>"; };
 		C972BF1216E0EEC5008706EC /* a1s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a1s@2x.png"; sourceTree = "<group>"; };
 		C972BF1316E0EEC5008706EC /* a2s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a2s@2x.png"; sourceTree = "<group>"; };
@@ -254,9 +255,6 @@
 		C972BF4E16E0EF02008706EC /* a15s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a15s@2x.png"; sourceTree = "<group>"; };
 		C972BF4F16E0EF02008706EC /* a19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a19@2x.png"; sourceTree = "<group>"; };
 		C972BF5016E0EF02008706EC /* a19s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a19s@2x.png"; sourceTree = "<group>"; };
-		C99941BC1735234A001DD691 /* YBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YBMapViewController.h; sourceTree = "<group>"; };
-		C99941BD1735234A001DD691 /* YBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YBMapViewController.m; sourceTree = "<group>"; };
-		C99941BE1735234A001DD691 /* YBMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YBMapViewController.xib; sourceTree = "<group>"; };
 		C99A7E9516D0F72F002B7194 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C99A7E9616D0F72F002B7194 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		C99EB9A817387001009D624C /* coat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coat.png; sourceTree = "<group>"; };
@@ -328,6 +326,12 @@
 		C907122016CFD92000ED0062 /* WeatherReport */ = {
 			isa = PBXGroup;
 			children = (
+				C950169917521BFA00E2F4EC /* MapKitViewController.h */,
+				C950169A17521BFA00E2F4EC /* MapKitViewController.m */,
+				C950169B17521BFA00E2F4EC /* MapKitViewController.xib */,
+				C95016901752159200E2F4EC /* convert.h */,
+				C95016911752159200E2F4EC /* MapPoint.h */,
+				C95016921752159200E2F4EC /* MapPoint.m */,
 				C9ADEA981723F2FC00F2A656 /* view */,
 				C92C123E17159ED700BE0598 /* Icon-72.png */,
 				C92C123F17159ED700BE0598 /* Icon-Small-50.png */,
@@ -357,13 +361,6 @@
 				C9371DFC16DF7E3700A77266 /* YBAutomaticViewController.m */,
 				C9371DFD16DF7E3700A77266 /* YBAutomaticViewController.xib */,
 				C941A0561714549F005F76B5 /* Const.h */,
-				C99941BC1735234A001DD691 /* YBMapViewController.h */,
-				C99941BD1735234A001DD691 /* YBMapViewController.m */,
-				C99941BE1735234A001DD691 /* YBMapViewController.xib */,
-				C93CD2D01735C2BB000E8FDC /* YBMainViewController.h */,
-				C93CD2D11735C2BB000E8FDC /* YBMainViewController.m */,
-				C92435051737DD6A00E532C0 /* MKLocation.h */,
-				C92435061737DD6A00E532C0 /* MKLocation.m */,
 			);
 			path = WeatherReport;
 			sourceTree = "<group>";
@@ -662,9 +659,9 @@
 				C92C124617159ED700BE0598 /* Icon-Small@2x.png in Resources */,
 				C92C124717159ED700BE0598 /* ItunesArtwork in Resources */,
 				C9ADEA9D1723F36800F2A656 /* TodayWeather.xib in Resources */,
-				C99941C01735234A001DD691 /* YBMapViewController.xib in Resources */,
 				C99EB9AA17387001009D624C /* coat.png in Resources */,
 				C99EB9AB17387001009D624C /* coat@2x.png in Resources */,
+				C950169D17521BFA00E2F4EC /* MapKitViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,9 +693,8 @@
 				C941A05517145199005F76B5 /* SVProgressHUD.m in Sources */,
 				C9ADEA971723CD7200F2A656 /* WeatherDetail.m in Sources */,
 				C9ADEA9B1723F32500F2A656 /* TodayWeather.m in Sources */,
-				C99941BF1735234A001DD691 /* YBMapViewController.m in Sources */,
-				C93CD2D21735C2BB000E8FDC /* YBMainViewController.m in Sources */,
-				C92435071737DD6A00E532C0 /* MKLocation.m in Sources */,
+				C95016931752159200E2F4EC /* MapPoint.m in Sources */,
+				C950169C17521BFA00E2F4EC /* MapKitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

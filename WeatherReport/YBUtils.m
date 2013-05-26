@@ -12,6 +12,7 @@
     NSDictionary *dict;
     NSDictionary *weekday;
     NSString *city_archive_path;
+    
 }
 @end
 
@@ -168,6 +169,8 @@
                 break;
             }
         }
+        NSArray *tmpstring =[GoogleMap[@"results"][0][@"formatted_address"] componentsSeparatedByString:@" "];
+        dict[@"address"] =tmpstring[0];// GoogleMap[@"results"][0][@"formatted_address"];
     }
     return dict;
     }

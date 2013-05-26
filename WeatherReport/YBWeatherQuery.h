@@ -11,6 +11,7 @@
 @interface YBWeatherQuery : NSObject
 {
     NSString *cityCode;
+    
 }
 @property (strong,nonatomic) NSDictionary *google_location;
 

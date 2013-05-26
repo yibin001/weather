@@ -37,4 +37,6 @@
 
 @property (strong,nonatomic) UIButton *ReloadImage;
 
+
+//@property (strong,nonatomic) MKMapView *mpview;
 @end

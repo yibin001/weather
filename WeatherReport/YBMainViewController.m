@@ -22,18 +22,18 @@
     }
     return self;
 }
--(void)Reload{
-    
-}
+
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	
-    self.ScrollView = [[UIScrollView alloc ] initWithFrame:CGRectMake(0, 0, 320, 300)];
-    YBAutomaticViewController *autoView = [[YBAutomaticViewController alloc] init];
-    [self.ScrollView addSubview:autoView];
-    self.ScrollView.contentSize = CGSizeMake(320, 800);
-    [self.view addSubview:self.ScrollView];
+    self.ScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    [self.ScrollView setContentSize:CGSizeMake(320, 960)];
+    self.ScrollView.delegate = self;
+    self.ScrollView.pagingEnabled = YES;
+    self.ScrollView.showsVerticalScrollIndicator = YES;
+    self.ScrollView.showsHorizontalScrollIndicator = NO;
+    YBAutomaticViewController *WeatherMain = [[YBAutomaticViewController alloc] init];
+    [self.ScrollView addSubview:WeatherMain];
+    
 }
 
 - (void)didReceiveMemoryWarning
