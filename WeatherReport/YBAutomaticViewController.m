@@ -104,9 +104,9 @@
     CLLocationCoordinate2D marsCoordinate =  transform(_location);
     self.CurrentLocaltion = marsCoordinate;
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
-    if ([newLocation horizontalAccuracy] <=10.0f) {
-        [self.locationManager stopUpdatingLocation];
-    }
+//    if ([newLocation horizontalAccuracy] <=10.0f) {
+//        [self.locationManager stopUpdatingLocation];
+//    }
     
     IsLoad = YES;
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
