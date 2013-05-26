@@ -46,7 +46,7 @@
     UIView *popView;
     BOOL IsSuccess;
     NSString *locality;
-    BOOL IsLoad;
+    BOOL IsLoadedWeather;
 }
 @end
 
@@ -100,15 +100,13 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     CLLocationCoordinate2D _location = [newLocation coordinate];
-   // NSLog(@"精确到:%f米",[newLocation horizontalAccuracy] );
+   
     CLLocationCoordinate2D marsCoordinate =  transform(_location);
     self.CurrentLocaltion = marsCoordinate;
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
-//    if ([newLocation horizontalAccuracy] <=10.0f) {
-//        [self.locationManager stopUpdatingLocation];
-//    }
+    NSLog(@"精度为:%f",newLocation.horizontalAccuracy);
     
-    IsLoad = YES;
+    IsLoadedWeather = NO;
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *place = placemarks[0];
         
@@ -138,20 +136,45 @@
                 IsFoundCity = NO;
             }
             
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                self.Query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
-                addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
-                //addr_info = [self.Query QueryAddressByBaiDuAPI:self.CurrentLocaltion];
+            if (!IsLoadedWeather) {
                 
-                weather_info = [self.Query QueryWeather];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self LoaddingWeather];
-                    [self.Query SaveWeatherToLocal:weather_info];
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    self.Query = [[YBWeatherQuery alloc] initWithCityCode:currCity[@"citycode"]];
+                    
+                    weather_info = [self.Query QueryWeather];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self LoaddingWeather];
+                        [self.Query SaveWeatherToLocal:weather_info];
+                    });
                 });
+                IsLoadedWeather = YES;
+            }
+           
+           
+            
+            if(newLocation.horizontalAccuracy<=10.0f)
+            {
+                addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+                NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
+                NSString *cityname = simpleCity[@"address"];
                 
+                self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f),精确到%d米\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,(int)newLocation.horizontalAccuracy, cityname];
                 
-            });
+                NSLog(@"cityname is %@",cityname);
+                @try {
+                    province = [POAPinyin convert:simpleCity[@"city"]];
+                    [self QueryPM25:province];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@",exception);
+                }
+                @finally {
+                }
+                
+            };
+            
 
         }
 
@@ -336,36 +359,35 @@
     self.lblDegree.hidden = NO;
     self.lblDegree.textAlignment = NSTextAlignmentLeft;
     
-    NSString *cityname = weather_info[@"all"][@"city"];
+    //NSString *cityname = weather_info[@"all"][@"city"];
     
 
    
-    if(addr_info){
-        
-        NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
-       // NSLog(@"%@",simpleCity);
-        cityname = simpleCity[@"address"];
-        @try {
-            province = [POAPinyin convert:simpleCity[@"city"]];
-             [self QueryPM25:province];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@",exception);
-        }
-        @finally {
-        
-        }
-        
-       
-    }
+//    if(addr_info){
+//        
+//        NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
+//       // NSLog(@"%@",simpleCity);
+//        cityname = simpleCity[@"address"];
+//        @try {
+//            province = [POAPinyin convert:simpleCity[@"city"]];
+//             [self QueryPM25:province];
+//        }
+//        @catch (NSException *exception) {
+//            NSLog(@"%@",exception);
+//        }
+//        @finally {
+//        
+//        }
+//        
+//       
+//    }
     if(!IsFoundCity)
     {
-        cityname = DEFAULT_CITY_NAME;
+       // cityname = DEFAULT_CITY_NAME;
     }
     
     
-    self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f)\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,cityname];//  cityname;// [NSString stringWithFormat:@"%@",weather_info[@"all"][@"city"]];
-    self.lblCityName.numberOfLines=0;
+    
     
     self.imgLocationIcon.frame = CGRectMake(5, main.size.height-85, 20, 20);
    
@@ -664,7 +686,8 @@
     singleTap.numberOfTouchesRequired = 1;
     [self.imgLocationIcon addGestureRecognizer:singleTap];
     self.imgLocationIcon.userInteractionEnabled =NO;// YES;
-    
+    self.lblCityName.text = @"正在定位......";
+    self.lblCityName.numberOfLines=0;
     [self Start];
     
     self.ReloadImage =[[UIButton alloc] init];
@@ -692,7 +715,7 @@
     if(sender.tag==0)
     {
        
-        
+        IsLoadedWeather = NO;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
         [SVProgressHUD showWithStatus:@"正在更新..."];
