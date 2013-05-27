@@ -47,7 +47,7 @@
     BOOL IsSuccess;
     NSString *locality;
     BOOL IsLoadedWeather;
-    long FirstTimeStamp;
+    double FirstTimeStamp;
 }
 @end
 
@@ -167,17 +167,18 @@
                 IsLoadedWeather = YES;
             }
            
-           
-            
-            if(newLocation.horizontalAccuracy<=10.0f || (long)[NSDate dateWithTimeIntervalSinceNow:0]-FirstTimeStamp >=20)
+            double curr =  [[NSDate date] timeIntervalSince1970];
+            self.lblCityName.text = [NSString stringWithFormat:@"正在定位...精度 %d 米",(int)newLocation.horizontalAccuracy];
+            if(curr-FirstTimeStamp >=30 || newLocation.horizontalAccuracy<=10.0f )
             {
-                FirstTimeStamp = (long)[NSDate dateWithTimeIntervalSinceNow:0];
+                NSLog(@"coming.....");
+                FirstTimeStamp = curr;
                 addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
                 NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
                 NSString *cityname = simpleCity[@"address"];
                 
                 self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f),精确到%d米\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,(int)newLocation.horizontalAccuracy, cityname];
-                
+                [self.locationManager stopUpdatingLocation];
             };
             
 
@@ -363,30 +364,7 @@
     }
     self.lblDegree.hidden = NO;
     self.lblDegree.textAlignment = NSTextAlignmentLeft;
-    
-    //NSString *cityname = weather_info[@"all"][@"city"];
-    
-
-   
-//    if(addr_info){
-//        
-//        NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
-//       // NSLog(@"%@",simpleCity);
-//        cityname = simpleCity[@"address"];
-//        @try {
-//            province = [POAPinyin convert:simpleCity[@"city"]];
-//             [self QueryPM25:province];
-//        }
-//        @catch (NSException *exception) {
-//            NSLog(@"%@",exception);
-//        }
-//        @finally {
-//        
-//        }
-//        
-//       
-//    }
-    if(!IsFoundCity)
+      if(!IsFoundCity)
     {
        // cityname = DEFAULT_CITY_NAME;
     }
@@ -667,7 +645,7 @@
         return;
     }
     
-    FirstTimeStamp = (long)[NSDate dateWithTimeIntervalSinceNow:0];
+    FirstTimeStamp = (double)[[NSDate date] timeIntervalSince1970];
     
     self.lblDegree.hidden = YES;
     utils = [[YBUtils alloc] init];
@@ -691,7 +669,7 @@
     singleTap.numberOfTouchesRequired = 1;
     [self.imgLocationIcon addGestureRecognizer:singleTap];
     self.imgLocationIcon.userInteractionEnabled =NO;// YES;
-    self.lblCityName.text = @"正在定位......";
+   // self.lblCityName.text = @"正在定位......";
     self.lblCityName.numberOfLines=0;
     [self Start];
     
