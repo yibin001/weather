@@ -47,6 +47,7 @@
     BOOL IsSuccess;
     NSString *locality;
     BOOL IsLoadedWeather;
+    long FirstTimeStamp;
 }
 @end
 
@@ -67,7 +68,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         font = [UIFont systemFontOfSize:13.0];
-        
+       
     }
     return self;
 }
@@ -145,6 +146,20 @@
                     weather_info = [self.Query QueryWeather];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+                        NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
+                        @try {
+                            province = [POAPinyin convert:simpleCity[@"city"]];
+                           
+                            [self QueryPM25:province];
+                        }
+                        @catch (NSException *exception) {
+                            NSLog(@"%@",exception);
+                        }
+                        @finally {
+                        }
+
+                        
                         [self LoaddingWeather];
                         [self.Query SaveWeatherToLocal:weather_info];
                     });
@@ -154,24 +169,14 @@
            
            
             
-            if(newLocation.horizontalAccuracy<=10.0f)
+            if(newLocation.horizontalAccuracy<=10.0f || (long)[NSDate dateWithTimeIntervalSinceNow:0]-FirstTimeStamp >=20)
             {
+                FirstTimeStamp = (long)[NSDate dateWithTimeIntervalSinceNow:0];
                 addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
                 NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
                 NSString *cityname = simpleCity[@"address"];
                 
                 self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f),精确到%d米\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,(int)newLocation.horizontalAccuracy, cityname];
-                
-                NSLog(@"cityname is %@",cityname);
-                @try {
-                    province = [POAPinyin convert:simpleCity[@"city"]];
-                    [self QueryPM25:province];
-                }
-                @catch (NSException *exception) {
-                    NSLog(@"%@",exception);
-                }
-                @finally {
-                }
                 
             };
             
@@ -662,7 +667,7 @@
         return;
     }
     
-    
+    FirstTimeStamp = (long)[NSDate dateWithTimeIntervalSinceNow:0];
     
     self.lblDegree.hidden = YES;
     utils = [[YBUtils alloc] init];
