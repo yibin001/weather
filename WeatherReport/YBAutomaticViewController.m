@@ -168,18 +168,22 @@
             }
            
             double curr =  [[NSDate date] timeIntervalSince1970];
-            self.lblCityName.text = [NSString stringWithFormat:@"正在定位...精度 %d 米",(int)newLocation.horizontalAccuracy];
-            if(curr-FirstTimeStamp >=30 || newLocation.horizontalAccuracy<=10.0f )
-            {
-                NSLog(@"coming.....");
-                FirstTimeStamp = curr;
-                addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
-                NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
-                NSString *cityname = simpleCity[@"address"];
-                
-                self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f),精确到%d米\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,(int)newLocation.horizontalAccuracy, cityname];
-                [self.locationManager stopUpdatingLocation];
-            };
+            //NSLog(@"%f",curr-FirstTimeStamp);
+            // self.lblCityName.text = [NSString stringWithFormat:@"正在定位...精度 %d 米",(int)newLocation.horizontalAccuracy];
+            //            if(curr-FirstTimeStamp >=30 || newLocation.horizontalAccuracy<=10.0f )
+            //            {
+            //                NSLog(@"%f",curr-FirstTimeStamp);
+            FirstTimeStamp = curr;
+            addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
+            NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
+            NSString *cityname = simpleCity[@"address"];
+            
+            //self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f),精确到%d米\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,(int)newLocation.horizontalAccuracy, cityname];
+            self.lblCityName.text = [NSString stringWithFormat:@"%@(精度%d米)",cityname,(int)newLocation.horizontalAccuracy];
+            [self.locationManager stopUpdatingLocation];
+            //                if(curr-FirstTimeStamp>=30)
+            //                    [self.locationManager stopUpdatingLocation];
+            //            };
             
 
         }
@@ -377,9 +381,9 @@
     self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
     CGRect iconRect = self.imgLocationIcon.frame;
     iconRect.origin.x+=25;
-    iconRect.origin.y-=5;
+    //iconRect.origin.y-=5;
     iconRect.size.width = 300.0;
-    iconRect.size.height = 40.0;
+    iconRect.size.height = 20.0;
     self.lblCityName.frame = iconRect;
     self.lblCityName.textAlignment = NSTextAlignmentLeft;
     
@@ -403,7 +407,7 @@
     self.lblIntro.font = font;
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
     self.lblIntro.frame = CGRectMake(40, main.size.height-110, main.size.width-40, 60);
-    
+    //NSLog(@"%@",weather_info[@"all"][@"index_d"]);
     
     //self.lblIntro.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"coat"]];
 
@@ -670,7 +674,7 @@
     [self.imgLocationIcon addGestureRecognizer:singleTap];
     self.imgLocationIcon.userInteractionEnabled =NO;// YES;
    // self.lblCityName.text = @"正在定位......";
-    self.lblCityName.numberOfLines=0;
+    self.lblCityName.numberOfLines=1;
     [self Start];
     
     self.ReloadImage =[[UIButton alloc] init];
