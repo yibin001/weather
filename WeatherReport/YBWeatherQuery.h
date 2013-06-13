@@ -11,12 +11,14 @@
 @interface YBWeatherQuery : NSObject
 {
     NSString *cityCode;
+    NSString *cityName;
     
 }
 @property (strong,nonatomic) NSDictionary *google_location;
 
 
 -(id)initWithCityCode:(NSString *)_cityCode;
+-(id)initWithCityName:(NSString *)_cityName;
 -(NSDictionary *)QueryWeather;
 -(NSDictionary *)LoadWeatherFromLocal;
 -(void)SaveWeatherToLocal:(NSDictionary *)Weather;

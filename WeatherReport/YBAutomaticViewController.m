@@ -101,7 +101,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     CLLocationCoordinate2D _location = [newLocation coordinate];
-   
+    NSLog(@"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&mode=json&units=metric&cnt=6&lang=zh_cn",_location.latitude,_location.longitude);
     CLLocationCoordinate2D marsCoordinate =  transform(_location);
     self.CurrentLocaltion = marsCoordinate;
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
