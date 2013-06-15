@@ -9,7 +9,7 @@
 #import "YBAppDelegate.h"
 
 #import "YBAutomaticViewController.h"
-
+#import "OpenWeatherViewController.h"
 
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
@@ -23,11 +23,11 @@
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];
     YBAutomaticViewController *automatic = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
-    
+    OpenWeatherViewController *openWeather = [[OpenWeatherViewController alloc] initWithNibName:nil bundle:nil];
        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
     //self.window.rootViewController = automatic;
     
-    self.window.rootViewController = nav;
+    self.window.rootViewController = openWeather    ;//nav;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
