@@ -18,6 +18,8 @@
 #import <QuartzCore/QuartzCore.h>
 #define OPEN_WEATHER_API_ICON @"http://openweathermap.org/img/w/%@.png"
 
+
+#import "SettingViewController.h"
 @interface OpenWeatherViewController ()
 {
     UIFont *font;
@@ -88,7 +90,7 @@
     cityname.font = [UIFont systemFontOfSize:20.0f];
        
     
-    UIView *todayView = [[UIView alloc] initWithFrame:CGRectMake(0, 25, 320, 200)];
+    UIView *todayView = [[UIView alloc] initWithFrame:CGRectMake(0, 5, 320, 200)];
     
     
     
@@ -148,7 +150,7 @@
     [todayView addSubview:currTemp];
     [todayView addSubview:description];
     [todayView addSubview:imageView];
-    [self.view addSubview:cityname];
+    //[self.view addSubview:cityname];
     
     [self.view addSubview:todayView];
    
@@ -211,12 +213,18 @@
     }
     
     
-    
-    
+    UIButton *setting = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    setting.frame = CGRectMake(280, 10, 20, 20);
+    [setting addTarget:self action:@selector(ToSetting:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:setting];
     [SVProgressHUD dismiss];
 }
 
-
+-(IBAction)ToSetting :(id)sender
+{
+    SettingViewController *set = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:set animated:YES];
+}
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -238,7 +246,11 @@
     font = [UIFont systemFontOfSize:16.0f];
 	// Do any additional setup after loading the view.
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
+    
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

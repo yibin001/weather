@@ -10,7 +10,7 @@
 
 #import "YBAutomaticViewController.h"
 #import "OpenWeatherViewController.h"
-
+#import "WeatherData.h"
 @implementation YBAppDelegate
 @synthesize tabBarController = _tabBarController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -22,12 +22,24 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge)];
-    YBAutomaticViewController *automatic = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
-    OpenWeatherViewController *openWeather = [[OpenWeatherViewController alloc] initWithNibName:nil bundle:nil];
-       UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:automatic];
-    //self.window.rootViewController = automatic;
+    UIViewController *first = nil;
     
-    self.window.rootViewController = openWeather    ;//nav;
+    
+    NSInteger sourceType = [WeatherData LoadSource];
+    if (sourceType == 0) {
+        first =  [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
+    }
+    else if (sourceType == 1 )
+    {
+        first = [[OpenWeatherViewController alloc] initWithNibName:nil bundle:nil];
+        
+    }
+    
+    
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:first];
+    self.window.rootViewController = nav;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

@@ -14,7 +14,7 @@
 #import "POAPinyin.h"
 #import "AFNetworking/AFJSONRequestOperation.h"
 #import "SVProgressHUD.h"
-
+#import "SettingViewController.h"
 #include "convert.h"
 #import "MapKitViewController.h"
 #define ISDEBUG YES
@@ -68,7 +68,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         font = [UIFont systemFontOfSize:13.0];
-       
+        
     }
     return self;
 }
@@ -78,7 +78,7 @@
     NSString *err;
     switch([error code])
     {
-        case kCLErrorNetwork: 
+        case kCLErrorNetwork:
         {
             err = @"please check your network connection or that you are not in airplane mode" ;
             break;
@@ -150,7 +150,7 @@
                         NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
                         @try {
                             province = [POAPinyin convert:simpleCity[@"city"]];
-                           
+                            
                             [self QueryPM25:province];
                         }
                         @catch (NSException *exception) {
@@ -158,7 +158,7 @@
                         }
                         @finally {
                         }
-
+                        
                         
                         [self LoaddingWeather];
                         [self.Query SaveWeatherToLocal:weather_info];
@@ -166,28 +166,21 @@
                 });
                 IsLoadedWeather = YES;
             }
-           
+            
             double curr =  [[NSDate date] timeIntervalSince1970];
-            //NSLog(@"%f",curr-FirstTimeStamp);
-            // self.lblCityName.text = [NSString stringWithFormat:@"正在定位...精度 %d 米",(int)newLocation.horizontalAccuracy];
-            //            if(curr-FirstTimeStamp >=30 || newLocation.horizontalAccuracy<=10.0f )
-            //            {
-            //                NSLog(@"%f",curr-FirstTimeStamp);
             FirstTimeStamp = curr;
             addr_info = [self.Query QueryAddress:self.CurrentLocaltion.latitude lng:self.CurrentLocaltion.longitude];
             NSDictionary *simpleCity =  [YBUtils ConvertToSimpleCity:addr_info];
             NSString *cityname = simpleCity[@"address"];
             
-            //self.lblCityName.text =  [NSString stringWithFormat:@"%@(%f,%f),精确到%d米\n%@",locality,self.CurrentLocaltion.latitude,self.CurrentLocaltion.longitude,(int)newLocation.horizontalAccuracy, cityname];
-            self.lblCityName.text = [NSString stringWithFormat:@"%@(精度%d米)",cityname,(int)newLocation.horizontalAccuracy];
-            [self.locationManager stopUpdatingLocation];
-            //                if(curr-FirstTimeStamp>=30)
-            //                    [self.locationManager stopUpdatingLocation];
-            //            };
             
-
+            self.lblCityName.text = [NSString stringWithFormat:@"%@",cityname];
+            [self.locationManager stopUpdatingLocation];
+            
+            
+            
         }
-
+        
     }];
     
 }
@@ -205,7 +198,7 @@
     }
     IsSuccess = NO;
     if(![self CheckNetwork])
-    
+        
         return;
     IsSuccess = YES;
     [self.locationManager startUpdatingLocation];
@@ -214,7 +207,7 @@
 -(void)RemoveError{
     lblError.backgroundColor = [UIColor clearColor];
     lblError.text = @"";
-
+    
 }
 
 -(void)LoadError:(NSString *)message{
@@ -228,11 +221,11 @@
         lblError.textAlignment = NSTextAlignmentCenter;
         lblError.tag = 100;
         [self.view addSubview:lblError];
-       
+        
     }
     lblError.backgroundColor = [UIColor whiteColor];
     lblError.text = message;
-   
+    
 }
 
 -(void)QueryPM25 :(NSString *)citypy{
@@ -266,12 +259,12 @@
 }
 
 
--(NSString*)appName 
+-(NSString*)appName
 {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSString *appName = [bundle objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     if (!appName) {
-    appName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
+        appName = [bundle objectForInfoDictionaryKey:@"CFBundleName"];
     }
     return appName;
 }
@@ -312,7 +305,7 @@
 }
 
 -(void)LoaddingWeather{
-       [self RemoveError];
+    [self RemoveError];
     
     NSString *imgName = weather_info[@"sk2"][@"img1"];
     
@@ -325,18 +318,18 @@
     [regex replaceMatchesInString:tmp_string options:NSMatchingWithoutAnchoringBounds range:NSMakeRange(0, tmp_string.length) withTemplate:@"a"];
     imgName = tmp_string;
     
-       
+    
     imgName = [imgName stringByReplacingOccurrencesOfString:@"gif" withString:@"png"];
     
     self.imgWeather.frame = CGRectMake(60, 5, 100, 100);
     self.imgWeather.image = [UIImage imageNamed:imgName];
-  
+    
     
     
     
     self.imgWeather.contentMode = UIViewContentModeCenter;
     self.lblMinMaxTemp.frame = CGRectMake(60, 90, 100, 30);
- 
+    
     
     self.lblTemp.frame = CGRectMake(165, 10, 130, 130);
     
@@ -355,11 +348,11 @@
     self.lblPM25.frame = CGRectMake(10, 170, 320, 20);
     self.lblPM25.font = [UIFont boldSystemFontOfSize:14];
     
-
+    
     
     self.lblUpdateTime.font = font;
     
-
+    
     
     self.lblUpdateTime.font = font;
     self.lblDegree.frame = CGRectMake(245, 20, 20, 20);
@@ -368,16 +361,16 @@
     }
     self.lblDegree.hidden = NO;
     self.lblDegree.textAlignment = NSTextAlignmentLeft;
-      if(!IsFoundCity)
+    if(!IsFoundCity)
     {
-       // cityname = DEFAULT_CITY_NAME;
+        // cityname = DEFAULT_CITY_NAME;
     }
     
     
     
     
     self.imgLocationIcon.frame = CGRectMake(5, main.size.height-85, 20, 20);
-   
+    
     self.imgLocationIcon.image = [UIImage imageNamed:@"location.png"];
     CGRect iconRect = self.imgLocationIcon.frame;
     iconRect.origin.x+=25;
@@ -394,8 +387,8 @@
     int max = MAX([weather_info[@"sk2"][@"temp1"] intValue], [weather_info[@"sk2"][@"temp2"] intValue]);
     self.lblMinMaxTemp.text= [NSString stringWithFormat:@"%d℃ / %d℃",min,max];
     
-
-
+    
+    
     self.lblUpdateTime.text = [NSString stringWithFormat:@"发布于%@ %@", [YBUtils convertChinaTimeStringByiOSDate:[NSDate date] withFormat:@"yyyy-MM-dd"], weather_info[@"sk"][@"time"]];
     self.lblUpdateTime.font = [UIFont systemFontOfSize:12.0];
     self.lblUpdateTime.textColor = [UIColor grayColor];
@@ -410,7 +403,7 @@
     //NSLog(@"%@",weather_info[@"all"][@"index_d"]);
     
     //self.lblIntro.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"coat"]];
-
+    
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
     CGSize size = {main.size.width-10,2000};
@@ -475,18 +468,18 @@
     lbl1.backgroundColor = [UIColor yellowColor];
     img1 = [[UIImageView alloc] initWithFrame:CGRectMake(35, 0, 30, 30)];
     
-   
+    
     
     img2 = [[UIImageView alloc] initWithFrame:CGRectMake(140, 0, 30, 30)];
     lbl2 = [[UILabel alloc] initWithFrame:CGRectMake(105, 30, 100, 60)];
     
     img3 = [[UIImageView alloc] initWithFrame:CGRectMake(245, 0, 30, 30)];
     lbl3 = [[UILabel alloc] initWithFrame:CGRectMake(210, 30, 100, 60)];
-
     
-   
+    
+    
     img4 = [[UIImageView alloc] initWithFrame:CGRectMake(343, 0, 30, 30)];
-     lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(310, 30, 100, 60)];
+    lbl4 = [[UILabel alloc] initWithFrame:CGRectMake(310, 30, 100, 60)];
     
     
     
@@ -525,20 +518,20 @@
     [self.ScrollView addSubview:img6];
     [self.ScrollView addSubview:lbl6];
     
-
-   
+    
+    
 }
 
 
 -(void)Render4Days{
-   
     
     
-   
+    
+    
     img1.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img1"]]];
     img1.contentMode = UIViewContentModeCenter;
     lbl1.text = [NSString stringWithFormat:@"%@\n%@\n%@",  @"今天",weather_info[@"all"][@"temp1"],weather_info[@"all"][@"weather1"]];
-   
+    
     lbl1.numberOfLines = 0;
     lbl1.lineBreakMode = UILineBreakModeWordWrap;
     lbl1.font = font;
@@ -549,14 +542,14 @@
     
     NSString *weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:1*24*60*60]];
     lbl2.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp2"],weather_info[@"all"][@"weather2"] ];
-   
+    
     lbl2.font = font;
     lbl2.numberOfLines = 0;
     lbl2.lineBreakMode = UILineBreakModeWordWrap;
     weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:2*24*60*60]];
     lbl3.textAlignment = NSTextAlignmentCenter;
     lbl3.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday,weather_info[@"all"][@"temp3"],weather_info[@"all"][@"weather3"] ];
-   
+    
     lbl3.font = font;
     lbl3.numberOfLines = 0;
     lbl3.lineBreakMode = UILineBreakModeWordWrap;
@@ -569,18 +562,18 @@
     
     lbl4.textAlignment = NSTextAlignmentCenter;
     lbl4.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp4"] ,weather_info[@"all"][@"weather4"]];
-   
+    
     lbl4.font = font;
     lbl4.numberOfLines = 0;
     lbl4.lineBreakMode = UILineBreakModeWordWrap;
-
+    
     img4.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img7"]]];
     img4.contentMode = UIViewContentModeCenter;
     
     
     
     
-    weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:4*24*60*60]]; 
+    weekday = [utils GetChineseWeekDay:[[NSDate alloc] initWithTimeIntervalSinceNow:4*24*60*60]];
     lbl5.textAlignment = NSTextAlignmentCenter;
     lbl5.text = [NSString stringWithFormat:@"%@\n%@\n%@",weekday, weather_info[@"all"][@"temp5"] ,weather_info[@"all"][@"weather5"]];
     
@@ -602,9 +595,21 @@
     img6.image = [UIImage imageNamed:[NSString stringWithFormat:@"a%@s.png",weather_info[@"all"][@"img11"]]];
     img6.contentMode = UIViewContentModeCenter;
     self.ScrollView.layer.borderColor = [UIColor blackColor].CGColor;
-   
+    
+    
+    UIButton *setting = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    setting.frame = CGRectMake(280, 10, 20, 20);
+    [setting addTarget:self action:@selector(ToSetting:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:setting];
+    
 }
 
+
+-(IBAction)ToSetting :(id)sender
+{
+    SettingViewController *set = [[SettingViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:set animated:YES];
+}
 
 -(void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     NSString *lat=[[NSString alloc] initWithFormat:@"%f",userLocation.coordinate.latitude];
@@ -628,19 +633,19 @@
     main = [UIScreen mainScreen].bounds;
     self.title = @"简约天气";
     
-   
-//    self.mpview = [[MKMapView alloc ] initWithFrame:CGRectMake(0, 0, 0, 0)];
-//    self.mpview.showsUserLocation = YES;
-//    self.mpview.mapType = MKMapTypeStandard;
-//    self.mpview.delegate = self;
-//    [self.view addSubview:self.mpview];
-//    
+    
+    //    self.mpview = [[MKMapView alloc ] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    //    self.mpview.showsUserLocation = YES;
+    //    self.mpview.mapType = MKMapTypeStandard;
+    //    self.mpview.delegate = self;
+    //    [self.view addSubview:self.mpview];
+    //
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
     self.navigationItem.rightBarButtonItem.tag = 0;
     
-
+    
     
     if(![self CheckNetwork])
     {
@@ -663,7 +668,7 @@
     weather_info =  [self.Query LoadWeatherFromLocal];
     if(weather_info)
     {
-    
+        
         [self LoaddingWeather];
         [SVProgressHUD showWithStatus:@"正在更新..."];
     }
@@ -673,7 +678,7 @@
     singleTap.numberOfTouchesRequired = 1;
     [self.imgLocationIcon addGestureRecognizer:singleTap];
     self.imgLocationIcon.userInteractionEnabled =NO;// YES;
-   // self.lblCityName.text = @"正在定位......";
+    // self.lblCityName.text = @"正在定位......";
     self.lblCityName.numberOfLines=1;
     [self Start];
     
@@ -688,29 +693,29 @@
     
     [self.view addSubview:self.ReloadImage];
     
-   
+    
     
 }
 
 -(IBAction)ToMapDetail  :(id)sender
 {
     MapKitViewController *map = [[MapKitViewController alloc] init];
-       [self.navigationController pushViewController:map animated:YES];
+    [self.navigationController pushViewController:map animated:YES];
 }
 
 -(void)BtnPress:(UIButton *)sender{
     if(sender.tag==0)
     {
-       
+        
         IsLoadedWeather = NO;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
+        
         [SVProgressHUD showWithStatus:@"正在更新..."];
         [self Start];
     }
     else if(sender.tag==10)
     {
-       
+        
     }
 }
 

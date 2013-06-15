@@ -125,6 +125,8 @@
 		C9EC3ACA16D2652A003B76FE /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3AC916D2652A003B76FE /* CheckNetwork.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C9EC3ACD16D2657E003B76FE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC3ACC16D2657E003B76FE /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C9EC3ACF16D26654003B76FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */; };
+		C9F2B195176C90680047109C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B194176C90680047109C /* SettingViewController.m */; };
+		C9F2B198176C9B580047109C /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2B197176C9B580047109C /* WeatherData.m */; };
 		C9F8953816E183D700440783 /* reload@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9F8953716E183D700440783 /* reload@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -277,6 +279,10 @@
 		C9EC3ACB16D2657E003B76FE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C9EC3ACC16D2657E003B76FE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C9EC3ACE16D26654003B76FE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C9F2B193176C90680047109C /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		C9F2B194176C90680047109C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		C9F2B196176C9B580047109C /* WeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherData.h; sourceTree = "<group>"; };
+		C9F2B197176C9B580047109C /* WeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherData.m; sourceTree = "<group>"; };
 		C9F8953716E183D700440783 /* reload@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -332,6 +338,7 @@
 		C907122016CFD92000ED0062 /* WeatherReport */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2B18D176C8FED0047109C /* Model */,
 				C950169917521BFA00E2F4EC /* MapKitViewController.h */,
 				C950169A17521BFA00E2F4EC /* MapKitViewController.m */,
 				C950169B17521BFA00E2F4EC /* MapKitViewController.xib */,
@@ -371,6 +378,8 @@
 				C9A62D8B176B454A006B0194 /* OpenWeatherViewController.m */,
 				C9A62D8D176B4687006B0194 /* OpenWeatherQuery.h */,
 				C9A62D8E176B4687006B0194 /* OpenWeatherQuery.m */,
+				C9F2B193176C90680047109C /* SettingViewController.h */,
+				C9F2B194176C90680047109C /* SettingViewController.m */,
 			);
 			path = WeatherReport;
 			sourceTree = "<group>";
@@ -531,6 +540,15 @@
 				C9ADEA9C1723F36800F2A656 /* TodayWeather.xib */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		C9F2B18D176C8FED0047109C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2B196176C9B580047109C /* WeatherData.h */,
+				C9F2B197176C9B580047109C /* WeatherData.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -707,6 +725,8 @@
 				C950169C17521BFA00E2F4EC /* MapKitViewController.m in Sources */,
 				C9A62D8C176B454A006B0194 /* OpenWeatherViewController.m in Sources */,
 				C9A62D8F176B4687006B0194 /* OpenWeatherQuery.m in Sources */,
+				C9F2B195176C90680047109C /* SettingViewController.m in Sources */,
+				C9F2B198176C9B580047109C /* WeatherData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
