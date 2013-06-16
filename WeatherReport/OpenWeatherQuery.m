@@ -8,8 +8,7 @@
 
 #import "OpenWeatherQuery.h"
 
-#define OPEN_WEATHER_API @"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&mode=json&units=metric&cnt=4&lang=zh_cn"
-#define OPEN_WEATHER_BY_CITYNAME_API @"http://api.openweathermap.org/data/2.5/forecast/daily?q=%@&mode=json&units=metric&cnt=4&lang=zh_cn"
+
 @implementation OpenWeatherQuery
 -(NSDictionary *)QueryWeather:(CLLocationDegrees)lat lng:(CLLocationDegrees)lng{
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:OPEN_WEATHER_API,lat,lng]];
@@ -25,7 +24,7 @@
 
 -(NSDictionary *)QueryWeatherByCity:(NSString *)City{
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:OPEN_WEATHER_BY_CITYNAME_API ,[City lowercaseString]]];
-    NSLog(@"%@",url);
+    
     
     NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];

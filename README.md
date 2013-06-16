@@ -13,3 +13,12 @@ iOS上的简易天气预报
 - iOS sdk 5.0
 - iPhone4
 
+#####国家气象局数据源
+![国家气象局](http://bcs.duapp.com/picstore/dfVtnXOTyo.jpg)
+
+#####OpenWeatheAPI数据源
+![OpenWeather](http://bcs.duapp.com/picstore/B1aT6mM2vj.jpg)
+
+#####数据源切换
+![change](http://bcs.duapp.com/picstore/NhUOchjK7H.jpg)
+

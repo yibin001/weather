@@ -16,13 +16,8 @@
 #import "SVProgressHUD.h"
 #import "SettingViewController.h"
 #include "convert.h"
-#import "MapKitViewController.h"
-#define ISDEBUG YES
-#define DEBUG_CITY_CODE @"101021000"
-#define DEFAULT_CITY_CODE @"101010300"
-#define DEFAULT_CITY_NAME @"BeiJing,China"
 
-#define PM25_API @"http://pm25api.sinaapp.com/city/%@.json"
+
 
 
 
@@ -101,12 +96,11 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     CLLocationCoordinate2D _location = [newLocation coordinate];
-    NSLog(@"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&mode=json&units=metric&cnt=6&lang=zh_cn",_location.latitude,_location.longitude);
+   
     CLLocationCoordinate2D marsCoordinate =  transform(_location);
     self.CurrentLocaltion = marsCoordinate;
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
-    NSLog(@"精度为:%f",newLocation.horizontalAccuracy);
-    
+       
     IsLoadedWeather = NO;
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *place = placemarks[0];
@@ -400,9 +394,7 @@
     self.lblIntro.font = font;
     self.lblIntro.text = weather_info[@"all"][@"index_d"];
     self.lblIntro.frame = CGRectMake(40, main.size.height-110, main.size.width-40, 60);
-    //NSLog(@"%@",weather_info[@"all"][@"index_d"]);
-    
-    //self.lblIntro.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"coat"]];
+   
     
     self.lblIntro.lineBreakMode = UILineBreakModeWordWrap;
     NSString *index_d = [NSString stringWithFormat:@"%@:%@", weather_info[@"all"][@"index"], weather_info[@"all"][@"index_d"]];
@@ -611,13 +603,7 @@
     [self.navigationController pushViewController:set animated:YES];
 }
 
--(void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
-    NSString *lat=[[NSString alloc] initWithFormat:@"%f",userLocation.coordinate.latitude];
-    NSString *lng=[[NSString alloc] initWithFormat:@"%f",userLocation.coordinate.longitude];
-    
-    NSLog(@"%@,%@",lat,lng);
-    
-}
+
 
 - (void)viewDidLoad
 {
@@ -625,7 +611,7 @@
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
     self.Query = [[YBWeatherQuery alloc] init];
-    [SVProgressHUD showWithStatus:@"正在更新..."];
+    [SVProgressHUD showWithStatus:Updating];
     
     IsFoundCity = YES;
     
@@ -634,12 +620,6 @@
     self.title = @"简约天气";
     
     
-    //    self.mpview = [[MKMapView alloc ] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    //    self.mpview.showsUserLocation = YES;
-    //    self.mpview.mapType = MKMapTypeStandard;
-    //    self.mpview.delegate = self;
-    //    [self.view addSubview:self.mpview];
-    //
     self.view.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(BtnPress:)];
@@ -670,7 +650,7 @@
     {
         
         [self LoaddingWeather];
-        [SVProgressHUD showWithStatus:@"正在更新..."];
+        [SVProgressHUD showWithStatus:Updating];
     }
     
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ToMapDetail:)];
@@ -678,7 +658,7 @@
     singleTap.numberOfTouchesRequired = 1;
     [self.imgLocationIcon addGestureRecognizer:singleTap];
     self.imgLocationIcon.userInteractionEnabled =NO;// YES;
-    // self.lblCityName.text = @"正在定位......";
+    
     self.lblCityName.numberOfLines=1;
     [self Start];
     
@@ -697,11 +677,7 @@
     
 }
 
--(IBAction)ToMapDetail  :(id)sender
-{
-    MapKitViewController *map = [[MapKitViewController alloc] init];
-    [self.navigationController pushViewController:map animated:YES];
-}
+
 
 -(void)BtnPress:(UIButton *)sender{
     if(sender.tag==0)
@@ -710,7 +686,7 @@
         IsLoadedWeather = NO;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
-        [SVProgressHUD showWithStatus:@"正在更新..."];
+        [SVProgressHUD showWithStatus:Updating];
         [self Start];
     }
     else if(sender.tag==10)

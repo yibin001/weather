@@ -15,7 +15,7 @@
 #define TENCENT_WEATHER_API @"http://sou.qq.com/online/get_weather.php?city=%@"
 #define OPEN_WEATHER_API_ICON @"http://openweathermap.org/img/w/%s.png"
 #define OPEN_WEATHER_API @"http://api.openweathermap.org/data/2.5/forecast/daily?lat=%f&lon=%f&mode=json&units=metric&cnt=6&lang=zh_cn"
-
+#define OPEN_WEATHER_CURR_API @"http://api.openweathermap.org/data/2.5/weather?q=%@&lang=zh_cn&&units=metric"
 #import "YBWeatherQuery.h"
 #import <MapKit/MapKit.h>
 #import "AFJSONRequestOperation.h"

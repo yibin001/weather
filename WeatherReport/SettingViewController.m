@@ -9,6 +9,8 @@
 #import "SettingViewController.h"
 #import "WeatherData.h"
 #import "SVProgressHUD.h"
+#import "YBAutomaticViewController.h"
+#import "OpenWeatherViewController.h" 
 @interface SettingViewController ()
 {
    
@@ -52,7 +54,18 @@
 {
     
     [WeatherData SetSource:sender.selectedSegmentIndex];
-    [SVProgressHUD showSuccessWithStatus:@"设定成功,下次启动时生效."];
+    UIViewController *view = nil;
+    switch (sender.selectedSegmentIndex) {
+        case 0:
+            view = [[YBAutomaticViewController alloc] initWithNibName:nil bundle:nil];
+            break;
+        case 1:
+            view = [[OpenWeatherViewController alloc] initWithNibName:nil bundle:nil];
+        default:
+            break;
+    }
+    [self.navigationController pushViewController:view animated:YES];
+    
 }
 
 -(IBAction)Done:(id)sender
@@ -63,7 +76,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     [self.navigationItem setHidesBackButton:YES];
     
     UISegmentedControl *_seg = (UISegmentedControl *)[self.view viewWithTag:100];

@@ -16,7 +16,7 @@
 #import "YBUtils.h"
 #import "POAPinyin.h"
 #import <QuartzCore/QuartzCore.h>
-#define OPEN_WEATHER_API_ICON @"http://openweathermap.org/img/w/%@.png"
+
 
 
 #import "SettingViewController.h"
@@ -76,7 +76,6 @@
     
     NSString *_citycode = [POAPinyin convert:simpleLocationInfo[@"city"]];
     
-    //self.Weather= [query QueryWeather:self.currentLocation.latitude lng:self.currentLocation.longitude];
     self.Weather = [query QueryWeatherByCity:_citycode];
     [self InitControls];
     
@@ -150,15 +149,10 @@
     [todayView addSubview:currTemp];
     [todayView addSubview:description];
     [todayView addSubview:imageView];
-    //[self.view addSubview:cityname];
+   
     
     [self.view addSubview:todayView];
    
-    
-    
-//    todayView.layer.borderWidth = 1;
-//    todayView.layer.cornerRadius = 5;
-//    todayView.layer.masksToBounds=YES;
     
     //渲染未来3天的天气
     NSArray *moreWeather = self.Weather[@"list"];
@@ -239,9 +233,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [SVProgressHUD showWithStatus:@"正在加载......"];
+    [SVProgressHUD showWithStatus:Updating];
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = 10.0f;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+
     [self.locationManager startUpdatingLocation];
     font = [UIFont systemFontOfSize:16.0f];
 	// Do any additional setup after loading the view.
